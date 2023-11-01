@@ -1,0 +1,15 @@
+{
+  "name": "todotodo",
+  "version": "1.0.0",
+  "description": "i'm todoList",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.2"
+  }
+}
