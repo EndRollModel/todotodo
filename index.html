@@ -19,18 +19,25 @@
         <li>
             <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#subtree1">節點1</button>
             <div id="subtree1" class="collapse">
-                <ul class="list-unstyled">
+                <ul class="list-group-flush">
                     <li>子節點1.1</li>
                     <li>子節點1.2</li>
                 </ul>
             </div>
         </li>
         <li>
-            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#subtree2">節點2</button>
+            <button class="btn" data-bs-toggle="collapse" data-bs-target="#subtree2">節點2</button>
             <div id="subtree2" class="collapse">
-                <ul class="list-unstyled">
-                    <li>子節點2.1</li>
-                    <li>子節點2.2</li>
+                <ul class="list-group-flush">
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="">
+                        子節點2.1
+                    </label>
+
+                    <label class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="">
+                        子節點2.2
+                    </label>
                 </ul>
             </div>
         </li>
