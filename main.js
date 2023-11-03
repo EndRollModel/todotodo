@@ -12,11 +12,17 @@ ipcMain.on('read-file', (event, filePath) => {
 const createWindow = () => {
     // 建立瀏覽器頁面
     const mainWindow = new BrowserWindow({
-        width: 320,
-        height: 500,
+        title: '',
+        width: 360,
+        height: 560,
         // transparent : true,
-        // frame: false,
-        // resizable: false,
+        // frame: true,
+        // resizable: true,
+        // alwaysOnTop: true,
+        // fullscreen: true,
+        movable : true, // 能否移動視窗
+        maximizable : false, //禁止最大化
+        autoHideMenuBar : true, // 隱藏工具列
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         }
@@ -29,13 +35,17 @@ const createWindow = () => {
     // mainWindow.webContents.openDevTools()
 }
 
+app.on('ready', ()=>    setTimeout(createWindow, 300))
+
 // 結束初始化與建立瀏覽器頁面時使用 部分的api則在ready後才有作用
-app.whenReady().then(() => {
-    createWindow()
-    app.on('activate', () => {
-        // 如果是在mac os內 沒有已經開啟的app 點選icon時則會再建立一個新的視窗
-        if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    })
+// app.whenReady().then(() => {
+//     createWindow()
+//
+// })
+
+app.on('activate', () => {
+    // 如果是在mac os內 沒有已經開啟的app 點選icon時則會再建立一個新的視窗
+    if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 
 // 除了macOS外 所有的視窗都被關閉時則結束程式
