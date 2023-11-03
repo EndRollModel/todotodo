@@ -1,31 +1,75 @@
 // Modules to control application life and create native browser window
 // 可在這邊寫所有程式 或是使用require將需要的程式引入
-const { app, BrowserWindow, ipcMain } = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('node:path');
 const fs = require('fs');
-ipcMain.on('read-file', (event, filePath) => {
-    // 在主進程中讀取文件
-    const data = fs.readFileSync(filePath, 'utf8');
-    event.reply('file-contents', data);
+// ipcMain.on('read-file', (event, filePath) => {
+//     // 在主進程中讀取文件
+//     const data = fs.readFileSync(filePath, 'utf8');
+//     event.reply('file-contents', data);
+// });
+ipcMain.on('close-app', () => {
+    app.quit(); // 关闭应用程序
 });
 
-const createWindow = () => {
-    // 建立瀏覽器頁面
-    const mainWindow = new BrowserWindow({
-        title: '',
-        width: 360,
-        height: 560,
-        // transparent : true,
-        // frame: true,
-        // resizable: true,
-        // alwaysOnTop: true,
-        // fullscreen: true,
-        movable : true, // 能否移動視窗
-        maximizable : false, //禁止最大化
-        autoHideMenuBar : true, // 隱藏工具列
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+
+// 節流器 避免放大縮小視窗時持續的更改值
+function throttle(callback, delay) {
+    let previousCall = 0;
+    return function () {
+        const currentTime = new Date().getTime();
+        if (currentTime - previousCall > delay) {
+            previousCall = currentTime;
+            callback.apply(this, arguments);
         }
+    };
+}
+
+const windowOptions = {
+    title: '兔嘟莉絲特',
+    // alwaysOnTop: true,
+    // fullscreen: true,
+    transparent: true, // 透明
+    frame: false, // 是否顯示框架
+    resizable: true, // 是否可改變視窗大小
+    movable: true, // 能否移動視窗
+    maximizable: false, //禁止最大化
+    autoHideMenuBar: true, // 隱藏工具列
+    webPreferences: {
+        preload: path.join(__dirname, 'preload.js')
+    }
+}
+
+const createWindow = () => {
+    const userDataPath = app.getPath('userData'); // 取得儲存空間的位置
+    const settingsPath = path.join(userDataPath, 'settings.json'); // 保存的路徑
+    console.log(userDataPath.toString())
+    let settings = {};
+    try {
+        settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+    } catch (error) {
+        // 如果沒有任何設定 這裡設定預設
+        settings = {
+            windowWidth: 360,
+            windowHeight: 480,
+        };
+    }
+    windowOptions.width = settings.windowWidth;
+    windowOptions.height = settings.windowHeight;
+
+    const writeResize = throttle(() => {
+        const [width, height] = mainWindow.getSize();
+        settings.windowWidth = width;
+        settings.windowHeight = height;
+        // 保存设置到文件
+        fs.writeFileSync(settingsPath, JSON.stringify(settings));
+    },1000);
+
+    // 建立瀏覽器頁面
+    const mainWindow = new BrowserWindow(windowOptions);
+    // 若改變了視窗大小
+    mainWindow.on('resize', () => {
+        writeResize();
     })
 
     // 載入 index.html
@@ -34,8 +78,7 @@ const createWindow = () => {
     // 顯示開發工具
     // mainWindow.webContents.openDevTools()
 }
-
-app.on('ready', ()=>    setTimeout(createWindow, 300))
+app.on('ready', () => setTimeout(createWindow, 300))
 
 // 結束初始化與建立瀏覽器頁面時使用 部分的api則在ready後才有作用
 // app.whenReady().then(() => {
@@ -52,4 +95,6 @@ app.on('activate', () => {
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
+
+
 

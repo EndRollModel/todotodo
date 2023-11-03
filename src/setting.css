@@ -4,15 +4,35 @@
 }
 
 html {
-    -webkit-app-region: drag;
+    /*-webkit-app-region: drag;*/
     width: 100vw;
     height: 100vh;
+    /*background-color: transparent;*/
+}
+.toolbar{
+    height: 18px;
+    background-color: gray;
+    padding: 0 24px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.toolbar-zoom-out{
+    width: 14px;
+    height: 14px;
+    background-color: darkseagreen;
+    border-radius: 50px;
+
+}
+.toolbar-close{
+    width: 14px;
+    height: 14px;
+    background-color: orangered;
+    border-radius: 50px;
 }
 
 #addFeatBtn{
-    background-color: black;
 }
-
 
 body {
     -webkit-app-region: drag;
@@ -24,11 +44,12 @@ body {
     flex-direction: column;
     /*justify-content: center;*/
     /*align-items: center;*/
-
+    /*background-color: transparent;*/
 }
 
 .feat-block{
-    margin: 8px 16px;
+    -webkit-app-region: no-drag;
+    margin: 16px 16px;
     width: auto;
     height: 10vh;
     min-height: 32px;

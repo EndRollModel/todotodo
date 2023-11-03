@@ -2,21 +2,30 @@
 //     ipcRenderer.send('button-clicked');
 // });
 
-
 let addFeatBtn;
 let todoList;
+let itemBlock;
 
 window.onload = function (){
-    addFeatBtn = document.getElementById('addFeatBtn');
+    addFeatBtn = document.getElementById('add-feat-btn');
     todoList = document.getElementById('todolist');
+    itemBlock = document.getElementById('item-block')
 
     addFeatBtn.addEventListener('click', function (){
-        const newDiv = document.createElement('div');
-        newDiv.setAttribute('data-bs-toggle', 'collapse');
-        newDiv.setAttribute('data-bs-target', '#subtree1');
-        newDiv.textContent = 'HELLO'
-        todoList.appendChild(newDiv)
+        const bItem = document.createElement('div');
+        bItem.setAttribute('data-bs-toggle', 'collapse');
+        bItem.setAttribute('data-bs-target', '#subtree1');
+        bItem.className = 'todo-b-item';
+        bItem.textContent = 'HELLO'
+        itemBlock.appendChild(bItem)
     })
+    // sItem
+    const bItem = document.createElement('div');
+    bItem.setAttribute('data-bs-toggle', 'collapse');
+    bItem.setAttribute('data-bs-target', '#subtree1');
+    bItem.className = 'todo-b-item';
+    bItem.textContent = 'HELLO'
+
 
 
 }
