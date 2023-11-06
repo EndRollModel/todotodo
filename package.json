@@ -4,13 +4,14 @@
   "description": "i'm todoList",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "chcp 65001 &&electron .",
+    "starts": "electron .",
     "startn": "electron --enable-transparent-visuals .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^27.0.2"
+    "electron": "^26.4.3"
   }
 }

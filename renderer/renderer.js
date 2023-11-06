@@ -7,7 +7,7 @@ let todoList;
 let itemBlock;
 
 window.onload = function (){
-    addFeatBtn = document.getElementById('add-feat-btn');
+    addFeatBtn = document.getElementById('add-todo-btn');
     todoList = document.getElementById('todolist');
     itemBlock = document.getElementById('item-block')
 
