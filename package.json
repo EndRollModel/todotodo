@@ -4,8 +4,8 @@
   "description": "i'm todoList",
   "main": "main.js",
   "scripts": {
-    "start": "chcp 65001 &&electron .",
-    "starts": "electron .",
+    "starts": "chcp 65001 &&electron .",
+    "start": "electron .",
     "startn": "electron --enable-transparent-visuals .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

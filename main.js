@@ -2,6 +2,7 @@
 // 可在這邊寫所有程式 或是使用require將需要的程式引入
 const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
+const settingModule = require('./module/settingModule');
 const fs = require('fs');
 let mainWindow;
 
@@ -20,68 +21,28 @@ ipcMain.on('zoom-out', () => {
 })
 
 
-// 節流器 避免放大縮小視窗時持續的更改值
-function throttle(callback, delay) {
-    let previousCall = 0;
-    return function () {
-        const currentTime = new Date().getTime();
-        if (currentTime - previousCall > delay) {
-            previousCall = currentTime;
-            callback.apply(this, arguments);
-        }
-    };
-}
 
-const windowOptions = {
-    title: '兔嘟莉絲特', // TuDuLeSuTer Tùdūlìsītè
-    // alwaysOnTop: true,
-    // fullscreen: true,
-    minHeight: 220,
-    minWidth: 220,
-    transparent: true, // 透明
-    frame: false, // 是否顯示框架
-    resizable: true, // 是否可改變視窗大小
-    movable: true, // 能否移動視窗
-    maximizable: false, //禁止最大化
-    autoHideMenuBar: true, // 隱藏工具列
-    webPreferences: {
-        preload: path.join(__dirname, './preload/preload.js')
-    }
+function loadWinSize(){
+
+}
+function recodeWinSize (){
+
 }
 
 const createWindow = () => {
-    const userDataPath = `${app.getPath('documents')}/tudu`; // 取得儲存空間的位置
-    if (!fs.existsSync(userDataPath)) {
-        fs.mkdirSync(userDataPath);
-    }
-    const settingsPath = path.join(`${userDataPath}`, 'settings.json'); // 保存的路徑
-    let settings = {};
-    try {
-        settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
-    } catch (error) {
-        // 如果沒有任何設定 這裡設定預設
-        windowOptions.width = 360;
-        windowOptions.height = 480;
-    }
-    windowOptions.width = settings.windowWidth;
-    windowOptions.height = settings.windowHeight;
 
     // 建立瀏覽器頁面
-    mainWindow = new BrowserWindow(windowOptions);
+    mainWindow = new BrowserWindow(settingModule.loadWinSetting());
 
-    // 若改變了視窗大小 紀錄
-    mainWindow.on('resize', () => {
-        // writeResize();
-    })
-
-    const writeResize = throttle(() => {
-        const [width, height] = mainWindow.getSize();
-        settings.windowWidth = width;
-        settings.windowHeight = height;
-        // 保存設定到文件
-        fs.writeFileSync(settingsPath, JSON.stringify(settings));
-    }, 50);
-
+    // // 若改變了視窗大小 紀錄
+    // const writeResize = throttle(() => {
+    //     const [width, height] = mainWindow.getSize();
+    //     settings.windowWidth = width;
+    //     settings.windowHeight = height;
+    //     // 保存設定到文件
+    //     fs.writeFileSync(settingsPath, JSON.stringify(settings));
+    // }, 50);
+    //
 
     // 載入 index.html
     mainWindow.loadFile('index.html')
@@ -105,6 +66,7 @@ app.on('activate', () => {
 // 除了macOS外 所有的視窗都被關閉時則結束程式
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
+
         app.quit()
     }
 })
