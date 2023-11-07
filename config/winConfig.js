@@ -1,6 +1,5 @@
 const winConfig = {};
 const path = require('path');
-const {app} = require('electron');
 
 winConfig.windowOptions = {
     title: '兔嘟莉絲特', // TuDuLeSuTer Tùdūlìsītè
@@ -15,20 +14,14 @@ winConfig.windowOptions = {
     maximizable: false, //禁止最大化
     autoHideMenuBar: true, // 隱藏工具列
     webPreferences: {
-        preload: path.join(__dirname, './preload/preload.js')
+        preload: path.join(__dirname, '../preload/preload.js')
     }
 }
 
-winConfig.saveDataOption = function () {
-    console.log(`${app.getPath('documents')}/tudu`)
-    const saveModel = 'documents'
-    const saveDir = 'tudu'
-    const savePath = `${app.getPath('documents')}/tudu`;
-    const settingName = `setting.json`;
-    console.log(`run?`)
-    return {
-        saveModel, saveDir, savePath, settingName
-    }
+winConfig.saveDataOption = {
+    saveModel: 'documents',
+    saveDir: 'tudu',
+    settingName: 'settings.json',
 }
 
 

@@ -1,30 +1,30 @@
 const fs = require('fs');
 const winConfig = require('../config/winConfig');
-const {app} = require("electron");
 const path = require("path");
 
-function checkSetting() {
-    const userDataPath = winConfig.saveDataOption.savePath;
+function checkSetting(app) {
+    const userDataPath = `${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`
     if (!fs.existsSync(userDataPath)) {
         fs.mkdirSync(userDataPath);
-    }}
+    }
+}
 
-function saveWinSetting(data) {
-    checkSetting();
-    const settingsPath = path.join(winConfig.saveDataOption.savePath, winConfig.saveDataOption.settingName); // 保存的路徑
-    let settings = {};
+function saveWinSetting(app, data) {
+    checkSetting(app);
+    const settingsPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.settingName); // 保存的路徑
+    let settings;
     try {
         settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
     } catch (error) {
         // 如果沒有任何設定 這裡設定預設寫個空值就好
         settings = `{}`;
     }
-    fs.writeFileSync(settingsPath, JSON.stringify(settings));
+    fs.writeFileSync(settingsPath, JSON.stringify(data));
 }
 
-function loadWinSetting() {
-    checkSetting();
-    const settingsPath = path.join(winConfig.saveDataOption.savePath, winConfig.saveDataOption.settingName); // 保存的路徑
+function loadWinSetting(app) {
+    checkSetting(app);
+    const settingsPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.settingName); // 保存的路徑
     const windowsSetting = JSON.parse(JSON.stringify(winConfig.windowOptions)); // 深複製
     let settings = {};
     try {
