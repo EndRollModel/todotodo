@@ -1,19 +1,18 @@
-<!--index.html-->
 <!DOCTYPE html>
-<html>
+<html lang="zh-hant">
 <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';img-src 'self' data:;">
     <title></title>
     <link href="resource/css/bootstrap.min.css" rel="stylesheet">
-    <script src="resource/js/bootstrap.min.js"></script>
     <link href="resource/css/setting.css" rel="stylesheet">
 </head>
 <body>
 <div class="body-block">
     <div class="toolbar">
-<!--        <div id="zoom-out"></div>-->
+        <div id="zoom-out"></div>
         <div id="close-app"></div>
     </div>
     <div id="add-todo-btn">
@@ -21,9 +20,7 @@
     <div id="todolist" class="todo-list-block">
         <div id="item-block">
             <div class="todo-b-item">
-                <label for="check1">
-                    <input id="check1" class="form-check-input" type="checkbox" value="123">
-                </label>
+                <input id="check1" class="" type="checkbox" value="123">
             </div>
         </div>
         <!--    <ul class="list-unstyled">-->
@@ -48,6 +45,7 @@
         <!--    </ul>-->
     </div>
 </div>
+<script src="resource/js/bootstrap.min.js"></script>
 <script src="renderer/renderer.js"></script>
 </body>
 </html>

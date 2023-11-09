@@ -1,16 +1,18 @@
 const fs = require('fs');
 const winConfig = require('../config/winConfig');
+const {app} = require('electron');
 const path = require("path");
 
-function checkSetting(app) {
+function checkUserDataPath() {
     const userDataPath = `${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`
+    console.log(`路徑${app.getPath(winConfig.saveDataOption.saveModel)}`)
     if (!fs.existsSync(userDataPath)) {
         fs.mkdirSync(userDataPath);
     }
 }
 
-function saveWinSetting(app, data) {
-    checkSetting(app);
+function saveWinSetting(data) {
+    checkUserDataPath();
     const settingsPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.settingName); // 保存的路徑
     let settings;
     try {
@@ -22,8 +24,8 @@ function saveWinSetting(app, data) {
     fs.writeFileSync(settingsPath, JSON.stringify(data));
 }
 
-function loadWinSetting(app) {
-    checkSetting(app);
+function loadWinSetting() {
+    checkUserDataPath();
     const settingsPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.settingName); // 保存的路徑
     const windowsSetting = JSON.parse(JSON.stringify(winConfig.windowOptions)); // 深複製
     let settings = {};
@@ -31,8 +33,11 @@ function loadWinSetting(app) {
         settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
         windowsSetting.width = settings.windowWidth;
         windowsSetting.height = settings.windowHeight;
+        console.log(`視窗寬度${windowsSetting.width}, 視窗高度${windowsSetting.height}`)
     } catch (error) {
         // 如果沒有任何設定 這裡設定預設
+        console.log(`error:` , error.message)
+
     }
     return windowsSetting;
 }
