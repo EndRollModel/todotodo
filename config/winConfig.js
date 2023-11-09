@@ -8,11 +8,12 @@ winConfig.appConfig = {
     tuduPageName : 'tudu',
     memoPageName : 'memo',
 }
+
 // 視窗中的設定
 winConfig.windowOptions = {
     title: '兔嘟莉絲特', // TuDuLeSuTer Tùdūlìsītè
-    width: 320, // 預設的寬度
-    height: 220, // 預設的高度
+    width: 220, // 預設的寬度
+    height: 320, // 預設的高度
     minHeight: 220, // 最低的高度
     minWidth: 220, // 最高的高度
     transparent: true, // 透明
@@ -31,8 +32,7 @@ winConfig.saveDataOption = {
     saveModel: 'documents',
     saveDir: 'tudu',
     settingName: 'settings.json',
+    tuduDataName: 'tuduData.json',
 }
-
-
 
 module.exports = winConfig;
