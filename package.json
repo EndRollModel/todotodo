@@ -1,7 +1,7 @@
 {
-  "name": "todotodo",
-  "version": "1.0.0",
-  "description": "i'm todoList",
+  "name": "tudutudu",
+  "version": "0.1.0",
+  "description": "tudutudu",
   "main": "main.js",
   "scripts": {
     "starts": "chcp 65001 &&electron .",
