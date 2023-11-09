@@ -4,9 +4,8 @@
   "description": "tudutudu",
   "main": "main.js",
   "scripts": {
-    "starts": "chcp 65001 &&electron .",
+    "winDebug": "chcp 65001 && electron .",
     "start": "electron .",
-    "startn": "electron --enable-transparent-visuals .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
