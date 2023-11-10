@@ -7,6 +7,7 @@ winConfig.appConfig = {
     openDevTools : false, // 是否開啟除錯模式
     tuduPageName : 'tudu',
     memoPageName : 'memo',
+    defFont : 'Cubic_11',
 }
 
 // 視窗中的設定

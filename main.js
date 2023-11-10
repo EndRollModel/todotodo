@@ -1,7 +1,7 @@
 // Modules to control application life and create native browser window
 // 可在這邊寫所有程式 或是使用require將需要的程式引入
 const {app, BrowserWindow, ipcMain} = require('electron');
-const winModule = require('./module/windowModuel');
+const winModule = require('./module/windowModule');
 const ipcModule = require('./module/ipcModule')
 const createWindow = () => {
     // 建立ipc監聽

@@ -1,27 +1,19 @@
 const fs = require('fs');
 const winConfig = require('../config/winConfig');
-const {app} = require('electron');
+const {app, BrowserWindow} = require('electron');
 const path = require("path");
 
 function checkUserDataPath() {
     const userDataPath = `${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`
-    console.log(`路徑${app.getPath(winConfig.saveDataOption.saveModel)}`)
     if (!fs.existsSync(userDataPath)) {
         fs.mkdirSync(userDataPath);
     }
 }
 
-function saveWinSetting(data) {
+function saveWinSetting(browser) {
     checkUserDataPath();
     const settingsPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.settingName); // 保存的路徑
-    let settings;
-    try {
-        settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
-    } catch (error) {
-        // 如果沒有任何設定 這裡設定預設寫個空值就好
-        settings = `{}`;
-    }
-    fs.writeFileSync(settingsPath, JSON.stringify(data));
+    fs.writeFileSync(settingsPath, JSON.stringify(getWinSetting(browser)));
 }
 
 function loadWinSetting() {
@@ -33,12 +25,24 @@ function loadWinSetting() {
         settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
         windowsSetting.width = settings.windowWidth;
         windowsSetting.height = settings.windowHeight;
-        console.log(`視窗寬度${windowsSetting.width}, 視窗高度${windowsSetting.height}`)
+        windowsSetting.x = settings.windowX;
+        windowsSetting.y = settings.windowY;
+        console.log(`讀取：視窗寬度${windowsSetting.width}, 視窗高度${windowsSetting.height}`)
+        console.log(`位置：x:${windowsSetting.x}, y:${windowsSetting.y}`)
     } catch (error) {
         // 如果沒有任何設定 這裡設定預設
-        console.log(`error:` , error.message)
-
     }
+    return windowsSetting;
+}
+
+function getWinSetting(browser){
+    const windowsSetting = {};
+    const [width, height] = browser.getSize();
+    const [x, y] = browser.getPosition();
+    windowsSetting.windowWidth = width;
+    windowsSetting.windowHeight = height;
+    windowsSetting.windowX = x;
+    windowsSetting.windowY = y;
     return windowsSetting;
 }
 
