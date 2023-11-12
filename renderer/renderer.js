@@ -2,6 +2,7 @@
 //     ipcRenderer.send('button-clicked');
 // });
 
+
 let addFeatBtn;
 let todoList;
 let itemBlock;
@@ -26,6 +27,9 @@ window.onload = function (){
     bItem.className = 'todo-b-item';
     bItem.textContent = 'HELLO'
 
+//     add feat -> 按鈕後 modal 新增大項目
+    // b -> modal 新增 小項目
+    // s ->
 
 
 }

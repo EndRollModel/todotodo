@@ -21,11 +21,16 @@
         <div id="item-block">
             <div class="todo-b-item">
                 <div class="plusBlock">
-                    <div> + </div>
+                    <div data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> + </div>
                 </div>
                 <label class="checkBlock" for="check1">
                     <input id="check1" class="" type="checkbox" value="123">
                 </label>
+            </div>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                </div>
             </div>
         </div>
         <!--    <ul class="list-unstyled">-->
@@ -48,6 +53,33 @@
         <!--            </div>-->
         <!--        </li>-->
         <!--    </ul>-->
+    </div>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFeatModal">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addFeatModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addFeatModalTitle">測試</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text"/>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" style="width: 15%">Close</button>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" style="width: 48px">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

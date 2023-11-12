@@ -1,7 +1,7 @@
 const fs = require('fs');
 const winConfig = require('../config/winConfig');
 const {app, BrowserWindow} = require('electron');
-const path = require("path");
+const path = require('path');
 
 function checkUserDataPath() {
     const userDataPath = `${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`
@@ -27,15 +27,15 @@ function loadWinSetting() {
         windowsSetting.height = settings.windowHeight;
         windowsSetting.x = settings.windowX;
         windowsSetting.y = settings.windowY;
-        console.log(`讀取：視窗寬度${windowsSetting.width}, 視窗高度${windowsSetting.height}`)
-        console.log(`位置：x:${windowsSetting.x}, y:${windowsSetting.y}`)
+        console.log(`讀取：視窗寬度:${windowsSetting.width}, 視窗高度:${windowsSetting.height}`);
+        console.log(`位置：x:${windowsSetting.x}, y:${windowsSetting.y}`);
     } catch (error) {
         // 如果沒有任何設定 這裡設定預設
     }
     return windowsSetting;
 }
 
-function getWinSetting(browser){
+function getWinSetting(browser) {
     const windowsSetting = {};
     const [width, height] = browser.getSize();
     const [x, y] = browser.getPosition();
