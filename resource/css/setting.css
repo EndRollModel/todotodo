@@ -24,30 +24,30 @@ html {
 
 body {
     /*-webkit-app-region: drag;*/
-    margin: 0 auto;
+    margin: auto;
     width: 100vw;
     height: 100vh;
     font-family: "Cubic_11", sans-serif;
     display: flex;
     flex-direction: column;
-    /*justify-content: center;*/
-    /*align-items: center;*/
     background-color: transparent;
     border-radius: 7px;
-    user-select:none; /* standard syntax */
-    -webkit-user-select:none; /* for Chrome、Safari */
-    -moz-user-select:none;  /* for Mozilla、Firefox */
-    overflow: auto
+    -webkit-user-select: none; /* for Chrome、Safari */
 }
 
-.body-block{
-    border-radius: 8px;
+.body-block {
+    border-radius: 0 0 8px 8px;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.95)
+    background-color: rgba(255, 255, 255, 0.97);
+    overflow: auto;
 }
 
-.toolbar{
+::-webkit-scrollbar {
+    display: none;
+}
+
+.toolbar {
     -webkit-app-region: drag;
     height: 28px;
     background-color: #646464;
@@ -58,9 +58,10 @@ body {
     box-shadow: 0 1px 0 #626262;
 }
 
-#zoom-out{
+#zoom-out {
+    /*縮小按鈕*/
+    display: none;
     -webkit-app-region: no-drag;
-    display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -70,11 +71,12 @@ body {
     background-color: darkseagreen;
     border-radius: 50px;
 }
-#zoom-out:hover{
+
+#zoom-out:hover {
     background-color: #6e8f6e;
 }
 
-#close-app{
+#close-app {
     -webkit-app-region: no-drag;
     width: 13px;
     height: 13px;
@@ -82,11 +84,13 @@ body {
     background-color: orangered;
     border-radius: 50px;
 }
-#close-app:hover{
+
+#close-app:hover {
     background-color: #d03900;
 }
 
-#add-todo-btn{
+#add-tudu-btn {
+    /*新增按鈕*/
     -webkit-app-region: no-drag;
     margin: 16px 16px;
     width: auto;
@@ -99,7 +103,8 @@ body {
     border-color: pink;
 }
 
-#todolist{
+#tudulist {
+    /*列表區塊*/
     margin: 8px 16px;
     width: auto;
     height: auto;
@@ -107,13 +112,15 @@ body {
     min-height: 10vh;
 }
 
-#item-block{
+.item-block {
+    /*列表內容*/
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.todo-b-item{
+.tudu-g-item {
+    /*群組物件*/
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
@@ -127,78 +134,84 @@ body {
     border-width: 0.7px;
     border-style: solid;
     border-color: pink;
+    background-color: transparent;
 }
 
-.todo-b-item > .b-text {
-
-}
-
-
-
-.todo-b-item > label{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 20%;
-    background-color: rgba(255, 205, 205, 0.4);
-}
-
-.todo-s-item{
-
-}
-
-
-.todo-b-item > label{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 20%;
-    background-color: rgba(255, 205, 205, 0.4);
-}
-
-
-.list-unstyled{
-    margin: 8px 16px;
-    width: auto;
-    height: auto;
-    max-height: 85vh;
-    min-height: 10vh;
-}
-
-.btn{
-    width: 100%;
-    border-radius: 8px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: pink;
-    text-align: start;
-}
-
-
-button:focus{
-    box-shadow: none!important;
-}
-
-
-.list-group-item{
-    user-select:none; /* standard syntax */
-    -webkit-user-select:none; /* for Chrome、Safari */
-    -moz-user-select:none;  /* for Mozilla、Firefox */
-}
-
-.close{
-    width: 14px;
-    height: 14px;
-}
-
-/*input{*/
-/*    box-shadow: none!important;*/
+/*.tudu-g-item > label {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    height: 100%;*/
+/*    width: 20%;*/
+/*    background-color: rgba(255, 205, 205, 0.4);*/
 /*}*/
 
-/* Basic styling */
+.tudu-s-item {
 
+}
+
+/*.list-unstyled {*/
+/*    margin: 8px 16px;*/
+/*    width: auto;*/
+/*    height: auto;*/
+/*    max-height: 85vh;*/
+/*    min-height: 10vh;*/
+/*}*/
+
+/*.btn {*/
+/*    width: 100%;*/
+/*    border-radius: 8px;*/
+/*    border-width: 1px;*/
+/*    border-style: solid;*/
+/*    border-color: pink;*/
+/*    text-align: start;*/
+/*}*/
+
+button:focus {
+    box-shadow: none !important;
+}
+
+.btn-close span{
+    width: 5px;
+    height: 5px;
+}
+
+.modal-body > input {
+}
+
+.modal-body > input:focus {
+    /*box-shadow: none;*/
+    box-shadow: 2px 2px 0 0 #ffd6de;
+    border-color: #ffd6de;
+}
+
+.modal-btn-group{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.modal-btn-group > button{
+    background-color: #fff;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ffd6de;
+    border-radius: 50px;
+    padding: 6px 18px;
+    color: #5d5d5d;
+}
+
+.modal-btn-group > button:hover {
+    /*background-color: #ffd6de;*/
+    box-shadow: 2px 3px 0 0 #ffd6de;
+}
+
+.list-group-item {
+    -webkit-user-select: none; /* for Chrome、Safari */
+}
+
+/* Basic styling */
 [type=checkbox] {
     width: 1.2rem;
     height: 1.2rem;

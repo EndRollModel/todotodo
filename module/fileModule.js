@@ -13,7 +13,7 @@ function checkUserDataPath() {
 function saveWinSetting(browser) {
     checkUserDataPath();
     const settingsPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.settingName); // 保存的路徑
-    fs.writeFileSync(settingsPath, JSON.stringify(getWinSetting(browser)));
+    fs.writeFileSync(settingsPath, JSON.stringify(getWinSetting(browser))); // 寫入資料
 }
 
 function loadWinSetting() {
@@ -43,6 +43,7 @@ function getWinSetting(browser) {
     windowsSetting.windowHeight = height;
     windowsSetting.windowX = x;
     windowsSetting.windowY = y;
+    console.log(`儲存： width : ${windowsSetting.windowWidth}, height: ${windowsSetting.windowHeight}, x; ${windowsSetting.windowX}, y: ${windowsSetting.windowY}`);
     return windowsSetting;
 }
 

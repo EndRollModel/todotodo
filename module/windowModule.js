@@ -4,20 +4,13 @@ const {saveWinSetting, loadWinSetting} = require("./fileModule");
 
 function setWinModule() {
     const tuduWin = new BrowserWindow(loadWinSetting());
-    tuduWin.name = 'todo';
+    tuduWin.name = appConfig.tuduPageName; // 給定名稱
+    tuduWin.on('close', () => saveWinSetting(tuduWin)); // 監聽關閉的事件
+    tuduWin.loadFile(appConfig.indexPageFile).then(); // 載入頁面
 
-    tuduWin.on('close', () => saveWinSetting(tuduWin));
+    // tuduWin.webContents.send('testSend', `hi?`)
 
-    // 載入 index.html
-    tuduWin.loadFile(appConfig.indexPageFile).then()
-
-    setTimeout(()=>{
-        console.log('send message?')
-        tuduWin.webContents.send('testSend', `hi?`)
-    },5000)
-
-    // 是否顯示開發工具
-    if(appConfig.openDevTools){
+    if (appConfig.openDevTools) { // 是否顯示開發工具
         tuduWin.webContents.openDevTools()
     }
 }

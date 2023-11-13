@@ -10,18 +10,20 @@
     <link href="resource/css/setting.css" rel="stylesheet">
 </head>
 <body>
+<div class="toolbar">
+    <div id="zoom-out"></div>
+    <div id="close-app"></div>
+</div>
 <div class="body-block">
-    <div class="toolbar">
-        <div id="zoom-out"></div>
-        <div id="close-app"></div>
+    <div id="add-tudu-btn">
     </div>
-    <div id="add-todo-btn">
-    </div>
-    <div id="todolist" class="todo-list-block">
-        <div id="item-block">
-            <div class="todo-b-item">
+    <div id="tudulist" class="tudu-list-block">
+        <div class="item-block">
+            <div class="tudu-g-item">
                 <div class="plusBlock">
-                    <div data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> + </div>
+                    <div data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false"
+                         aria-controls="collapseExample"> +
+                    </div>
                 </div>
                 <label class="checkBlock" for="check1">
                     <input id="check1" class="" type="checkbox" value="123">
@@ -29,53 +31,52 @@
             </div>
             <div class="collapse" id="collapseExample">
                 <div class="card card-body">
-                    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                    Some placeholder content for the collapse component. This panel is hidden by default but revealed
+                    when the user activates the relevant trigger.
+                </div>
+            </div>
+
+            <div class="tudu-g-item">
+                <div class="plusBlock">
+                    <div data-bs-toggle="collapse" data-bs-target=".data1" aria-expanded="false"
+                         aria-controls="collapseExample"> +
+                    </div>
+                </div>
+            </div>
+            <div class="collapse data1" id="collapseExample2" >
+                <div class="card card-body">
+                    Some placeholder content for the collapse component. This panel is hidden by default but revealed
+                    when the user activates the relevant trigger.
+                </div>
+            </div>
+            <div class="collapse data1" id="collapseExample3">
+                <div class="card card-body">
+                    Some placeholder content for the collapse component. This panel is hidden by default but revealed
+                    when the user activates the relevant trigger.
                 </div>
             </div>
         </div>
-        <!--    <ul class="list-unstyled">-->
-        <!--        <li>-->
-        <!--            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#subtree1">節點1</button>-->
-        <!--            <div id="subtree1" class="collapse">-->
-        <!--                <ul class="list-unstyled">-->
-        <!--                    <li>子節點1.1</li>-->
-        <!--                    <li>子節點1.2</li>-->
-        <!--                </ul>-->
-        <!--            </div>-->
-        <!--        </li>-->
-        <!--        <li>-->
-        <!--            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#subtree2">節點2</button>-->
-        <!--            <div id="subtree2" class="collapse">-->
-        <!--                <ul class="list-unstyled">-->
-        <!--                    <li>子節點2.1</li>-->
-        <!--                    <li>子節點2.2</li>-->
-        <!--                </ul>-->
-        <!--            </div>-->
-        <!--        </li>-->
-        <!--    </ul>-->
     </div>
+
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFeatModal">
         Launch demo modal
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="addFeatModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="addFeatModalTitle" aria-hidden="true">
+    <div class="modal fade" id="addFeatModal" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addFeatModalTitle">測試</h5>
+                    <h5 class="modal-title" id="addFeatModalTitle">新增</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text"/>
-                </div>
-                <div class="modal-footer">
-                    <div>
-                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" style="width: 15%">Close</button>
-                    </div>
-                    <div>
-                        <button type="button" class="btn btn-primary" style="width: 48px">Save changes</button>
+                    <input type="text" class="form-control" placeholder="需要新增的項目名稱">
+                    <div class="modal-btn-group">
+                        <button id="addGroupButton" type="button">群組</button>
+                        <button id="addTuduButton" type="button">待辦</button>
                     </div>
                 </div>
             </div>
@@ -84,6 +85,7 @@
 
 </div>
 <script src="resource/js/bootstrap.min.js"></script>
+<script src="renderer/styleRenderer.js"></script>
 <script src="renderer/renderer.js"></script>
 </body>
 </html>

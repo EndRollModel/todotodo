@@ -3,6 +3,13 @@ const {appConfig} = require('../config/winConfig');
 // ipcRenderer.invoke <=>  ipcMain.handle()
 // ipcMain.send() => ipcMain.on()
 function setIpcModule() {
+    // 頁面上
+    windowListener();
+    // 資料
+    tuduFeatListener();
+}
+
+function windowListener(){
     ipcMain.on('close-app', () => {
         app.quit();
     });
@@ -16,6 +23,18 @@ function setIpcModule() {
         //         e.minimize()
         //     }
         // });
+    })
+}
+
+function tuduFeatListener(){
+    // tuduController
+    ipcMain.handle('updateTudu', (e, msg)=>{
+        // update userData
+        console.log(msg)
+        return msg
+    })
+    ipcMain.handle('loadTudu', ()=>{
+        return 'data';
     })
 }
 
