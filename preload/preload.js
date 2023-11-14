@@ -14,7 +14,7 @@ contextBridge.exposeInMainWorld(`tuduFeat`,{
     loadData : ()=>{
         return ipcRenderer.invoke('loadTudu');
     },
-})
+});
 
 let closeAppBtn;
 let zoomOutBtn;

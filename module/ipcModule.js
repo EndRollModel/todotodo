@@ -3,10 +3,8 @@ const {appConfig} = require('../config/winConfig');
 // ipcRenderer.invoke <=>  ipcMain.handle()
 // ipcMain.send() => ipcMain.on()
 function setIpcModule() {
-    // 頁面上
-    windowListener();
-    // 資料
-    tuduFeatListener();
+    windowListener(); // 頁面上
+    tuduFeatListener(); // 資料
 }
 
 function windowListener(){
@@ -30,7 +28,7 @@ function tuduFeatListener(){
     // tuduController
     ipcMain.handle('updateTudu', (e, msg)=>{
         // update userData
-        console.log(msg)
+        // console.log(msg)
         return msg
     })
     ipcMain.handle('loadTudu', ()=>{

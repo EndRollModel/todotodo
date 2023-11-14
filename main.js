@@ -18,7 +18,7 @@ app.on('activate', () => {
 
 app.on('window-all-closed', () => {
     // 除了macOS外 所有的視窗都被關閉時則結束程式
-    if (process.platform !== 'darwin') {
-        app.quit()
-    }
+    // if (process.platform !== 'darwin') {
+        app.quit();
+    // }
 })

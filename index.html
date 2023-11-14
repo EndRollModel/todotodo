@@ -19,49 +19,64 @@
     </div>
     <div id="tudulist" class="tudu-list-block">
         <div class="item-block">
-            <div class="tudu-g-item">
-                <div class="plusBlock">
-                    <div data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false"
-                         aria-controls="collapseExample"> +
-                    </div>
-                </div>
-                <label class="checkBlock" for="check1">
-                    <input id="check1" class="" type="checkbox" value="123">
-                </label>
-            </div>
-            <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                    Some placeholder content for the collapse component. This panel is hidden by default but revealed
-                    when the user activates the relevant trigger.
-                </div>
-            </div>
-
-            <div class="tudu-g-item">
-                <div class="plusBlock">
-                    <div data-bs-toggle="collapse" data-bs-target=".data1" aria-expanded="false"
-                         aria-controls="collapseExample"> +
-                    </div>
-                </div>
-            </div>
-            <div class="collapse data1" id="collapseExample2" >
-                <div class="card card-body">
-                    Some placeholder content for the collapse component. This panel is hidden by default but revealed
-                    when the user activates the relevant trigger.
-                </div>
-            </div>
-            <div class="collapse data1" id="collapseExample3">
-                <div class="card card-body">
-                    Some placeholder content for the collapse component. This panel is hidden by default but revealed
-                    when the user activates the relevant trigger.
-                </div>
-            </div>
+<!--            <div class="item-box">-->
+<!--                <div class="tudu-g-item">-->
+<!--                    <div class="collapse-block">-->
+<!--                        <div data-bs-toggle="collapse" data-bs-target=".collapse" aria-expanded="false"-->
+<!--                             aria-controls="collapseExample"> +-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="tudu-g-title">待辦事項名</div>-->
+<!--&lt;!&ndash;                    <div class="tudu-g-del">x</div>&ndash;&gt;-->
+<!--                    <div class="tudu-g-option">-->
+<!--                        <img src="./resource/img/list.svg">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="collapse" id="collapseExample">-->
+<!--                    <div class="card card-body">-->
+<!--                        Some placeholder content for the collapse component. This panel is hidden by default but revealed-->
+<!--                        when the user activates the relevant trigger.-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="item-box">-->
+<!--                <div class="tudu-g-item">-->
+<!--                    <div class="plusBlock">-->
+<!--                        <div data-bs-toggle="collapse" data-bs-target=".data1" aria-expanded="false"-->
+<!--                             aria-controls="collapseExample"> +-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="collapse data1" id="collapseExample2" >-->
+<!--                    <div class="card card-body">-->
+<!--                        Some placeholder content for the collapse component. This panel is hidden by default but revealed-->
+<!--                        when the user activates the relevant trigger.-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="collapse data1" id="collapseExample3">-->
+<!--                    <div class="card card-body">-->
+<!--                        Some placeholder content for the collapse component. This panel is hidden by default but revealed-->
+<!--                        when the user activates the relevant trigger.-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
     </div>
 
+<!--    <div class="btn-group">-->
+<!--        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">-->
+<!--            Default dropdown-->
+<!--        </button>-->
+<!--        <ul class="dropdown-menu" >-->
+<!--            <li><a class="dropdown-item" href="#">Menu item</a></li>-->
+<!--            <li><a class="dropdown-item" href="#">Menu item</a></li>-->
+<!--            <li><a class="dropdown-item" href="#">Menu item</a></li>-->
+<!--        </ul>-->
+<!--    </div>-->
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFeatModal">
-        Launch demo modal
-    </button>
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSItem">-->
+    <!-- Launch demo modal-->
+    <!-- </button>-->
 
     <!-- Modal -->
     <div class="modal fade" id="addFeatModal" tabindex="-1" data-bs-backdrop="static"
@@ -82,9 +97,66 @@
             </div>
         </div>
     </div>
+    <!--  新增SItem  -->
+    <div class="modal fade" id="addSItem" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addSItemModalTitle">新增</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="需要新增的待辦事項">
+                    <div class="modal-btn-group">
+                        <button id="addSItemButton" type="button">確認</button>
+                        <button type="button" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  edit編輯名稱   -->
+    <div class="modal fade" id="editName" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editItemModalTitle">編輯名稱</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="需要新增的待辦事項">
+                    <div class="modal-btn-group">
+                        <button id="editItemNameButton" type="button">確認</button>
+                        <button type="button" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  setting設定   -->
+    <div class="modal fade" id="settingModal" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingModalTitle">編輯名稱</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="需要新增的待辦事項">
+                    <div class="modal-btn-group">
+                        <button id="checkItemSetting" type="button">確認</button>
+                        <button type="button" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
-<script src="resource/js/bootstrap.min.js"></script>
+<script src="resource/js/bootstrap.bundle.min.js"></script>
 <script src="renderer/styleRenderer.js"></script>
 <script src="renderer/renderer.js"></script>
 </body>
