@@ -24,7 +24,7 @@ window.onload = async function () {
     todoList = document.getElementById('tudulist');
     itemBlock = document.getElementsByClassName('item-block');
 
-    addFeatBtn.addEventListener('click', () => addGroupItem('我就測試'));
+    // addFeatBtn.addEventListener('click', () => addGroupItem('我就測試'));
     // addFeatBtn.addEventListener('click', function () {
     // const groupItem = document.createElement('div');
     // groupItem.className = ''
@@ -58,7 +58,10 @@ window.onload = async function () {
     // console.log(await window.tuduFeat.update('123'))
 }
 
-function addGroupItem(title) {
+function addGroupItem(title = null) {
+    if (title == null) {
+        title = document.getElementById('addFeatName').value;
+    }
     //add itemblock => item-box => tudu-g-item => collapse-switch &
     let itemIndex = 0;
     let notUse = false;
@@ -126,6 +129,6 @@ function addGroupItem(title) {
     itemBlock[0].appendChild(itemBox);
 }
 
-function addSItem (title) {
+function addSItem(title) {
 
 }

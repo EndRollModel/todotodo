@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';img-src 'self' data:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';img-src 'self' data:; script-src 'nonce-xxxx';">
     <title></title>
     <link href="resource/css/bootstrap.min.css" rel="stylesheet">
     <link href="resource/css/setting.css" rel="stylesheet">
@@ -15,7 +15,7 @@
     <div id="close-app"></div>
 </div>
 <div class="body-block">
-    <div id="add-tudu-btn">
+    <div id="add-tudu-btn" data-bs-toggle="modal" data-bs-target="#addFeatModal">
     </div>
     <div id="tudulist" class="tudu-list-block">
         <div class="item-block">
@@ -88,12 +88,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="需要新增的項目名稱">
+                    <input id="addFeatName" type="text" class="form-control" placeholder="需要新增的項目名稱">
                     <div class="modal-btn-group">
-                        <button id="addGroupButton" type="button">群組</button>
-                        <button id="addTuduButton" type="button">待辦</button>
+                        <button id="addGroupButton" type="button" onclick="addGroupItem()">群組</button>
+                        <button id="addTuduButton" type="button" onclick="addSItem()">待辦</button>
                     </div>
                 </div>
+<!--                <p id="addFeatData" hidden="hidden"></p>-->
             </div>
         </div>
     </div>
@@ -136,7 +137,7 @@
         </div>
     </div>
     <!--  setting設定   -->
-    <div class="modal fade" id="settingModal" tabindex="-1" data-bs-backdrop="static"
+    <div class="modal fade" id="itemSettingModal" tabindex="-1" data-bs-backdrop="static"
          aria-labelledby="addFeatModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -148,6 +149,25 @@
                     <input type="text" class="form-control" placeholder="需要新增的待辦事項">
                     <div class="modal-btn-group">
                         <button id="checkItemSetting" type="button">確認</button>
+                        <button type="button" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 刪除 -->
+    <div class="modal fade" id="delItemModal" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="delModalTitle">編輯名稱</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="需要新增的待辦事項">
+                    <div class="modal-btn-group">
+                        <button id="checkItemDel" type="button">確認</button>
                         <button type="button" data-bs-dismiss="modal">取消</button>
                     </div>
                 </div>
