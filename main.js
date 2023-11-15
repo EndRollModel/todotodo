@@ -13,7 +13,7 @@ app.on('ready', () => setTimeout(createWindow, 450))
 
 app.on('activate', () => {
     // 如果是在mac os內 沒有已經開啟的app 點選icon時則會再建立一個新的視窗
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    // if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 
 app.on('window-all-closed', () => {

@@ -12,6 +12,7 @@ winConfig.appConfig = {
 
 // 頁面上的一些參數設定
 winConfig.pageConfig = {
+    pageGray : '#808080', // 灰色
     pageColorPink : '#ffd6de', // 粉紅色
     pageColorBlue : '#8cb5ff', // 淡藍色
 }
