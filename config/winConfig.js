@@ -20,10 +20,10 @@ winConfig.pageConfig = {
 // 視窗中的設定
 winConfig.windowOptions = {
     title: '兔嘟莉絲特', // TuDuLeSuTer Tùdūlìsītè
-    width: 320, // 預設的寬度
-    height: 450, // 預設的高度
-    minHeight: 220, // 最低的高度
-    minWidth: 220, // 最高的高度
+    width: 335, // 預設的寬度
+    height: 520, // 預設的高度
+    minWidth: 335, // 最高的寬度
+    minHeight: 520, // 最低的高度
     transparent: true, // 透明
     frame: false, // 是否顯示框架
     resizable: true, // 是否可改變視窗大小

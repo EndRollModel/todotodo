@@ -191,14 +191,14 @@ function addTuduItem(boxIndex = null, title) {
 
     const tuduTime = document.createElement('div');
     tuduTime.className = 'tudu-item-time';
-    tuduTime.textContent = 'hello'
+    tuduTime.textContent = ''
 
     const tuduCheck = document.createElement('input');
     tuduCheck.type = 'checkbox';
     tuduCheck.className = 'tudu-item-check';
-    tuduCheck.addEventListener('change', (e) => {
-        if (e.checked) {
-            tuduTime.textContent = '蛤？';
+    tuduCheck.addEventListener('change', async (e) => {
+        if (e.target.checked) {
+            tuduTime.textContent = `${await window.timeFeat.timeFormat(Date.now())}`;
         } else {
             tuduTime.textContent = '';
         }

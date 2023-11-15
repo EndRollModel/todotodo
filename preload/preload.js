@@ -16,6 +16,13 @@ contextBridge.exposeInMainWorld(`tuduFeat`,{
     },
 });
 
+contextBridge.exposeInMainWorld(`timeFeat`,{
+    timeFormat : (time)=>{
+        return ipcRenderer.invoke('timeFormat', time);
+    }
+})
+
+
 let closeAppBtn;
 let zoomOutBtn;
 
