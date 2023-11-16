@@ -57,7 +57,7 @@ window.onload = async function () {
     checkAddTudu.addEventListener('click', () => {
         addTuduItem(addTuduBoxIndex.getAttribute('boxIndex'), addTuduInput.value);
         addTuduBoxIndex.removeAttribute('boxIndex');
-        addFeatNameInput.value = ''; // 清除
+        addTuduInput.value = ''; // 清除
     })
 
     // addFeatBtn.addEventListener('click', () => addGroupItem('我就測試'));
@@ -103,7 +103,7 @@ function addGroupItem(title = null) {
     let notUse = false;
     const itemBoxCount = document.querySelectorAll('.item-box').length;
     while (!notUse) {
-        if (document.querySelector(`#itemBox${itemIndex}`) === null) {
+        if (document.querySelector(`#itemBoxId${itemIndex}`) === null) {
             notUse = true;
         } else {
             itemIndex++;
@@ -111,7 +111,7 @@ function addGroupItem(title = null) {
     }
     const itemBox = document.createElement('div');
     itemBox.className = `item-box`;
-    itemBox.id = `itemBox${itemIndex}`
+    itemBox.id = `itemBoxId${itemIndex}`
     const groupItem = document.createElement('div');
     groupItem.className = 'tudu-g-item';
     const collapseBlock = document.createElement('div');
@@ -119,8 +119,22 @@ function addGroupItem(title = null) {
     const collapseSwitch = document.createElement('img');
     collapseSwitch.src = './resource/img/chevron-right.svg';
     collapseSwitch.setAttribute('data-bs-toggle', 'collapse');
-    collapseSwitch.setAttribute('data-bs-target', `.collapse-list-${itemIndex}`);
-    collapseSwitch.setAttribute('aria-expanded', `false`);
+    collapseSwitch.setAttribute('data-bs-target', `.itemBox-${itemIndex}`);
+    collapseSwitch.setAttribute('aria-expanded', `true`);
+    // collapseSwitch.addEventListener('click', () => {
+    //     const allCollapse = document.querySelectorAll('.collapse');
+    //     allCollapse.forEach(function (element) {
+    //         const elementBoxIndex = element.getAttribute('boxIndex');
+    //         // 如果元素的 boxIndex 与目标 boxIndex 相符，展开元素，否则折叠元素
+    //         if (elementBoxIndex && parseInt(elementBoxIndex) === itemIndex) {
+    //             var collapse = new bootstrap.Collapse(element, {toggle: false});
+    //             collapse.show();
+    //         } else {
+    //             var collapse = new bootstrap.Collapse(element);
+    //             collapse.hide();
+    //         }
+    //     });
+    // })
     const groupTitle = document.createElement('div');
     groupTitle.className = 'tudu-g-title';
     groupTitle.textContent = title;
@@ -176,14 +190,16 @@ function addGroupItem(title = null) {
     itemBlock[0].appendChild(itemBox);
 }
 
-function addTuduItem(boxIndex = null, title) {
+async function addTuduItem(boxIndex = null, title) {
     const checkIndex = parseInt(boxIndex)
-    if (isNaN(checkIndex) || checkIndex === -1) {
+    const isGroup = !(isNaN(checkIndex) || checkIndex === -1)
 
-    }
 
     const tuduItem = document.createElement('div');
-    tuduItem.className = 'tudu-item';
+    tuduItem.className = isGroup ? `collapse show tudu-in-item itemBox-${boxIndex} ` : 'tudu-item';
+    if (isGroup) {
+        tuduItem.setAttribute('boxIndex', checkIndex.toString());
+    }
 
     const tuduTitle = document.createElement('div')
     tuduTitle.textContent = title;
@@ -191,7 +207,8 @@ function addTuduItem(boxIndex = null, title) {
 
     const tuduTime = document.createElement('div');
     tuduTime.className = 'tudu-item-time';
-    tuduTime.textContent = ''
+    tuduTime.style.color = 'transparent'
+    tuduTime.textContent = '00:00:00'
 
     const tuduCheck = document.createElement('input');
     tuduCheck.type = 'checkbox';
@@ -199,8 +216,10 @@ function addTuduItem(boxIndex = null, title) {
     tuduCheck.addEventListener('change', async (e) => {
         if (e.target.checked) {
             tuduTime.textContent = `${await window.timeFeat.timeFormat(Date.now())}`;
+            tuduTime.style.color = 'red'
         } else {
-            tuduTime.textContent = '';
+            tuduTime.textContent = '00:00:00'
+            tuduTime.style.color = 'transparent'
         }
     })
 
@@ -208,13 +227,22 @@ function addTuduItem(boxIndex = null, title) {
     tuduItemOption.className = 'tudu-item-option';
     const optionImg = document.createElement('img');
     optionImg.src = './resource/img/list.svg';
-    tuduItemOption.appendChild(optionImg)
+    tuduItemOption.appendChild(optionImg);
 
     tuduItem.appendChild(tuduCheck);
     tuduItem.appendChild(tuduTitle);
     tuduItem.appendChild(tuduTime);
     tuduItem.appendChild(tuduItemOption);
 
-    itemBlock[0].appendChild(tuduItem);
+    if (isGroup) {
+        const itemBox = document.getElementById(`itemBoxId${checkIndex}`);
+        await document.querySelectorAll(`.itemBox-${boxIndex}`).forEach((elem) => {
+            new bootstrap.Collapse(elem).hide()
+            new bootstrap.Collapse(elem).show()
+        })
+        itemBox.appendChild(tuduItem)
+    } else {
+        itemBlock[0].appendChild(tuduItem);
+    }
 
 }
