@@ -6,10 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';img-src 'self' data:;">
     <meta property="og:title" content="兔嘟莉絲特">
-    <meta property="og:description" content=""/>
+    <meta property="og:description" content="=^ω^="/>
     <title>兔嘟莉絲特</title>
     <link href="resource/css/bootstrap.min.css" rel="stylesheet">
     <link href="resource/css/setting.css" rel="stylesheet">
+    <!--  font preload  -->
+    <link rel="prefetch" href="resource/font/Cubic_11.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="prefetch" href="resource/font/GenJyuuGothic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="prefetch" href="resource/font/NaikaiFont.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
 <div class="toolbar">
@@ -22,13 +26,13 @@
     </div>
     <div id="tudulist" class="tudu-list-block">
         <div class="item-block">
-<!--                        <div class="tudu-item">-->
-<!--                            <input type="checkbox">-->
-<!--                            <div class="tudu-item-title"></div>-->
-<!--                            <div class="tudu-item-option">-->
-<!--                                <img src="./resource/img/list.svg">-->
-<!--                            </div>-->
-<!--                        </div>-->
+            <!--                        <div class="tudu-item">-->
+            <!--                            <input type="checkbox">-->
+            <!--                            <div class="tudu-item-title"></div>-->
+            <!--                            <div class="tudu-item-option">-->
+            <!--                                <img src="./resource/img/list.svg">-->
+            <!--                            </div>-->
+            <!--                        </div>-->
 
             <!--            <div class="item-box">-->
             <!--                <div class="tudu-g-item">-->
@@ -101,8 +105,8 @@
                 <div class="modal-body">
                     <input id="addFeatNameInput" type="text" class="form-control" placeholder="需要新增的項目名稱">
                     <div class="modal-btn-group">
-                        <button id="addGroupBtn" type="button" data-bs-dismiss="modal">群組</button>
-                        <button id="addTuduBtn" type="button" data-bs-dismiss="modal">待辦</button>
+                        <button id="addGroupBtn" type="button">群組</button>
+                        <button id="addTuduBtn" type="button">待辦</button>
                         <!--                    <button id="addMemoBtn" type="button">記事</button>-->
                     </div>
                 </div>
@@ -121,8 +125,8 @@
                 <div class="modal-body">
                     <input id="addTuduInput" type="text" class="form-control" placeholder="需要新增的待辦事項">
                     <div class="modal-btn-group">
-                        <p id="addTuduBoxIndex" hidden="hidden"></p>
-                        <button id="checkAddTudu" type="button" data-bs-dismiss="modal">確認</button>
+                        <p id="addTuduHidden" hidden="hidden"></p>
+                        <button id="checkAddTudu" type="button">確認</button>
                         <button type="button" data-bs-dismiss="modal">取消</button>
                     </div>
                 </div>
@@ -139,7 +143,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="需要新增的待辦事項">
+                    <input id="editTuduInput" type="text" class="form-control" placeholder="需要新增的待辦事項">
+                    <p id="editeTuduHidden" hidden="hidden"></p>
                     <div class="modal-btn-group">
                         <button id="editNameBtn" type="button">確認</button>
                         <button type="button" data-bs-dismiss="modal">取消</button>
@@ -173,12 +178,13 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="delModalTitle">確定刪除？</h5>
+                    <h5 class="modal-title" id="delModalTitle">刪除</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <h6 style="text-align: center" id="delTitleText"></h6>
+                    <p id="delItemHidden" hidden="hidden"></p>
                     <div class="modal-btn-group">
-                        <p hidden="hidden"></p>
                         <button id="delItemBtn" type="button">確認</button>
                         <button type="button" data-bs-dismiss="modal">取消</button>
                     </div>

@@ -24,12 +24,37 @@ let addGroupBtn; // 新增群組的按鈕  (feat)
 let addFeatNameInput; // 輸入名稱的input內容 (feat)
 let addTuduBtn; // 新增待辦事項的按鈕 (tuduItem)
 let addTuduInput; // 新增待辦事項的Input內容 (tuduItem)
-let addTuduBoxIndex; // 新增待辦事項的數值內容 (tuduItem)
+let addTuduHidden; // 新增待辦事項的數值內容 (tuduItem)
 let checkAddTudu; // 新增待辦事項的按鈕(於group中)
+let editTuduInput; // 編輯群組或待辦input內容
+let editeTuduHidden; // 編輯群組或待辦的隱藏內容傳輸class用
 let editNameBtn; // 編輯名稱的內容
+let delItemHidden; // 刪除的對象指定內容
+let delItemBtn; // 刪除的按鈕
+    let settingModalTitle; //
 let checkSettingBtn; // 確認設定的內容
 
+// modal
+let addFeatModal;
+let addTuduItemModel;
+let editNameModal;
+let delItemModal;
+
+const userData = {}
+
+function createPage (){}
+
 window.onload = async function () {
+    // modal
+    addFeatModal = new bootstrap.Modal(document.getElementById('addFeatModal'));
+    addFeatModal.hide();
+    addTuduItemModel = new bootstrap.Modal(document.getElementById('addTuduItem'));
+    addTuduItemModel.hide();
+    editNameModal = new bootstrap.Modal(document.getElementById('editName'));
+    editNameModal.hide();
+    delItemModal = new bootstrap.Modal(document.getElementById('delItemModal'));
+    delItemModal.hide();
+
     addFeatBtn = document.getElementById('addFeatBtn');
     todoList = document.getElementById('tudulist');
     itemBlock = document.getElementsByClassName('item-block');
@@ -41,26 +66,47 @@ window.onload = async function () {
     addGroupBtn.addEventListener('click', () => {
         addGroupItem(addFeatNameInput.value);
         addFeatNameInput.value = ''; // 清除
+        addFeatModal.hide();
     });
     // modal tudu新增按鈕
     addTuduBtn = document.getElementById('addTuduBtn');
     addTuduBtn.addEventListener('click', () => {
         addTuduItem(-1, addFeatNameInput.value);
         addFeatNameInput.value = ''; // 清除
+        addFeatModal.hide();
     })
 
     // 由群組新增按鈕事件
     // 新增 tudu
     addTuduInput = document.getElementById('addTuduInput')
-    addTuduBoxIndex = document.getElementById('addTuduBoxIndex');
+    addTuduHidden = document.getElementById('addTuduHidden');
     checkAddTudu = document.getElementById('checkAddTudu');
     checkAddTudu.addEventListener('click', () => {
-        addTuduItem(addTuduBoxIndex.getAttribute('boxIndex'), addTuduInput.value);
-        addTuduBoxIndex.removeAttribute('boxIndex');
+        addTuduItem(addTuduHidden.getAttribute('boxIndex'), addTuduInput.value);
+        addTuduHidden.removeAttribute('boxIndex');
         addTuduInput.value = ''; // 清除
+        addTuduItemModel.hide();
+    })
+    // 編輯名稱 edit
+    editTuduInput = document.getElementById('editTuduInput');
+    editeTuduHidden = document.getElementById('editeTuduHidden');
+    editNameBtn = document.getElementById('editNameBtn');
+    editNameBtn.addEventListener('click', ()=>{
+        editItemName(editeTuduHidden.getAttribute('target'), editTuduInput.value)
+        editNameModal.hide();
+    })
+    // 刪除 del
+    delItemHidden = document.getElementById('delItemHidden')
+    delItemBtn = document.getElementById('delItemBtn');
+    delItemBtn.addEventListener('click', ()=>{
+        delItem(document.getElementById('delItemHidden').getAttribute('target'))
+        delItemModal.hide();
     })
 
-    // addFeatBtn.addEventListener('click', () => addGroupItem('我就測試'));
+
+
+    // addFeatBtn.addEventListener('click', () => addGroupI
+    // tem('我就測試'));
     // addFeatBtn.addEventListener('click', function () {
     // const groupItem = document.createElement('div');
     // groupItem.className = ''
@@ -92,6 +138,14 @@ window.onload = async function () {
     // b -> modal 新增 小項目
     // s ->
     // console.log(await window.tuduFeat.update('123'))
+}
+function editItemName(target, text){
+    const targetItem  = document.querySelector(`${target}`);
+    targetItem.textContent = text;
+}
+function delItem(target){
+    const targetItem = document.querySelector(`${target}`);
+    targetItem.remove();
 }
 
 function addGroupItem(title = null) {
@@ -136,7 +190,7 @@ function addGroupItem(title = null) {
     //     });
     // })
     const groupTitle = document.createElement('div');
-    groupTitle.className = 'tudu-g-title';
+    groupTitle.className = `tudu-g-title group-title-${itemIndex}`;
     groupTitle.textContent = title;
     const groupOption = document.createElement('div');
     groupOption.className = 'tudu-g-option';
@@ -153,13 +207,17 @@ function addGroupItem(title = null) {
     optionsAdd.className = 'dropdown-item';
     optionsAdd.textContent = '新增';
     optionsAdd.addEventListener('click', () => {
-        addTuduBoxIndex.setAttribute('boxIndex', `${itemIndex}`)
-        new bootstrap.Modal(document.getElementById('addTuduItem')).show();
+        addTuduHidden.setAttribute('boxIndex', `${itemIndex}`)
+        addTuduItemModel.show();
     })
     const optionsEdit = document.createElement('li');
     optionsEdit.className = 'dropdown-item';
     optionsEdit.textContent = '編輯名稱';
     optionsEdit.addEventListener('click', () => {
+        document.getElementById('editTuduInput').value = groupTitle.textContent; // 把值設定上去
+        document.getElementById('editeTuduHidden').setAttribute('target', `.group-title-${itemIndex}`);
+        // new bootstrap.Modal(document.getElementById('editName')).show()
+        editNameModal.show();
     })
     const optionsSetting = document.createElement('li');
     optionsSetting.className = 'dropdown-item';
@@ -170,6 +228,9 @@ function addGroupItem(title = null) {
     optionsDel.className = 'dropdown-item';
     optionsDel.textContent = '刪除';
     optionsDel.addEventListener('click', () => {
+        document.getElementById('delTitleText').textContent = `確定要刪除「${groupTitle.textContent}」嗎？`
+        document.getElementById('delItemHidden').setAttribute('target', `#itemBoxId${itemIndex}`)
+        delItemModal.show();
     })
 
     const collapseBlock = document.createElement('div');
@@ -186,7 +247,7 @@ function addGroupItem(title = null) {
     // 將三個鈕新增至block內
     optionsBlock.appendChild(optionsAdd);
     optionsBlock.appendChild(optionsEdit);
-    optionsBlock.appendChild(optionsSetting);
+    // optionsBlock.appendChild(optionsSetting); 暫時還不需要這個
     optionsBlock.appendChild(optionsDel);
     groupOption.appendChild(optionsBlock);
 
@@ -205,7 +266,6 @@ function addGroupItem(title = null) {
 async function addTuduItem(boxIndex = null, title) {
     const checkIndex = parseInt(boxIndex)
     const isGroup = !(isNaN(checkIndex) || checkIndex === -1)
-
 
     const tuduItem = document.createElement('div');
     tuduItem.className = 'tudu-item';
@@ -230,7 +290,7 @@ async function addTuduItem(boxIndex = null, title) {
             tuduTime.textContent = `${await window.timeFeat.timeFormat(Date.now())}`;
             tuduTime.style.color = 'red'
         } else {
-            tuduTime.textContent = '00:00:00'
+            tuduTime.textContent = '99:99:99'
             tuduTime.style.color = 'transparent'
         }
     })
@@ -248,12 +308,11 @@ async function addTuduItem(boxIndex = null, title) {
 
     if (isGroup) {
         const collapseBlock = document.querySelector(`.collapse-block-${checkIndex}`);
-        new bootstrap.Collapse(collapseBlock).hide();
-        new bootstrap.Collapse(collapseBlock).show();
+        if(!collapseBlock.classList.contains('show')){
+            new bootstrap.Collapse(collapseBlock).show();
+        }
         collapseBlock.appendChild(tuduItem)
     } else {
-
         itemBlock[0].appendChild(tuduItem);
     }
-
 }

@@ -1,3 +1,4 @@
+/*新增的字型*/
 @font-face {
     font-family: "Cubic_11";
     src: url("../font/Cubic_11.woff2") format('woff2');
@@ -252,23 +253,6 @@ body {
 }
 
 
-    /*.list-unstyled {*/
-/*    margin: 8px 16px;*/
-/*    width: auto;*/
-/*    height: auto;*/
-/*    max-height: 85vh;*/
-/*    min-height: 10vh;*/
-/*}*/
-
-/*.btn {*/
-/*    width: 100%;*/
-/*    border-radius: 8px;*/
-/*    border-width: 1px;*/
-/*    border-style: solid;*/
-/*    border-color: pink;*/
-/*    text-align: start;*/
-/*}*/
-
 button:focus {
     box-shadow: none !important;
 }
@@ -306,7 +290,6 @@ button:focus {
 }
 
 .modal-btn-group > button:hover {
-    /*background-color: #ffd6de;*/
     box-shadow: 2px 2px 0 0 #ffd6de;
 }
 
@@ -330,7 +313,6 @@ button:focus {
     cursor: pointer;
 }
 
-
 /* Pseudo element for check styling */
 [type=checkbox]::before {
     content: "";
@@ -345,9 +327,6 @@ button:focus {
     /*box-shadow: inset 0 0 0 1px #CCD3D8;*/
     box-shadow: inset 0 0 0 0.7px #e0b9c1;
 }
-
-
-/* Checked */
 
 [type=checkbox]:checked {
     background-color: currentcolor;
