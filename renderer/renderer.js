@@ -114,12 +114,12 @@ function addGroupItem(title = null) {
     itemBox.id = `itemBoxId${itemIndex}`
     const groupItem = document.createElement('div');
     groupItem.className = 'tudu-g-item';
-    const collapseBlock = document.createElement('div');
-    collapseBlock.className = 'collapse-block';
+    const collapseSwitchBox = document.createElement('div');
+    collapseSwitchBox.className = 'collapse-switch-box';
     const collapseSwitch = document.createElement('img');
     collapseSwitch.src = './resource/img/chevron-right.svg';
     collapseSwitch.setAttribute('data-bs-toggle', 'collapse');
-    collapseSwitch.setAttribute('data-bs-target', `.itemBox-${itemIndex}`);
+    collapseSwitch.setAttribute('data-bs-target', `.collapse-block-${itemIndex}`);
     collapseSwitch.setAttribute('aria-expanded', `true`);
     // collapseSwitch.addEventListener('click', () => {
     //     const allCollapse = document.querySelectorAll('.collapse');
@@ -172,6 +172,17 @@ function addGroupItem(title = null) {
     optionsDel.addEventListener('click', () => {
     })
 
+    const collapseBlock = document.createElement('div');
+    collapseBlock.className = `collapse collapse-block-${itemIndex}`
+    collapseBlock.addEventListener('show.bs.collapse', ()=>{
+        collapseSwitchBox.classList.add('rotated-show');
+        collapseSwitchBox.classList.remove('rotated-hide');
+    });
+    collapseBlock.addEventListener('hide.bs.collapse', ()=>{
+        collapseSwitchBox.classList.add('rotated-hide');
+        collapseSwitchBox.classList.remove('rotated-show');
+    });
+
     // 將三個鈕新增至block內
     optionsBlock.appendChild(optionsAdd);
     optionsBlock.appendChild(optionsEdit);
@@ -180,13 +191,14 @@ function addGroupItem(title = null) {
     groupOption.appendChild(optionsBlock);
 
     groupOption.appendChild(optionImg); // 更多選項的圖片
-    collapseBlock.appendChild(collapseSwitch)
+    collapseSwitchBox.appendChild(collapseSwitch)
     // 添加捲軸 標題 更多按鈕
-    groupItem.appendChild(collapseBlock);
+    groupItem.appendChild(collapseSwitchBox);
     groupItem.appendChild(groupTitle);
     groupItem.appendChild(groupOption);
     // 添加進box
-    itemBox.appendChild(groupItem)
+    itemBox.appendChild(groupItem);
+    itemBox.appendChild(collapseBlock);
     itemBlock[0].appendChild(itemBox);
 }
 
@@ -196,7 +208,7 @@ async function addTuduItem(boxIndex = null, title) {
 
 
     const tuduItem = document.createElement('div');
-    tuduItem.className = isGroup ? `collapse show tudu-in-item itemBox-${boxIndex} ` : 'tudu-item';
+    tuduItem.className = 'tudu-item';
     if (isGroup) {
         tuduItem.setAttribute('boxIndex', checkIndex.toString());
     }
@@ -235,13 +247,12 @@ async function addTuduItem(boxIndex = null, title) {
     tuduItem.appendChild(tuduItemOption);
 
     if (isGroup) {
-        const itemBox = document.getElementById(`itemBoxId${checkIndex}`);
-        await document.querySelectorAll(`.itemBox-${boxIndex}`).forEach((elem) => {
-            new bootstrap.Collapse(elem).hide()
-            new bootstrap.Collapse(elem).show()
-        })
-        itemBox.appendChild(tuduItem)
+        const collapseBlock = document.querySelector(`.collapse-block-${checkIndex}`);
+        new bootstrap.Collapse(collapseBlock).hide();
+        new bootstrap.Collapse(collapseBlock).show();
+        collapseBlock.appendChild(tuduItem)
     } else {
+
         itemBlock[0].appendChild(tuduItem);
     }
 
