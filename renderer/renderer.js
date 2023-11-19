@@ -31,7 +31,7 @@ let editeTuduHidden; // 編輯群組或待辦的隱藏內容傳輸class用
 let editNameBtn; // 編輯名稱的內容
 let delItemHidden; // 刪除的對象指定內容
 let delItemBtn; // 刪除的按鈕
-    let settingModalTitle; //
+let settingModalTitle; //
 let checkSettingBtn; // 確認設定的內容
 
 // modal

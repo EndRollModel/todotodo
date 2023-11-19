@@ -10,16 +10,16 @@ function checkUserDataPath() {
     }
 }
 
-function saveWinSetting(browser) {
+function saveMainWinSetting(browser) {
     checkUserDataPath();
     const settingsPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.settingName); // 保存的路徑
     fs.writeFileSync(settingsPath, JSON.stringify(getWinSetting(browser))); // 寫入資料
 }
 
-function loadWinSetting() {
+function loadMainWinSetting() {
     checkUserDataPath();
     const settingsPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.settingName); // 保存的路徑
-    const windowsSetting = JSON.parse(JSON.stringify(winConfig.windowOptions)); // 深複製
+    const windowsSetting = JSON.parse(JSON.stringify(winConfig.mainWindowOptions)); // 深複製
     let settings = {};
     try {
         settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
@@ -48,6 +48,6 @@ function getWinSetting(browser) {
 }
 
 module.exports = {
-    saveWinSetting,
-    loadWinSetting
+    saveWinSetting: saveMainWinSetting,
+    loadWinSetting: loadMainWinSetting
 };

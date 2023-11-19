@@ -4,12 +4,12 @@ const dayjs = require("dayjs");
 // ipcRenderer.invoke <=>  ipcMain.handle()
 // ipcMain.send() => ipcMain.on()
 function setIpcModule() {
-    windowListener(); // 頁面上
+    mainWindowListener(); // 主頁面上
     tuduFeatListener(); // 資料
     timeFeatListener(); // 時間處理
 }
 
-function windowListener(){
+function mainWindowListener(){
     ipcMain.on('close-app', () => {
         app.quit();
     });
