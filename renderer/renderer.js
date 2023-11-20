@@ -42,18 +42,20 @@ let delItemModal;
 
 const userData = {}
 
-function createPage (){}
+function createPage() {
+
+}
 
 window.onload = async function () {
     // modal
     addFeatModal = new bootstrap.Modal(document.getElementById('addFeatModal'));
-    addFeatModal.hide();
+    // addFeatModal.hide();
     addTuduItemModel = new bootstrap.Modal(document.getElementById('addTuduItem'));
-    addTuduItemModel.hide();
+    // addTuduItemModel.hide();
     editNameModal = new bootstrap.Modal(document.getElementById('editName'));
-    editNameModal.hide();
+    // editNameModal.hide();
     delItemModal = new bootstrap.Modal(document.getElementById('delItemModal'));
-    delItemModal.hide();
+    // delItemModal.hide();
 
     addFeatBtn = document.getElementById('addFeatBtn');
     todoList = document.getElementById('tudulist');
@@ -91,18 +93,17 @@ window.onload = async function () {
     editTuduInput = document.getElementById('editTuduInput');
     editeTuduHidden = document.getElementById('editeTuduHidden');
     editNameBtn = document.getElementById('editNameBtn');
-    editNameBtn.addEventListener('click', ()=>{
+    editNameBtn.addEventListener('click', () => {
         editItemName(editeTuduHidden.getAttribute('target'), editTuduInput.value)
         editNameModal.hide();
     })
     // 刪除 del
     delItemHidden = document.getElementById('delItemHidden')
     delItemBtn = document.getElementById('delItemBtn');
-    delItemBtn.addEventListener('click', ()=>{
+    delItemBtn.addEventListener('click', () => {
         delItem(document.getElementById('delItemHidden').getAttribute('target'))
         delItemModal.hide();
     })
-
 
 
     // addFeatBtn.addEventListener('click', () => addGroupI
@@ -139,11 +140,13 @@ window.onload = async function () {
     // s ->
     // console.log(await window.tuduFeat.update('123'))
 }
-function editItemName(target, text){
-    const targetItem  = document.querySelector(`${target}`);
+
+function editItemName(target, text) {
+    const targetItem = document.querySelector(`${target}`);
     targetItem.textContent = text;
 }
-function delItem(target){
+
+function delItem(target) {
     const targetItem = document.querySelector(`${target}`);
     targetItem.remove();
 }
@@ -155,7 +158,6 @@ function addGroupItem(title = null) {
     //add itemblock => item-box => tudu-g-item => collapse-switch &
     let itemIndex = 0;
     let notUse = false;
-    const itemBoxCount = document.querySelectorAll('.item-box').length;
     while (!notUse) {
         if (document.querySelector(`#itemBoxId${itemIndex}`) === null) {
             notUse = true;
@@ -235,11 +237,11 @@ function addGroupItem(title = null) {
 
     const collapseBlock = document.createElement('div');
     collapseBlock.className = `collapse collapse-block-${itemIndex}`
-    collapseBlock.addEventListener('show.bs.collapse', ()=>{
+    collapseBlock.addEventListener('show.bs.collapse', () => {
         collapseSwitchBox.classList.add('rotated-show');
         collapseSwitchBox.classList.remove('rotated-hide');
     });
-    collapseBlock.addEventListener('hide.bs.collapse', ()=>{
+    collapseBlock.addEventListener('hide.bs.collapse', () => {
         collapseSwitchBox.classList.add('rotated-hide');
         collapseSwitchBox.classList.remove('rotated-show');
     });
@@ -267,20 +269,31 @@ async function addTuduItem(boxIndex = null, title) {
     const checkIndex = parseInt(boxIndex)
     const isGroup = !(isNaN(checkIndex) || checkIndex === -1)
 
+    let itemIndex = 0;
+    let notUse = false;
+    while (!notUse) {
+        if (document.querySelector(`#tuduItemId${itemIndex}`) === null) {
+            notUse = true;
+        } else {
+            itemIndex++;
+        }
+    }
+
     const tuduItem = document.createElement('div');
-    tuduItem.className = 'tudu-item';
+    tuduItem.className = `tudu-item`;
+    tuduItem.id = `tuduItemId${itemIndex}`
     if (isGroup) {
-        tuduItem.setAttribute('boxIndex', checkIndex.toString());
+        tuduItem.setAttribute('boxIndex', itemIndex.toString());
     }
 
     const tuduTitle = document.createElement('div')
     tuduTitle.textContent = title;
-    tuduTitle.className = `tudu-item-title`;
+    tuduTitle.className = `tudu-item-title-${itemIndex}`;
 
     const tuduTime = document.createElement('div');
     tuduTime.className = 'tudu-item-time';
     tuduTime.style.color = 'transparent'
-    tuduTime.textContent = '00:00:00'
+    tuduTime.textContent = '99:99'
 
     const tuduCheck = document.createElement('input');
     tuduCheck.type = 'checkbox';
@@ -290,7 +303,7 @@ async function addTuduItem(boxIndex = null, title) {
             tuduTime.textContent = `${await window.timeFeat.timeFormat(Date.now())}`;
             tuduTime.style.color = 'red'
         } else {
-            tuduTime.textContent = '99:99:99'
+            tuduTime.textContent = '99:99'
             tuduTime.style.color = 'transparent'
         }
     })
@@ -299,8 +312,36 @@ async function addTuduItem(boxIndex = null, title) {
     tuduItemOption.className = 'tudu-item-option';
     const optionImg = document.createElement('img');
     optionImg.src = './resource/img/list.svg';
+    optionImg.setAttribute('data-bs-toggle', 'dropdown')
+    optionImg.setAttribute('data-bs-auto-close', 'true')
+    optionImg.setAttribute('aria-expanded', 'false')
+    const optionsBlock = document.createElement('ul');
+    optionsBlock.className = 'dropdown-menu';
+    optionsBlock.setAttribute('aria-labelledby', 'defaultDropdown');
+    const optionsEdit = document.createElement('li');
+    optionsEdit.className = 'dropdown-item';
+    optionsEdit.textContent = '編輯名稱';
+    optionsEdit.addEventListener('click', () => {
+        document.getElementById('editTuduInput').value = tuduTitle.textContent; // 把值設定上去
+        document.getElementById('editeTuduHidden').setAttribute('target', `.tudu-item-title-${itemIndex}`);
+        // new bootstrap.Modal(document.getElementById('editName')).show()
+        editNameModal.show();
+    })
+    const optionsDel = document.createElement('li');
+    optionsDel.className = 'dropdown-item';
+    optionsDel.textContent = '刪除';
+    optionsDel.addEventListener('click', () => {
+        document.getElementById('delTitleText').textContent = `確定要刪除「${tuduTitle.textContent}」嗎？`
+        document.getElementById('delItemHidden').setAttribute('target', `#tuduItemId${itemIndex}`)
+        delItemModal.show();
+    })
+
+    optionsBlock.appendChild(optionsEdit);
+    optionsBlock.appendChild(optionsDel);
+    tuduItemOption.appendChild(optionsBlock);
     tuduItemOption.appendChild(optionImg);
 
+    // 追加項目內的東西
     tuduItem.appendChild(tuduCheck);
     tuduItem.appendChild(tuduTitle);
     tuduItem.appendChild(tuduTime);
@@ -308,7 +349,7 @@ async function addTuduItem(boxIndex = null, title) {
 
     if (isGroup) {
         const collapseBlock = document.querySelector(`.collapse-block-${checkIndex}`);
-        if(!collapseBlock.classList.contains('show')){
+        if (!collapseBlock.classList.contains('show')) {
             new bootstrap.Collapse(collapseBlock).show();
         }
         collapseBlock.appendChild(tuduItem)

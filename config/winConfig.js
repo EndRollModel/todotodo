@@ -8,7 +8,6 @@ winConfig.appConfig = {
     openDevTools : false, // 是否開啟除錯模式
     tuduPageName : 'tudu',
     memoPageName : 'memo',
-    defFont : 'Cubic_11',
 }
 
 // 頁面上的一些參數設定
@@ -16,6 +15,14 @@ winConfig.pageConfig = {
     pageGray : '#808080', // 灰色
     pageColorPink : '#ffd6de', // 粉紅色
     pageColorBlue : '#8cb5ff', // 淡藍色
+    defFont : 'Cubic_11',
+}
+
+// 字體對照表
+winConfig.fontTable = {
+    'Cubic_11': '俐方體11號/(Cubic 11)',
+    'GenJyuuGothic' : '思源柔黑',
+    'NaikaiFont' : '內海字型',
 }
 
 // 讀取中的畫面
@@ -29,7 +36,6 @@ winConfig.loadingWindowOptions = {
     maximizable: false, //禁止最大化
     autoHideMenuBar: true, // 隱藏工具列
 }
-
 
 // 視窗中的設定
 winConfig.mainWindowOptions = {
@@ -52,7 +58,7 @@ winConfig.mainWindowOptions = {
 
 // userData的設定
 winConfig.saveDataOption = {
-    saveModel: 'documents',
+    saveModel: 'userData',
     saveDir: 'tudu',
     settingName: 'settings.json',
     tuduDataName: 'tuduData.json',

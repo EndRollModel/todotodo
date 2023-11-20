@@ -16,6 +16,12 @@ contextBridge.exposeInMainWorld(`tuduFeat`,{
     },
 });
 
+contextBridge.exposeInMainWorld('font', {
+    getFontList : ()=>{
+        return ipcRenderer.invoke('getFontList');
+    }
+})
+
 contextBridge.exposeInMainWorld(`timeFeat`,{
     timeFormat : (time)=>{
         return ipcRenderer.invoke('timeFormat', time);
@@ -27,8 +33,8 @@ let closeAppBtn;
 let zoomOutBtn;
 
 window.onload = function () {
-    closeAppBtn = document.getElementById('close-app');
-    zoomOutBtn = document.getElementById('zoom-out');
+    closeAppBtn = document.getElementById('frameClose');
+    zoomOutBtn = document.getElementById('frameZoomOut');
     closeAppBtn.addEventListener('click', () => ipcRenderer.send('close-app'));// 發送關閉程式的請求
     zoomOutBtn.addEventListener('click', () => ipcRenderer.send('zoom-out'));// 發送關閉程式的請求
 }

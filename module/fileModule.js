@@ -48,6 +48,6 @@ function getWinSetting(browser) {
 }
 
 module.exports = {
-    saveWinSetting: saveMainWinSetting,
-    loadWinSetting: loadMainWinSetting
+    saveMainWinSetting,
+    loadMainWinSetting
 };
