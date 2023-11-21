@@ -184,6 +184,12 @@ body {
     margin-right: 5%;
 }
 
+.tudu-g-option > img{
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+}
+
+
 
 .dropdown-menu {
     /*更多選單*/
@@ -220,7 +226,6 @@ body {
     flex-wrap: wrap;
     margin-left: 5%;
     gap: 5px;
-    margin-bottom: 5px;
 }
 
 .collapse-switch-box {
@@ -266,6 +271,11 @@ body {
 
 .tudu-item-option {
     margin-right: 5%;
+}
+
+.tudu-item-option > img {
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
 }
 
 

@@ -18,6 +18,8 @@ function saveSettingListener(){
         settingModal.hide();
     })
 }
+
+
 async function createSettingModal() {
     // 創建 modal 元素
     const modal = document.createElement('div');
@@ -68,34 +70,12 @@ async function createSettingModal() {
     modalBodyOption.style.alignItems = 'baseline';
     modalBodyOption.style.flexDirection = 'row';
 
-    // 創建 h6 元素
-    const settingColorTitle = document.createElement('h6');
-    settingColorTitle.id = 'settingColorTitle';
-    settingColorTitle.textContent = '字體';
-
-    // 創建 select 元素
-    const selectElement = document.createElement('select');
-    selectElement.id = 'fontSelect'
-    selectElement.className = 'form-select';
-    selectElement.style.width = '70%';
-    selectElement.setAttribute('aria-label', '');
-
-    // 創建 option 元素
-    const fontList = await window.font.getFontList();
-    Object.keys(fontList).forEach((e, index)=>{
-        const optionElement = document.createElement('option');
-        if (index === 0) {
-            optionElement.setAttribute('selected', 'true');
-        }
-        optionElement.value = e
-        optionElement.textContent = fontList[e];
-        // 添加 option 到 select
-        selectElement.appendChild(optionElement);
-    });
+    // const settingFontTitle = await createFontOption();
 
     // 添加 h6 和 select 到 modal-body-option
-    modalBodyOption.appendChild(settingColorTitle);
-    modalBodyOption.appendChild(selectElement);
+    // modalBodyOption.appendChild(settingFontTitle);
+    // modalBodyOption.appendChild(selectElement);
+    modalBodyOption.append(...await createFontOption());
 
     // 創建 p 元素
     const delItemHidden = document.createElement('p');
@@ -143,3 +123,33 @@ async function createSettingModal() {
     settingModal = new bootstrap.Modal(document.getElementById('settingModal'))
 }
 
+// 字型選項的內容
+async function createFontOption (){
+    // 創建 h6 元素
+    const settingFontTitle = document.createElement('h6');
+    settingFontTitle.id = 'settingFontTitle';
+    settingFontTitle.textContent = '字體';
+
+    // 創建 select 元素
+    const selectElement = document.createElement('select');
+    selectElement.id = 'fontSelect'
+    selectElement.className = 'form-select';
+    selectElement.style.width = '70%';
+    selectElement.setAttribute('aria-label', '');
+
+    // 創建 option 元素
+    const fontList = await window.font.getFontList();
+    Object.keys(fontList).forEach((e, index)=>{
+        const optionElement = document.createElement('option');
+        if (index === 0) {
+            optionElement.setAttribute('selected', 'true');
+        }
+        optionElement.value = e
+        optionElement.textContent = fontList[e];
+        // 添加 option 到 select
+        selectElement.appendChild(optionElement);
+    });
+    return [settingFontTitle, selectElement];
+}
+
+//
