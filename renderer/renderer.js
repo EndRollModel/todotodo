@@ -41,8 +41,7 @@ let addTuduItemModel; // 由群組新增TuduItem的modal
 let editNameModal; // 編輯名稱時用的Modal
 let delItemModal; // 刪除時的跳窗
 
-let userDataDefault = [];
-let userDataProxy = [];
+let userData = [];
 
 function addFeatData(type, id, title) {
     const updateData = {};
@@ -60,11 +59,12 @@ function addFeatData(type, id, title) {
             updateData.id = id;
             break;
     }
-    userDataProxy.push(updateData);
+    userData.push(updateData);
+    window.userFeat.saveUserData(userData);
 }
 
 function pushGroupData(targetId, id, type, title, time, memo = null) {
-    const selectIndex = userDataProxy.findIndex((e) => e.id === targetId);
+    const selectIndex = userData.findIndex((e) => e.id === targetId);
     if (selectIndex !== -1) {
         const item = {}
         switch (type) {
@@ -76,13 +76,14 @@ function pushGroupData(targetId, id, type, title, time, memo = null) {
                 item.time = time;
                 break;
         }
-        userDataProxy[selectIndex].items.push(item);
+        userData[selectIndex].items.push(item);
+        window.userFeat.saveUserData(userData);
     }
 }
 
 async function createUserElem() {
-    if (userDataDefault.length === 0) return;
-    userDataDefault.forEach((elem) => {
+    if (userData.length === 0) return;
+    userData.forEach((elem) => {
         switch (elem.type) {
             case 0: // group
                 addGroupItem(elem.title)
@@ -98,24 +99,14 @@ async function createUserElem() {
                 break;
         }
     })
+    window.userFeat.saveUserData(target);
 }
 
-function setUserDataProxy() {
-    userDataProxy = new Proxy(userDataDefault, {
-        set: function(target, property, value) {
-            console.log(`Setting ${JSON.stringify(property)} to ${JSON.stringify(value)}`);
-            target[property] = value;
-            console.log(`Array is now: ${JSON.stringify(target)}`);
-            window.userFeat.saveUserData(target);
-            return true;
-        }
-    });
-}
 
 window.onload = async function () {
     const loadUserData = await window.userFeat.loadUserData();
     if (loadUserData.length > 0) {
-        userDataDefault.push(...loadUserData)
+        userData.push(...loadUserData)
     }
     // modal
     addFeatModal = new bootstrap.Modal(document.getElementById('addFeatModal'));
