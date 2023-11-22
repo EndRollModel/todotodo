@@ -28,6 +28,15 @@ contextBridge.exposeInMainWorld(`timeFeat`,{
     }
 })
 
+contextBridge.exposeInMainWorld(`userFeat`,{
+    loadUserData : ()=>{
+        return ipcRenderer.invoke('loadUserData');
+    },
+    saveUserData : (data) =>{
+        return ipcRenderer.send('saveUserData', data);
+    }
+})
+
 
 let closeAppBtn;
 let zoomOutBtn;

@@ -3,7 +3,7 @@ const winConfig = require('../config/winConfig');
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
 
-function checkUserDataPath() {
+function checkSettingConfigExist() {
     const userDataPath = `${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`
     if (!fs.existsSync(userDataPath)) {
         fs.mkdirSync(userDataPath);
@@ -11,13 +11,13 @@ function checkUserDataPath() {
 }
 
 function saveMainWinSetting(browser) {
-    checkUserDataPath();
+    checkSettingConfigExist();
     const settingsPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.settingName); // 保存的路徑
     fs.writeFileSync(settingsPath, JSON.stringify(getWinSetting(browser))); // 寫入資料
 }
 
 function loadMainWinSetting() {
-    checkUserDataPath();
+    checkSettingConfigExist();
     const settingsPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.settingName); // 保存的路徑
     const windowsSetting = JSON.parse(JSON.stringify(winConfig.mainWindowOptions)); // 深複製
     let settings = {};
@@ -46,8 +46,26 @@ function getWinSetting(browser) {
     console.log(`儲存： width : ${windowsSetting.windowWidth}, height: ${windowsSetting.windowHeight}, x; ${windowsSetting.windowX}, y: ${windowsSetting.windowY}`);
     return windowsSetting;
 }
+function loadUserData(){
+    checkSettingConfigExist();
+    let userData = [];
+    const userDataPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.tuduDataName);
+    try{
+        userData = JSON.parse(fs.readFileSync(userDataPath, 'utf-8'))
+    }catch (e){
+    }
+    return userData;
+}
+
+function saveUserData(data){
+    checkSettingConfigExist();
+    const userDataPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.tuduDataName);
+    fs.writeFileSync(userDataPath, JSON.stringify(data));
+}
 
 module.exports = {
     saveMainWinSetting,
-    loadMainWinSetting
+    loadMainWinSetting,
+    saveUserData,
+    loadUserData,
 };

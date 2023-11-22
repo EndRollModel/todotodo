@@ -7,18 +7,17 @@ let settingModal;
     saveSettingListener();
 })()
 
-function saveSettingListener(){
-    document.getElementById('frameSetting').addEventListener('click', ()=>{
+function saveSettingListener() {
+    document.getElementById('frameSetting').addEventListener('click', () => {
         settingModal.show();
     })
-    document.getElementById('saveSettingBtn').addEventListener('click', ()=>{
+    document.getElementById('saveSettingBtn').addEventListener('click', () => {
         const fontSelect = document.getElementById('fontSelect');
         const selectedFont = fontSelect.querySelector('option:checked');
         document.body.style.fontFamily = selectedFont.value;
         settingModal.hide();
     })
 }
-
 
 async function createSettingModal() {
     // 創建 modal 元素
@@ -124,7 +123,7 @@ async function createSettingModal() {
 }
 
 // 字型選項的內容
-async function createFontOption (){
+async function createFontOption() {
     // 創建 h6 元素
     const settingFontTitle = document.createElement('h6');
     settingFontTitle.id = 'settingFontTitle';
@@ -139,7 +138,7 @@ async function createFontOption (){
 
     // 創建 option 元素
     const fontList = await window.font.getFontList();
-    Object.keys(fontList).forEach((e, index)=>{
+    Object.keys(fontList).forEach((e, index) => {
         const optionElement = document.createElement('option');
         if (index === 0) {
             optionElement.setAttribute('selected', 'true');
@@ -152,4 +151,3 @@ async function createFontOption (){
     return [settingFontTitle, selectElement];
 }
 
-//

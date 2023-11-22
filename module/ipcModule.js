@@ -1,5 +1,6 @@
 const {app, ipcMain, BrowserWindow} = require('electron');
 const {appConfig, fontTable} = require('../config/winConfig');
+const fileSysModule = require('../module/fileSysModule');
 const dayjs = require("dayjs");
 // ipcRenderer.invoke <=>  ipcMain.handle()
 // ipcMain.send() => ipcMain.on()
@@ -8,6 +9,7 @@ function setIpcModule() {
     tuduFeatListener(); // 資料
     timeFeatListener(); // 時間處理
     tuduSettingListener(); // 字型
+    userFeatListener(); // 使用者資料
 }
 
 function mainWindowListener(){
@@ -49,6 +51,15 @@ function timeFeatListener (){
     ipcMain.handle('timeFormat', (e, time)=>{
         // return dayjs(time).format('YYYY-MM-DD');
         return dayjs(time).format('HH:mm');
+    })
+}
+
+function userFeatListener(){
+    ipcMain.handle('loadUserData', ()=>{
+        return fileSysModule.loadUserData();
+    })
+    ipcMain.on('saveUserData', (e, data)=>{
+        fileSysModule.saveUserData(data);
     })
 }
 

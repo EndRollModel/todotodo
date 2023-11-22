@@ -1,6 +1,6 @@
 const {BrowserWindow} = require("electron");
 const {appConfig, loadingWindowOptions} = require('../config/winConfig');
-const {saveMainWinSetting, loadMainWinSetting} = require("./fileModule");
+const {saveMainWinSetting, loadMainWinSetting} = require("./fileSysModule");
 
 function setWinModule() {
     const loadingWin = new BrowserWindow(loadingWindowOptions); // loading的頁面
