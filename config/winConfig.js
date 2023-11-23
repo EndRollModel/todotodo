@@ -6,7 +6,6 @@ winConfig.buildConfig = {
     version : '0.0.1'
 }
 
-
 // app之中的參數
 winConfig.appConfig = {
     indexPageFile : 'index.html', // main的html頁面

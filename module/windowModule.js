@@ -17,7 +17,6 @@ function setWinModule() {
             tuduWin.show();
         },1200)
     })
-
     // tuduWin.webContents.send('testSend', `hi?`);
     if (appConfig.openDevTools) { // 是否顯示開發工具
         tuduWin.webContents.openDevTools()

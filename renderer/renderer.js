@@ -43,13 +43,27 @@ let delItemModal; // 刪除時的跳窗
 
 let userData = [];
 
-function addFeatData(type, id, title) {
+/**
+ * 建立群組或是待辦元件的function
+ * @param {number} obj.action 0 = 'create' = 畫面建立時 , 1 = 'join' 後續加入時使用
+ * @param {number} obj.type 要加入的對象type 0 = 群組  1 = 待辦
+ * @param {string} obj.id  要建立的id
+ * @param {string} obj.title 要建立的title
+ * @param {boolean} obj.save save
+ */
+function addFeatData(obj) {
+    // type, id, title, save = false
+    const save = obj.save;
+    if (save === false) return;
+    const type = obj.type;
+    const id = obj.id;
+    const title = obj.title;
+
     const updateData = {};
     switch (type) {
         case 0: // group
             updateData.type = 0
             updateData.title = title
-            updateData.items = [];
             updateData.id = id
             break;
         case 1: // tudu
@@ -57,53 +71,76 @@ function addFeatData(type, id, title) {
             updateData.title = title;
             updateData.time = '99:99';
             updateData.id = id;
+            updateData.targetId = -1;
             break;
     }
     userData.push(updateData);
-    window.userFeat.saveUserData(userData);
 }
 
-function pushGroupData(targetId, id, type, title, time, memo = null) {
-    const selectIndex = userData.findIndex((e) => e.id === targetId);
-    if (selectIndex !== -1) {
-        const item = {}
-        switch (type) {
-            case 1:
-            default:
-                item.type = 1;
-                item.id = id;
-                item.title = title;
-                item.time = time;
-                break;
-        }
-        userData[selectIndex].items.push(item);
-        window.userFeat.saveUserData(userData);
+/**
+ *
+ * @param {String}  obj.targetId 若指定則將此tudu放入置群組中
+ * @param {String}  obj.id 此tuduitem id
+ * @param {number}  obj.type 此tuduitem type 1 = 待辦
+ * @param {String}  obj.title 標題
+ * @param {String}  obj.time 如有記憶時間
+ * @param {String}  obj.checked 是否已完成 目前僅建立需求 都會是無
+ * @param {String | undefined}  obj.memo 備註 目前還不需要 但僅記錄用
+ * @param {String}  obj.save 是否存檔
+ */
+function pushGroupData(obj) {
+    // action, targetId, id, type, title, time, memo = null,checked save = false
+    const save = obj.save;
+    if (save === false) return;
+    const targetId = obj.targetId;
+    const type = obj.type;
+    const id = obj.id;
+    const title = obj.title;
+    const time = obj.time;
+    const checked = Object.hasOwn(obj, 'checked') ? obj.checked : false;
+
+    const item = {}
+    switch (type) {
+        case 1:
+        default:
+            item.type = 1;
+            item.id = id;
+            item.title = title;
+            item.time = time;
+            item.checked = checked;
+            item.targetId = targetId;
+            break;
     }
+    userData.push(item);
 }
 
+/**
+ * 讀取資料建立畫面上元素的方法
+ * @return {Promise<void>}
+ */
 async function createUserElem() {
     if (userData.length === 0) return;
     userData.forEach((elem) => {
         switch (elem.type) {
             case 0: // group
                 addGroupItem(elem.title)
-                if (elem.items.length > 0) {
-                    elem.items.forEach((item) => {
-                        const groupIndex = elem.id.replace('itemBoxId', '')
-                        addTuduItem(groupIndex, item.title, item.id);
-                    })
-                }
                 break;
-            case 1: // tudu
-                addTuduItem(-1, elem.title, elem.id)
+            case 1: // tuduitem
+                let groupId;
+                if (elem.targetId !== -1) {
+                    groupId = elem.targetId.replace('itemBoxId', '');
+                } else {
+                    groupId = -1;
+                }
+                addTuduItem(groupId, elem.title, elem.id);
                 break;
         }
-    })
-    window.userFeat.saveUserData(target);
+    });
 }
 
 
 window.onload = async function () {
+    // 讀取userData
     const loadUserData = await window.userFeat.loadUserData();
     if (loadUserData.length > 0) {
         userData.push(...loadUserData)
@@ -127,8 +164,9 @@ window.onload = async function () {
             addFeatNameInput.placeholder = '內容不能為空白'
             return;
         }
-        addGroupItem(addFeatNameInput.value);
+        addGroupItem(addFeatNameInput.value, true);
         addFeatNameInput.value = ''; // 清除
+        updateUserData();
         addFeatModal.hide();
     });
     // modal tudu新增按鈕
@@ -138,8 +176,9 @@ window.onload = async function () {
             addFeatNameInput.placeholder = '內容不能為空白'
             return;
         }
-        addTuduItem(-1, addFeatNameInput.value);
+        addTuduItem(-1, addFeatNameInput.value, null, true);
         addFeatNameInput.value = ''; // 清除
+        updateUserData();
         addFeatModal.hide();
     })
 
@@ -153,9 +192,10 @@ window.onload = async function () {
             addTuduInput.placeholder = '內容不能為空白'
             return;
         }
-        addTuduItem(addTuduHidden.getAttribute('boxIndex'), addTuduInput.value);
+        addTuduItem(addTuduHidden.getAttribute('boxIndex'), addTuduInput.value, null, true);
         addTuduHidden.removeAttribute('boxIndex');
         addTuduInput.value = ''; // 清除
+        updateUserData();
         addTuduItemModel.hide();
     })
     // 編輯名稱 edit
@@ -167,18 +207,19 @@ window.onload = async function () {
             editTuduInput.placeholder = '內容不能為空白'
             return;
         }
-        editItemName(editTuduHidden.getAttribute('target'), editTuduInput.value)
+        editItemName(editTuduHidden.getAttribute('target'), editTuduInput.value);
+        // updateUserData();
         editNameModal.hide();
     })
     // 刪除 del
     delItemHidden = document.getElementById('delItemHidden')
     delItemBtn = document.getElementById('delItemBtn');
     delItemBtn.addEventListener('click', () => {
-        delItem(document.getElementById('delItemHidden').getAttribute('target'))
+        delItem(document.getElementById('delItemHidden').getAttribute('target'));
+        // updateUserData();
         delItemModal.hide();
     })
     await createUserElem();
-    setUserDataProxy();
 }
 
 function editItemName(target, text) {
@@ -194,9 +235,9 @@ function delItem(target) {
 /**
  * 建立群組用的function
  * @param title {String}  group中顯示的title
- * @param objectId {String}  如果資料是從外部來建立的元素 則將id傳入
+ * @param save {boolean}
  */
-function addGroupItem(title = null, objectId = null) {
+function addGroupItem(title = null, save = false) {
     if (title == null) {
         title = document.getElementById('addFeatName').value;
     }
@@ -210,9 +251,9 @@ function addGroupItem(title = null, objectId = null) {
             itemIndex++;
         }
     }
-    if (objectId !== null) {
-        itemIndex = objectId.replace('itemBoxId', '');
-    }
+    // if (objectId !== null) {
+    //     itemIndex = objectId.replace('itemBoxId', '');
+    // }
 
     // 最外圍的itemBox
     const itemBox = document.createElement('div');
@@ -306,7 +347,12 @@ function addGroupItem(title = null, objectId = null) {
     itemBox.appendChild(groupItem);
     itemBox.appendChild(collapseBlock);
     itemBlock[0].appendChild(itemBox);
-    addFeatData(0, itemBox.id, groupTitle.textContent)
+    addFeatData({
+        type: 0,
+        save: save,
+        id: itemBox.id,
+        title: groupTitle.textContent,
+    });
 }
 
 /**
@@ -314,8 +360,9 @@ function addGroupItem(title = null, objectId = null) {
  * @param boxIndex {String | number} 如果在Group內 需傳入是在第幾個的Group內
  * @param title {String}
  * @param objectId {String}
+ * @param save
  */
-async function addTuduItem(boxIndex = null, title, objectId = null) {
+async function addTuduItem(boxIndex = null, title, objectId = null, save = false) {
     const checkIndex = parseInt(boxIndex)
     const isGroup = !(isNaN(checkIndex) || checkIndex === -1)
 
@@ -407,9 +454,25 @@ async function addTuduItem(boxIndex = null, title, objectId = null) {
             new bootstrap.Collapse(collapseBlock).show();
         }
         collapseBlock.appendChild(tuduItem)
-        pushGroupData(`itemBoxId${checkIndex}`, tuduItem.id, 1, tuduTitle.textContent, tuduTime.textContent); // 新增在群組中tuduItem的資料
+        pushGroupData({
+            save: save,
+            targetId: `itemBoxId${checkIndex}`,
+            id: tuduItem.id,
+            type: 1,
+            title: tuduTitle.textContent,
+            time: tuduTime.textContent,
+        }); // 新增在群組中tuduItem的資料
     } else {
         itemBlock[0].appendChild(tuduItem);
-        addFeatData(1, tuduItem.id, tuduTitle.textContent); // 新增在外部的tuduItem資料
+        addFeatData({
+            save: save,
+            type: 1,
+            id: tuduItem.id,
+            title: tuduTitle.textContent,
+        }); // 新增在外部的tuduItem資料
     }
+}
+
+function updateUserData() {
+    window.userFeat.saveUserData(userData);
 }

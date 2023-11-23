@@ -5,7 +5,6 @@ const path = require('path');
 
 function checkSettingConfigExist() {
     const userDataPath = `${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`
-   console.log(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`);
     if (!fs.existsSync(userDataPath)) {
         fs.mkdirSync(userDataPath);
     }
@@ -59,6 +58,7 @@ function loadUserData(){
 }
 
 function saveUserData(data){
+    console.log('saved')
     checkSettingConfigExist();
     const userDataPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.tuduDataName);
     fs.writeFileSync(userDataPath, JSON.stringify(data));
