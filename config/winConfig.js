@@ -3,7 +3,7 @@ const path = require('path');
 
 //
 winConfig.buildConfig = {
-    version : '0.0.1'
+    version : '0.1.3.2'
 }
 
 // app之中的參數
@@ -66,6 +66,7 @@ winConfig.saveDataOption = {
     saveModel: 'userData',
     saveDir: 'tudu',
     settingName: 'settings.json',
+    userSettingName: 'userSetting.json',
     tuduDataName: 'tuduData.json',
 }
 

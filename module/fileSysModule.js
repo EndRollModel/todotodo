@@ -64,9 +64,28 @@ function saveUserData(data){
     fs.writeFileSync(userDataPath, JSON.stringify(data));
 }
 
+function loadUserSetting(){
+    checkSettingConfigExist();
+    let userSetting = {};
+    const userSettingPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.userSettingName);
+    try {
+        userSetting = JSON.parse(fs.readFileSync(userSettingPath, 'utf-8'))
+    }catch (e){
+    }
+    return userSetting;
+}
+
+function saveUserSetting(data){
+    checkSettingConfigExist();
+    const userSettingPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.userSettingName);
+    fs.writeFileSync(userSettingPath, JSON.stringify(data))
+}
+
 module.exports = {
     saveMainWinSetting,
     loadMainWinSetting,
+    loadUserSetting,
+    saveUserSetting,
     saveUserData,
     loadUserData,
 };

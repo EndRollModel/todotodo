@@ -10,6 +10,7 @@ function setIpcModule() {
     timeFeatListener(); // 時間處理
     tuduSettingListener(); // 字型
     userFeatListener(); // 使用者資料
+    userSetting(); // 使用這的設定資料
 }
 
 function mainWindowListener(){
@@ -60,6 +61,15 @@ function userFeatListener(){
     })
     ipcMain.on('saveUserData', (e, data)=>{
         fileSysModule.saveUserData(data);
+    })
+}
+
+function userSetting (){
+    ipcMain.handle('loadUserSetting', ()=>{
+        return fileSysModule.loadUserSetting()
+    });
+    ipcMain.on('saveUserSetting', (e, data)=>{
+        fileSysModule.saveUserSetting(data)
     })
 }
 

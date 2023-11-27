@@ -1,11 +1,24 @@
 // page style with config in here
 //Cubic_11,NaikaiFont,GenJyuuGothic
 let settingModal;
+let userSetting;
 
 (async function () {
+    await loadSetting();
     await createSettingModal();
     saveSettingListener();
 })()
+
+async function loadSetting() {
+    userSetting = await window.setting.loadUserSetting()
+    // {
+    //  font : ?
+    //  color : ?
+    // }
+    if (Object.hasOwn(userSetting, 'fontFamily')) {
+        document.body.style.fontFamily = userSetting.fontFamily;
+    }
+}
 
 function saveSettingListener() {
     document.getElementById('frameSetting').addEventListener('click', () => {
@@ -15,8 +28,13 @@ function saveSettingListener() {
         const fontSelect = document.getElementById('fontSelect');
         const selectedFont = fontSelect.querySelector('option:checked');
         document.body.style.fontFamily = selectedFont.value;
+        //
+        userSetting.fontFamily = selectedFont.value;
+        window.setting.saveUserSetting(userSetting);
+        //
         settingModal.hide();
     })
+
 }
 
 async function createSettingModal() {
@@ -140,8 +158,14 @@ async function createFontOption() {
     const fontList = await window.font.getFontList();
     Object.keys(fontList).forEach((e, index) => {
         const optionElement = document.createElement('option');
-        if (index === 0) {
-            optionElement.setAttribute('selected', 'true');
+        if (Object.hasOwn(userSetting, 'fontFamily')) {
+            if (userSetting.fontFamily === e) {
+                optionElement.setAttribute('selected', 'true')
+            }
+        } else {
+            if (index === 0) {
+                optionElement.setAttribute('selected', 'true');
+            }
         }
         optionElement.value = e
         optionElement.textContent = fontList[e];

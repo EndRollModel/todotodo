@@ -132,7 +132,7 @@ async function createUserElem() {
                 } else {
                     groupId = -1;
                 }
-                addTuduItem(groupId, elem.title, elem.id);
+                addTuduItem(groupId, elem.title, elem.id, elem.checked, elem.time);
                 break;
         }
     });
@@ -176,7 +176,7 @@ window.onload = async function () {
             addFeatNameInput.placeholder = '內容不能為空白'
             return;
         }
-        addTuduItem(-1, addFeatNameInput.value, null, true);
+        addTuduItem(-1, addFeatNameInput.value, null, false, null, true);
         addFeatNameInput.value = ''; // 清除
         updateUserData();
         addFeatModal.hide();
@@ -192,7 +192,7 @@ window.onload = async function () {
             addTuduInput.placeholder = '內容不能為空白'
             return;
         }
-        addTuduItem(addTuduHidden.getAttribute('boxIndex'), addTuduInput.value, null, true);
+        addTuduItem(addTuduHidden.getAttribute('boxIndex'), addTuduInput.value, null, false, null, true);
         addTuduHidden.removeAttribute('boxIndex');
         addTuduInput.value = ''; // 清除
         updateUserData();
@@ -222,14 +222,27 @@ window.onload = async function () {
     await createUserElem();
 }
 
+function updateItemChecked(targetId, checked, time) {
+    const targetIndex = userData.findIndex(e => e.id === targetId);
+    userData[targetIndex].checked = checked;
+    userData[targetIndex].time = time;
+    updateUserData();
+}
+
 function editItemName(target, text) {
     const targetItem = document.querySelector(`${target}`);
     targetItem.textContent = text;
+    const itemIndex = userData.findIndex(e => e.id === target.replace(/[#.]/g, ''));
+    userData[itemIndex].title = text;
+    updateUserData();
 }
 
 function delItem(target) {
     const targetItem = document.querySelector(`${target}`);
     targetItem.remove();
+    const itemIndex = userData.findIndex(e=> e.id === target.replace(/[#.]/g, ''))
+    userData.splice(itemIndex, 1);
+    updateUserData();
 }
 
 /**
@@ -360,9 +373,11 @@ function addGroupItem(title = null, save = false) {
  * @param boxIndex {String | number} 如果在Group內 需傳入是在第幾個的Group內
  * @param title {String}
  * @param objectId {String}
- * @param save
+ * @param checked {boolean}
+ * @param time {String}
+ * @param save {boolean}
  */
-async function addTuduItem(boxIndex = null, title, objectId = null, save = false) {
+async function addTuduItem(boxIndex = null, title, objectId = null, checked = false, time = '99:99', save = false) {
     const checkIndex = parseInt(boxIndex)
     const isGroup = !(isNaN(checkIndex) || checkIndex === -1)
 
@@ -392,12 +407,20 @@ async function addTuduItem(boxIndex = null, title, objectId = null, save = false
 
     const tuduTime = document.createElement('div');
     tuduTime.className = 'tudu-item-time';
-    tuduTime.style.color = 'transparent'
-    tuduTime.textContent = '99:99'
+    if (time === '99:99' || time == null) {
+        tuduTime.style.color = 'transparent'
+        tuduTime.textContent = '99:99'
+    } else {
+        tuduTime.style.color = 'red'
+        tuduTime.textContent = time;
+    }
 
     const tuduCheck = document.createElement('input');
     tuduCheck.type = 'checkbox';
     tuduCheck.className = 'tudu-item-check';
+    if (checked) {
+        tuduCheck.checked = true
+    }
     tuduCheck.addEventListener('change', async (e) => {
         if (e.target.checked) {
             tuduTime.textContent = `${await window.timeFeat.timeFormat(Date.now())}`;
@@ -406,6 +429,7 @@ async function addTuduItem(boxIndex = null, title, objectId = null, save = false
             tuduTime.textContent = '99:99'
             tuduTime.style.color = 'transparent'
         }
+        updateItemChecked(tuduItem.id, e.target.checked, tuduTime.textContent);
     })
 
     const tuduItemOption = document.createElement('div');

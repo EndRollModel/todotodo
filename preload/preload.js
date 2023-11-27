@@ -37,6 +37,15 @@ contextBridge.exposeInMainWorld(`userFeat`,{
     }
 })
 
+contextBridge.exposeInMainWorld('setting', {
+    loadUserSetting : () => {
+        return ipcRenderer.invoke('loadUserSetting');
+    },
+    saveUserSetting : (data) =>{
+        return ipcRenderer.send('saveUserSetting', data);
+    }
+})
+
 
 let closeAppBtn;
 let zoomOutBtn;
