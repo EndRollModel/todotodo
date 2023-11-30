@@ -207,7 +207,7 @@ window.onload = async function () {
             editTuduInput.placeholder = '內容不能為空白'
             return;
         }
-        editItemName(editTuduHidden.getAttribute('target'), editTuduInput.value);
+        editItemName(editTuduHidden.getAttribute('target'), editTuduHidden.getAttribute('parent'), editTuduInput.value);
         // updateUserData();
         editNameModal.hide();
     })
@@ -229,10 +229,10 @@ function updateItemChecked(targetId, checked, time) {
     updateUserData();
 }
 
-function editItemName(target, text) {
+function editItemName(target, parent, text) {
     const targetItem = document.querySelector(`${target}`);
     targetItem.textContent = text;
-    const itemIndex = userData.findIndex(e => e.id === target.replace(/[#.]/g, ''));
+    const itemIndex = userData.findIndex(e => e.id === parent.replace(/[#.]/g, ''));
     userData[itemIndex].title = text;
     updateUserData();
 }
@@ -240,7 +240,7 @@ function editItemName(target, text) {
 function delItem(target) {
     const targetItem = document.querySelector(`${target}`);
     targetItem.remove();
-    const itemIndex = userData.findIndex(e=> e.id === target.replace(/[#.]/g, ''))
+    const itemIndex = userData.findIndex(e => e.id === target.replace(/[#.]/g, ''))
     userData.splice(itemIndex, 1);
     updateUserData();
 }
@@ -315,6 +315,7 @@ function addGroupItem(title = null, save = false) {
     optionsEdit.addEventListener('click', () => {
         document.getElementById('editTuduInput').value = groupTitle.textContent; // 把值設定上去
         document.getElementById('editTuduHidden').setAttribute('target', `.group-title-${itemIndex}`);
+        document.getElementById('editTuduHidden').setAttribute('parent', `#${itemBox.id}`);
         // new bootstrap.Modal(document.getElementById('editName')).show()
         editNameModal.show();
     })
@@ -328,7 +329,7 @@ function addGroupItem(title = null, save = false) {
     optionsDel.textContent = '刪除';
     optionsDel.addEventListener('click', () => {
         document.getElementById('delTitleText').textContent = `確定要刪除「${groupTitle.textContent}」嗎？`
-        document.getElementById('delItemHidden').setAttribute('target', `#itemBoxId${itemIndex}`)
+        document.getElementById('delItemHidden').setAttribute('target', `#${itemBox.id}`)
         delItemModal.show();
     })
     // 裝下方可摺疊的區塊
