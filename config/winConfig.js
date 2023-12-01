@@ -3,7 +3,7 @@ const path = require('path');
 
 //
 winConfig.buildConfig = {
-    version : '0.1.3.2'
+    version : '0.1.3.5'
 }
 
 // app之中的參數
@@ -40,6 +40,7 @@ winConfig.loadingWindowOptions = {
     movable: false, // 能否移動視窗
     maximizable: false, //禁止最大化
     autoHideMenuBar: true, // 隱藏工具列
+    delayTime : 1400, // 讀取的延遲時間
 }
 
 // 視窗中的設定

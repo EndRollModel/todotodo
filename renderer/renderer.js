@@ -164,7 +164,7 @@ window.onload = async function () {
             addFeatNameInput.placeholder = '內容不能為空白'
             return;
         }
-        addGroupItem(addFeatNameInput.value, true);
+        addGroupItem(addFeatNameInput.value, null ,true);
         addFeatNameInput.value = ''; // 清除
         updateUserData();
         addFeatModal.hide();
@@ -207,7 +207,7 @@ window.onload = async function () {
             editTuduInput.placeholder = '內容不能為空白'
             return;
         }
-        editItemName(editTuduHidden.getAttribute('target'), editTuduHidden.getAttribute('parent'), editTuduInput.value);
+        editItemName(editTuduHidden.getAttribute('target'), editTuduHidden.getAttribute('parentItem'), editTuduInput.value);
         // updateUserData();
         editNameModal.hide();
     })
@@ -232,6 +232,7 @@ function updateItemChecked(targetId, checked, time) {
 function editItemName(target, parent, text) {
     const targetItem = document.querySelector(`${target}`);
     targetItem.textContent = text;
+    console.log(parent)
     const itemIndex = userData.findIndex(e => e.id === parent.replace(/[#.]/g, ''));
     userData[itemIndex].title = text;
     updateUserData();
@@ -248,9 +249,10 @@ function delItem(target) {
 /**
  * 建立群組用的function
  * @param title {String}  group中顯示的title
+ * @param id {String}
  * @param save {boolean}
  */
-function addGroupItem(title = null, save = false) {
+function addGroupItem(title = null, id = null, save = false) {
     if (title == null) {
         title = document.getElementById('addFeatName').value;
     }
@@ -264,14 +266,13 @@ function addGroupItem(title = null, save = false) {
             itemIndex++;
         }
     }
-    // if (objectId !== null) {
-    //     itemIndex = objectId.replace('itemBoxId', '');
-    // }
+    if(id != null){
+        itemIndex = parseInt(id.replace('itemBoxId', ''))
+    }
 
     // 最外圍的itemBox
     const itemBox = document.createElement('div');
     itemBox.className = `item-box`;
-
     itemBox.id = `itemBoxId${itemIndex}`
     // 內圈groupItem
     const groupItem = document.createElement('div');
@@ -315,7 +316,7 @@ function addGroupItem(title = null, save = false) {
     optionsEdit.addEventListener('click', () => {
         document.getElementById('editTuduInput').value = groupTitle.textContent; // 把值設定上去
         document.getElementById('editTuduHidden').setAttribute('target', `.group-title-${itemIndex}`);
-        document.getElementById('editTuduHidden').setAttribute('parent', `#${itemBox.id}`);
+        document.getElementById('editTuduHidden').setAttribute('parentItem', `#${itemBox.id}`);
         // new bootstrap.Modal(document.getElementById('editName')).show()
         editNameModal.show();
     })
@@ -391,6 +392,7 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
             itemIndex++;
         }
     }
+
     if (objectId !== null) {
         itemIndex = objectId.replace('tuduItemId', '');
     }
@@ -449,6 +451,7 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
     optionsEdit.addEventListener('click', () => {
         document.getElementById('editTuduInput').value = tuduTitle.textContent; // 把值設定上去
         document.getElementById('editTuduHidden').setAttribute('target', `.tudu-item-title-${itemIndex}`);
+        document.getElementById('editTuduHidden').setAttribute('parentItem', `#${tuduItem.id}`);
         // new bootstrap.Modal(document.getElementById('editName')).show()
         editNameModal.show();
     })
@@ -457,7 +460,8 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
     optionsDel.textContent = '刪除';
     optionsDel.addEventListener('click', () => {
         document.getElementById('delTitleText').textContent = `確定要刪除「${tuduTitle.textContent}」嗎？`
-        document.getElementById('delItemHidden').setAttribute('target', `#tuduItemId${itemIndex}`)
+        // document.getElementById('delItemHidden').setAttribute('target', `#tuduItemId${itemIndex}`)
+        document.getElementById('delItemHidden').setAttribute('target', `#${tuduItem.id}`)
         delItemModal.show();
     })
 
@@ -501,3 +505,4 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
 function updateUserData() {
     window.userFeat.saveUserData(userData);
 }
+

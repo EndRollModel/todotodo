@@ -15,7 +15,7 @@ function setWinModule() {
         setTimeout(()=>{
             loadingWin.close();
             tuduWin.show();
-        },1200)
+        }, loadingWindowOptions.delayTime)
     })
     // tuduWin.webContents.send('testSend', `hi?`);
     if (appConfig.openDevTools) { // 是否顯示開發工具
