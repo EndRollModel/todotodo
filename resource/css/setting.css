@@ -57,6 +57,12 @@ body {
     box-shadow: 0 1px 0 #626262;
 }
 
+.window-frame-set-feat{
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+}
+
 #frameZoomOut {
     /*縮小按鈕*/
     display: none;
@@ -97,9 +103,34 @@ body {
     margin: 0 6px;
     width: 14px;
 }
+
+#frameSetting > img{
+    transform: rotate(0deg);
+    transition: transform 0.5s ease-out;
+}
+
 #frameSetting > img:hover {
     border-radius: 50px;
-    background-color: rgba(0, 0, 0, 0.80);
+    transform: rotate(180deg);
+}
+
+#frameOnTop{
+    -webkit-app-region: no-drag;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    margin: 0 6px;
+}
+
+#frameOnTop > img{
+    transform: rotate(0deg);
+    transition: transform 0.5s ease-out;
+}
+
+#frameOnTop > img:hover{
+    border-radius: 50px;
+    transform: rotate(45deg);
 }
 
 #addFeatBtn {
@@ -190,14 +221,14 @@ body {
 }
 
 
-
 .dropdown-menu {
     /*更多選單*/
     background-color: rgba(255, 255, 255, 0.8);
     border-color: #ffd6de;
 }
 
-.dropdown-item:hover {
+.dropdown-item:hover,
+.dropdown-item:active{
     background-color: rgba(255, 214, 222, 0.5);
 }
 

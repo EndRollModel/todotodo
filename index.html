@@ -16,9 +16,21 @@
 </head>
 <body>
 <div class="window-frame">
-    <div id="frameSetting"><img src="resource/img/setting.svg" alt=""></div>
-    <div id="frameZoomOut"></div>
-    <div id="frameClose"></div>
+    <div class="window-frame-set-feat">
+        <div id="frameSetting"><img src="resource/img/setting.svg" alt="" class="dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a id="settingFontBtn" class="dropdown-item">設定字型</a></li>
+                <li><a id="settingALLCancelBtn" class="dropdown-item">取消全勾選</a></li>
+                <li><a id="settingAppInfoBtn" class="dropdown-item">關於程式</a></li>
+<!--                <li><a id="settingBgColorBtn" class="dropdown-item"></a></li>-->
+            </ul>
+        </div>
+        <div id="frameOnTop"><img src="resource/img/pin.svg" alt=""></div>
+    </div>
+    <div class="window-frame-win-feat">
+        <div id="frameZoomOut"></div>
+        <div id="frameClose"></div>
+    </div>
 </div>
 <div class="body-block">
     <div id="addFeatBtn" data-bs-toggle="modal" data-bs-target="#addFeatModal">
@@ -121,6 +133,48 @@
                     <p id="delItemHidden" hidden="hidden"></p>
                     <div class="modal-btn-group">
                         <button id="delItemBtn" type="button">確認</button>
+                        <button type="button" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  版本資訊  -->
+    <div class="modal fade" id="versionModal" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="versionModalTitle">版本資訊</h5>
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                </div>
+                <div class="modal-body">
+                    <div id="versionModalMsg"></div>
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-btn-group">
+                        <button type="button" data-bs-dismiss="modal">關閉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 確認 -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalTitle">刪除</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 style="text-align: center" id="confirmModalMsg"></h6>
+                </div>
+                <div hidden="hidden" id="confirmHidden"></div>
+                <div class="modal-footer">
+                    <div class="modal-btn-group">
+                        <button id="confirmCheckBtn" type="button">確認</button>
                         <button type="button" data-bs-dismiss="modal">取消</button>
                     </div>
                 </div>

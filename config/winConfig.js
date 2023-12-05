@@ -1,13 +1,9 @@
 const winConfig = {};
 const path = require('path');
 
-//
-winConfig.buildConfig = {
-    version : '0.1.3.5'
-}
-
 // app之中的參數
 winConfig.appConfig = {
+    version : '0.1.3.6',
     indexPageFile : 'index.html', // main的html頁面
     loadingPageFile : 'loading.html', // 讀取中的html頁面
     openDevTools : false, // 是否開啟除錯模式
@@ -41,6 +37,7 @@ winConfig.loadingWindowOptions = {
     maximizable: false, //禁止最大化
     autoHideMenuBar: true, // 隱藏工具列
     delayTime : 1400, // 讀取的延遲時間
+    alwaysOnTop : true, // 是否置頂
 }
 
 // 視窗中的設定
@@ -57,6 +54,7 @@ winConfig.mainWindowOptions = {
     movable: true, // 能否移動視窗
     maximizable: false, //禁止最大化
     autoHideMenuBar: true, // 隱藏工具列
+    alwaysOnTop : false, // 是否置頂
     webPreferences: {
         preload: path.join(__dirname, '../preload/preload.js')
     }

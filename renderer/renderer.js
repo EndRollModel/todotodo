@@ -21,7 +21,7 @@ let addFeatBtn;
 let tuduList;
 let itemBlock;
 
-//modal
+// elem
 let addGroupBtn; // 新增群組的按鈕  (feat)
 let addFeatNameInput; // 輸入名稱的input內容 (feat)
 let addTuduBtn; // 新增待辦事項的按鈕 (tuduItem)

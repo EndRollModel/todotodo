@@ -5,6 +5,7 @@ const path = require('path');
 
 function checkSettingConfigExist() {
     const userDataPath = `${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`
+    console.log(userDataPath)
     if (!fs.existsSync(userDataPath)) {
         fs.mkdirSync(userDataPath);
     }
@@ -27,6 +28,7 @@ function loadMainWinSetting() {
         windowsSetting.height = settings.windowHeight;
         windowsSetting.x = settings.windowX;
         windowsSetting.y = settings.windowY;
+        windowsSetting.alwaysOnTop = settings.alwaysOnTop;
         console.log(`讀取：視窗寬度:${windowsSetting.width}, 視窗高度:${windowsSetting.height}`);
         console.log(`位置：x:${windowsSetting.x}, y:${windowsSetting.y}`);
     } catch (error) {
@@ -43,6 +45,7 @@ function getWinSetting(browser) {
     windowsSetting.windowHeight = height;
     windowsSetting.windowX = x;
     windowsSetting.windowY = y;
+    windowsSetting.alwaysOnTop = browser.isAlwaysOnTop();
     console.log(`儲存： width : ${windowsSetting.windowWidth}, height: ${windowsSetting.windowHeight}, x; ${windowsSetting.windowX}, y: ${windowsSetting.windowY}`);
     return windowsSetting;
 }

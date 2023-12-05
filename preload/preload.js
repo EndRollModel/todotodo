@@ -7,42 +7,64 @@ contextBridge.exposeInMainWorld('versions', {
     electron: () => process.versions.electron,
 });
 
-contextBridge.exposeInMainWorld(`tuduFeat`,{
-    update : (data)=>{
+
+contextBridge.exposeInMainWorld(`tuduFeat`, {
+    update: (data) => {
         return ipcRenderer.invoke("updateTudu", data);
     },
-    loadData : ()=>{
+    loadData: () => {
         return ipcRenderer.invoke('loadTudu');
     },
 });
 
+// 取得已安裝的字型列表內容
 contextBridge.exposeInMainWorld('font', {
-    getFontList : ()=>{
+    getFontList: () => {
         return ipcRenderer.invoke('getFontList');
     }
 })
 
-contextBridge.exposeInMainWorld(`timeFeat`,{
-    timeFormat : (time)=>{
+// 取得目前的時間紀錄
+contextBridge.exposeInMainWorld(`timeFeat`, {
+    timeFormat: (time) => {
         return ipcRenderer.invoke('timeFormat', time);
     }
 })
 
-contextBridge.exposeInMainWorld(`userFeat`,{
-    loadUserData : ()=>{
+// 使用者資訊
+contextBridge.exposeInMainWorld(`userFeat`, {
+    loadUserData: () => {
         return ipcRenderer.invoke('loadUserData');
     },
-    saveUserData : (data) =>{
+    saveUserData: (data) => {
         return ipcRenderer.send('saveUserData', data);
     }
 })
 
+// 字型等設定
 contextBridge.exposeInMainWorld('setting', {
-    loadUserSetting : () => {
+    loadUserSetting: () => {
         return ipcRenderer.invoke('loadUserSetting');
     },
-    saveUserSetting : (data) =>{
+    saveUserSetting: (data) => {
         return ipcRenderer.send('saveUserSetting', data);
+    }
+})
+
+// 關於更新資料
+contextBridge.exposeInMainWorld('appInfo', {
+    version: () => {
+        return ipcRenderer.invoke('version');
+    },
+})
+
+// 置頂
+contextBridge.exposeInMainWorld('pageSetting', {
+    setOnTop: () => {
+        return ipcRenderer.invoke('setOnTop');
+    },
+    getOnTop: ()=>{
+        return ipcRenderer.invoke('getOnTop');
     }
 })
 

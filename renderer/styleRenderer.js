@@ -1,47 +1,127 @@
 // page style with config in here
 //Cubic_11,NaikaiFont,GenJyuuGothic
-let settingModal;
 let userSetting;
+let appInfoModal;
+let confirmModal;
+
+const modalList = {
+    font: {name: 'fontSettingModal', object: ''},
+    bgColor: {name: 'bgColorSettingModal', object: ''},
+};
 
 (async function () {
     await loadSetting();
-    await createSettingModal();
+    await createSettingModal(modalList.font);
     saveSettingListener();
-})()
+})();
+
 
 async function loadSetting() {
     userSetting = await window.setting.loadUserSetting()
-    // {
-    //  font : ?
-    //  color : ?
-    // }
+    // 設定字型
     if (Object.hasOwn(userSetting, 'fontFamily')) {
         document.body.style.fontFamily = userSetting.fontFamily;
     }
+    // 設定讀取時大頭針的圖案
+    const onTopState = await window.pageSetting.getOnTop();
+    const pinState = document.querySelector('#frameOnTop img');
+    if (onTopState === true) {
+        pinState.src = './resource/img/pin-fill.svg';
+    } else {
+        pinState.src = './resource/img/pin.svg';
+    }
+    // 設定appInfo的modal
+    appInfoModal = new bootstrap.Modal(document.getElementById('versionModal'))
+    // 確認用的
+    confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'))
 }
 
 function saveSettingListener() {
-    document.getElementById('frameSetting').addEventListener('click', () => {
-        settingModal.show();
+    // document.getElementById('frameSetting').addEventListener('click', () => {
+    //     settingModal.show();
+    // })
+    document.getElementById('settingFontBtn').addEventListener('click', () => {
+        // 設定字型
+        modalList.font.object.show();
     })
-    document.getElementById('saveSettingBtn').addEventListener('click', () => {
-        const fontSelect = document.getElementById('fontSelect');
-        const selectedFont = fontSelect.querySelector('option:checked');
-        document.body.style.fontFamily = selectedFont.value;
-        //
-        userSetting.fontFamily = selectedFont.value;
-        window.setting.saveUserSetting(userSetting);
-        //
-        settingModal.hide();
+    document.getElementById('settingALLCancelBtn').addEventListener("click", () => {
+        //全部取消
+        const msgBox = document.getElementById('confirmModalMsg')
+        msgBox.textContent = '是否取消所有打勾的內容？';
+        const actionElem = document.getElementById('confirmHidden');
+        actionElem.setAttribute('action', 'allCheckCancel');
+        confirmModal.show();
+    })
+    document.getElementById('frameOnTop').addEventListener('click', async () => {
+        // 置頂
+        const setOnTop = await window.pageSetting.setOnTop();
+        console.log(setOnTop)
+        const pinState = document.querySelector('#frameOnTop img');
+        if (setOnTop === true) {
+            pinState.src = './resource/img/pin-fill.svg';
+        } else {
+            pinState.src = './resource/img/pin.svg';
+        }
+    })
+    document.getElementById('settingAppInfoBtn').addEventListener('click', async () => {
+        // app的資訊
+        const {version, info} = await window.appInfo.version();
+        const msgBox = document.getElementById('versionModalMsg');
+        const versionNumTitle = document.createElement('h6');
+        msgBox.innerHTML = '';
+        versionNumTitle.textContent = `版本:${version}`;
+        const versionInfo = document.createElement('div');
+        versionInfo.innerHTML = `${info.date}<hr>${info.info}`;
+        msgBox.append(versionNumTitle);
+        msgBox.append(versionInfo);
+        appInfoModal.show();
     })
 
+    document.getElementById('confirmCheckBtn').addEventListener('click', (e)=>{
+       // 認證的動作
+        const actionValue = e.target.getAttribute('action')
+        console.log(actionValue)
+        console.log('按了啦')
+        switch (actionValue){
+            case 'allCheckCancel':
+                // 取消所有內容
+                document.querySelectorAll('[type=checkbox]').forEach((e)=>{
+                    if (e.target.checked) {
+                        e.target.checked = false;
+                    }
+                });
+                confirmModal.hide();
+                break;
+            default:
+                break;
+        }
+    });
+    // document.getElementById('saveSettingBtn').addEventListener('click', () => {
+    //     const fontSelect = document.getElementById('fontSelect');
+    //     const selectedFont = fontSelect.querySelector('option:checked');
+    //     document.body.style.fontFamily = selectedFont.value;
+    //     //
+    //     userSetting.fontFamily = selectedFont.value;
+    //     window.setting.saveUserSetting(userSetting);
+    //     //
+    //     settingModal.hide();
+    // })
 }
 
-async function createSettingModal() {
+async function createSettingModal(type) {
     // 創建 modal 元素
+    let thisModal;
     const modal = document.createElement('div');
     modal.className = 'modal fade';
-    modal.id = 'settingModal';
+    switch (type.name) {
+        case modalList.font.name:
+            modal.id = modalList.font.name;
+            break
+        case modalList.bgColor.name:
+            modal.id = modalList.bgColor.name;
+            break
+    }
+    // modal.id = 'settingModal';
     modal.setAttribute('tabindex', '-1');
     modal.setAttribute('data-bs-backdrop', 'static');
     modal.setAttribute('aria-hidden', 'true');
@@ -92,7 +172,13 @@ async function createSettingModal() {
     // 添加 h6 和 select 到 modal-body-option
     // modalBodyOption.appendChild(settingFontTitle);
     // modalBodyOption.appendChild(selectElement);
-    modalBodyOption.append(...await createFontOption());
+    switch (type.name) {
+        case modalList.font.name:
+            modalBodyOption.append(...await createFontOption());
+            break;
+        case modalList.bgColor.name:
+            break;
+    }
 
     // 創建 p 元素
     const delItemHidden = document.createElement('p');
@@ -108,6 +194,20 @@ async function createSettingModal() {
     saveSettingBtn.id = 'saveSettingBtn';
     saveSettingBtn.type = 'button';
     saveSettingBtn.textContent = '保存';
+    saveSettingBtn.addEventListener('click', () => {
+        switch (type.name) {
+            case modalList.font.name:
+                const fontSelect = document.getElementById('fontSelect');
+                const selectedFont = fontSelect.querySelector('option:checked');
+                document.body.style.fontFamily = selectedFont.value;
+                userSetting.fontFamily = selectedFont.value;
+                window.setting.saveUserSetting(userSetting);
+                thisModal.hide();
+                break;
+            case modalList.bgColor.name:
+                break;
+        }
+    })
 
     // 創建取消按鈕
     const cancelBtn = document.createElement('button');
@@ -137,7 +237,15 @@ async function createSettingModal() {
     // 將 modal 添加到 body 中
     document.body.appendChild(modal);
 
-    settingModal = new bootstrap.Modal(document.getElementById('settingModal'))
+    thisModal = new bootstrap.Modal(document.getElementById(type.name))
+    switch (type.name) {
+        case modalList.font.name:
+            modalList.font.object = thisModal;
+            break;
+        case modalList.bgColor.name:
+            modalList.bgColor.object = thisModal;
+            break;
+    }
 }
 
 // 字型選項的內容
