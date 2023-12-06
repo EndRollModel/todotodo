@@ -10,8 +10,23 @@
 }
 
 @font-face {
+    font-family: "NaikaiFontLight";
+    src: url("../font/NaikaiFontLight.woff") format('woff');
+}
+
+@font-face {
     font-family: "GenJyuuGothic";
     src: url("../font/GenJyuuGothic.woff2") format('woff2');
+}
+
+@font-face {
+    font-family: "NotoSansTC-Light";
+    src: url("../font/NotoSansTC-Light.ttf");
+}
+
+@font-face {
+    font-family: "NotoSansTC-Regular";
+    src: url("../font/NotoSansTC-Regular.tff");
 }
 
 html {

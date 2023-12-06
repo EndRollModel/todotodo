@@ -55,7 +55,6 @@ function saveSettingListener() {
     document.getElementById('frameOnTop').addEventListener('click', async () => {
         // 置頂
         const setOnTop = await window.pageSetting.setOnTop();
-        console.log(setOnTop)
         const pinState = document.querySelector('#frameOnTop img');
         if (setOnTop === true) {
             pinState.src = './resource/img/pin-fill.svg';
@@ -79,15 +78,18 @@ function saveSettingListener() {
 
     document.getElementById('confirmCheckBtn').addEventListener('click', (e)=>{
        // 認證的動作
-        const actionValue = e.target.getAttribute('action')
-        console.log(actionValue)
-        console.log('按了啦')
+        const actionValue = document.getElementById('confirmHidden').getAttribute('action')
         switch (actionValue){
             case 'allCheckCancel':
                 // 取消所有內容
-                document.querySelectorAll('[type=checkbox]').forEach((e)=>{
-                    if (e.target.checked) {
-                        e.target.checked = false;
+                document.querySelectorAll('[type="checkbox"]').forEach((e)=>{
+                    if (e.checked) {
+                        e.click();
+                    }
+                });
+                document.querySelectorAll('[type="checkbox"]').forEach((e)=>{
+                    if(e.checked){
+                        e.checked = false
                     }
                 });
                 confirmModal.hide();

@@ -7,7 +7,6 @@ builder.build({
 
     win: ['nsis', 'portable'],  // nsis . portable
     config: {
-        "buildVersion": appConfig.buildConfig.version,
         "appId": "com.uwumei.tudutudu",
         "productName": "兔嘟莉絲特", // 應用程式名稱 ( 顯示在應用程式與功能 )
         "directories": {
@@ -15,7 +14,8 @@ builder.build({
         },
         "win": {
             "icon": path.resolve(__dirname, 'build/icon.png'),
-        }
+        },
+        "copyright": 'UwUmei'
     },
 })
     .then(

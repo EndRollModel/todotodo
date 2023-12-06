@@ -5,7 +5,7 @@ const path = require('path');
 
 function checkSettingConfigExist() {
     const userDataPath = `${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`
-    console.log(userDataPath)
+    // console.log(userDataPath)
     if (!fs.existsSync(userDataPath)) {
         fs.mkdirSync(userDataPath);
     }

@@ -232,7 +232,7 @@ function updateItemChecked(targetId, checked, time) {
 function editItemName(target, parent, text) {
     const targetItem = document.querySelector(`${target}`);
     targetItem.textContent = text;
-    console.log(parent)
+    // console.log(parent)
     const itemIndex = userData.findIndex(e => e.id === parent.replace(/[#.]/g, ''));
     userData[itemIndex].title = text;
     updateUserData();
