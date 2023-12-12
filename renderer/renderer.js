@@ -164,7 +164,7 @@ window.onload = async function () {
             addFeatNameInput.placeholder = '內容不能為空白'
             return;
         }
-        addGroupItem(addFeatNameInput.value, null ,true);
+        addGroupItem(addFeatNameInput.value, null, true);
         addFeatNameInput.value = ''; // 清除
         updateUserData();
         addFeatModal.hide();
@@ -220,8 +220,40 @@ window.onload = async function () {
         delItemModal.hide();
     })
     await createUserElem();
+    // 拖曳元件
+    Sortable.create(itemBlock[0], {
+        group: 'itemBlock',
+        animation: 150,
+        fallbackOnBody: true,
+        swapThreshold: 0.65,
+        onEnd: function (evt) {
+            var itemEl = evt.item;  // dragged HTMLElement
+            console.log('move end : ', itemEl)
+            console.log(evt.item.className);
+            console.log(`pos : feat`)
+            // evt.to;    // target list
+            // evt.from;  // previous list
+            // evt.oldIndex;  // element's old index within old parent
+            // evt.newIndex;  // element's new index within new parent
+            // evt.oldDraggableIndex; // element's old index within old parent, only counting draggable elements
+            // evt.newDraggableIndex; // element's new index within new parent, only counting draggable elements
+            // evt.clone // the clone element
+            // evt.pullMode;  // when item is in another sortable: `"clone"` if cloning, `true` if moving
+        },
+    })
 }
 
+
+function posChange(targetId, oldIndex, newIndex){
+
+}
+
+/**
+ * 選項被勾選
+ * @param targetId
+ * @param checked
+ * @param time
+ */
 function updateItemChecked(targetId, checked, time) {
     const targetIndex = userData.findIndex(e => e.id === targetId);
     userData[targetIndex].checked = checked;
@@ -229,6 +261,12 @@ function updateItemChecked(targetId, checked, time) {
     updateUserData();
 }
 
+/**
+ * 編輯物件的名稱
+ * @param target
+ * @param parent
+ * @param text
+ */
 function editItemName(target, parent, text) {
     const targetItem = document.querySelector(`${target}`);
     targetItem.textContent = text;
@@ -238,6 +276,10 @@ function editItemName(target, parent, text) {
     updateUserData();
 }
 
+/**
+ * 刪除物件
+ * @param target 刪除的對象
+ */
 function delItem(target) {
     const targetItem = document.querySelector(`${target}`);
     targetItem.remove();
@@ -249,8 +291,8 @@ function delItem(target) {
 /**
  * 建立群組用的function
  * @param title {String}  group中顯示的title
- * @param id {String}
- * @param save {boolean}
+ * @param id {String} 如果有id 就依照id建立
+ * @param save {boolean} 是否存檔
  */
 function addGroupItem(title = null, id = null, save = false) {
     if (title == null) {
@@ -266,7 +308,7 @@ function addGroupItem(title = null, id = null, save = false) {
             itemIndex++;
         }
     }
-    if(id != null){
+    if (id != null) {
         itemIndex = parseInt(id.replace('itemBoxId', ''))
     }
 
@@ -368,16 +410,35 @@ function addGroupItem(title = null, id = null, save = false) {
         id: itemBox.id,
         title: groupTitle.textContent,
     });
+    Sortable.create(collapseBlock, {
+        group: 'collapse',
+        animation: 150,
+        fallbackOnBody: true,
+        swapThreshold: 0.65,
+        onEnd: function (evt) {
+            // var itemEl = evt.item;  // dragged HTMLElement
+            // console.log(evt.to);    // target list
+            // console.log(evt.from);  // previous list
+            // console.log(evt.oldIndex);  // element's old index within old parent
+            // console.log(evt.newIndex);  // element's new index within new parent
+            // console.log(evt.item.className)
+            console.log(`pos : collapse`)
+            // console.log(evt.oldDraggableIndex); // element's old index within old parent, only counting draggable elements
+            // console.log(evt.newDraggableIndex); // element's new index within new parent, only counting draggable elements
+            // console.log(evt.clone); // the clone element
+            // console.log(evt.pullMode);  // when item is in another sortable: `"clone"` if cloning, `true` if moving
+        },
+    })
 }
 
 /**
  * 建立TuduItem用的function
  * @param boxIndex {String | number} 如果在Group內 需傳入是在第幾個的Group內
- * @param title {String}
- * @param objectId {String}
- * @param checked {boolean}
- * @param time {String}
- * @param save {boolean}
+ * @param title {String} title
+ * @param objectId {String} 如果有id就依照此id建立
+ * @param checked {boolean} 是否勾選
+ * @param time {String} 是否有指定過時間
+ * @param save {boolean} 是否要存檔
  */
 async function addTuduItem(boxIndex = null, title, objectId = null, checked = false, time = '99:99', save = false) {
     const checkIndex = parseInt(boxIndex)
@@ -407,6 +468,7 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
     const tuduTitle = document.createElement('div')
     tuduTitle.textContent = title;
     tuduTitle.className = `tudu-item-title-${itemIndex}`;
+    tuduTitle.id = `tudu-item-title-${itemIndex}`;
 
     const tuduTime = document.createElement('div');
     tuduTime.className = 'tudu-item-time';

@@ -1,4 +1,9 @@
 const versionRecord = {
+    '0.1.3.7':{
+      state: 'beta',
+      date: 'none',
+      info: '預計增加拖曳的功能',
+    },
     "0.1.3.6":{
         state: 'beta',
         date : "2023/12/5",

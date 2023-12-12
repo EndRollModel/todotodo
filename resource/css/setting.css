@@ -97,6 +97,7 @@ body {
 }
 
 #frameClose {
+    /* 關閉按鈕 */
     -webkit-app-region: no-drag;
     width: 13px;
     height: 13px;
@@ -120,6 +121,7 @@ body {
 }
 
 #frameSetting > img{
+    -webkit-user-drag: none;
     transform: rotate(0deg);
     transition: transform 0.5s ease-out;
 }
@@ -218,9 +220,14 @@ body {
     box-shadow: 1px 1px 0 0 #ffd6de;
 }
 
+.tudu-g-item > div{
+    -webkit-user-drag: none;
+}
+
 .collapse-block {
     margin-left: 5%;
 }
+
 
 .tudu-g-title {
     font-size: 16px;
@@ -235,11 +242,11 @@ body {
     -webkit-user-select: none;
 }
 
-
 .dropdown-menu {
     /*更多選單*/
     background-color: rgba(255, 255, 255, 0.8);
     border-color: #ffd6de;
+    -webkit-user-drag: none;
 }
 
 .dropdown-item:hover,
@@ -265,6 +272,7 @@ body {
     border-color: #ffd6de;
     background-color: transparent;
     box-shadow: 2px 1px 0 0.01em #ffd6de;
+
 }
 
 [class^="collapse-block-"] {
@@ -275,8 +283,12 @@ body {
 }
 
 .collapse-switch-box {
+    -webkit-user-drag: none;
     transform: rotate(0deg);
     transition: transform 0.3s ease;
+}
+.collapse-switch-box > img{
+    -webkit-user-drag: none;
 }
 
 /* 展開時的動畫 */
@@ -304,14 +316,22 @@ body {
 }
 
 .tudu-item-check {
+    -webkit-user-drag: none;
     margin-left: 5%;
 }
 
+[class^='tudu-item-title-']{
+    -webkit-user-drag: none;
+    text-align: center;
+}
+
 .tudu-item-title {
+    -webkit-user-drag: none;
     text-align: center;
 }
 
 .tudu-item-time {
+    -webkit-user-drag: none;
     font-size: 13px;
 }
 
@@ -323,7 +343,6 @@ body {
     -webkit-user-select: none;
     -webkit-user-drag: none;
 }
-
 
 button:focus {
     box-shadow: none !important;
@@ -389,6 +408,7 @@ button:focus {
 
 /* Basic styling */
 [type=checkbox] {
+    -webkit-user-drag: none;
     width: 1.2rem;
     height: 1.2rem;
     color: #ffd6de;
