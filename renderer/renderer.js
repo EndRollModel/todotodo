@@ -49,6 +49,7 @@ let userData = [];
  * @param {number} obj.type 要加入的對象type 0 = 群組  1 = 待辦
  * @param {string} obj.id  要建立的id
  * @param {string} obj.title 要建立的title
+ * @param {number} obj.sort 在列表中的排序順序
  * @param {boolean} obj.save save
  */
 function addFeatData(obj) {
@@ -58,13 +59,17 @@ function addFeatData(obj) {
     const type = obj.type;
     const id = obj.id;
     const title = obj.title;
+    const outSort = obj.outSort;
+    const inSort = obj.inSort
 
     const updateData = {};
     switch (type) {
         case 0: // group
-            updateData.type = 0
-            updateData.title = title
-            updateData.id = id
+            updateData.type = 0;
+            updateData.title = title;
+            updateData.id = id;
+            updateData.outSort = outSort;
+            updateData.inSort = inSort;
             break;
         case 1: // tudu
             updateData.type = 1
@@ -72,6 +77,8 @@ function addFeatData(obj) {
             updateData.time = '99:99';
             updateData.id = id;
             updateData.targetId = -1;
+            updateData.outSort = outSort;
+            updateData.inSort = inSort;
             break;
     }
     userData.push(updateData);
@@ -137,7 +144,6 @@ async function createUserElem() {
         }
     });
 }
-
 
 window.onload = async function () {
     // 讀取userData
@@ -221,30 +227,33 @@ window.onload = async function () {
     })
     await createUserElem();
     // 拖曳元件
+    // group不能放入group內
+    // tuduItem可以放到group內或是拉到itemBlock中
     Sortable.create(itemBlock[0], {
-        group: 'itemBlock',
+        group: {
+            name: 'itemBlock', put:
+                function (to, from) {
+                    console.log(`from : ${from.el.className}`)
+                    console.log(`to : ${to.el.className}`);
+                    // 外圍(item-block)
+                    // 內層(collapse)
+                    return !(from.el.className === 'item-block' && to.el.className === 'collapse');
+                }
+        },
         animation: 150,
         fallbackOnBody: true,
         swapThreshold: 0.65,
         onEnd: function (evt) {
-            var itemEl = evt.item;  // dragged HTMLElement
-            console.log('move end : ', itemEl)
-            console.log(evt.item.className);
-            console.log(`pos : feat`)
-            // evt.to;    // target list
-            // evt.from;  // previous list
-            // evt.oldIndex;  // element's old index within old parent
-            // evt.newIndex;  // element's new index within new parent
-            // evt.oldDraggableIndex; // element's old index within old parent, only counting draggable elements
-            // evt.newDraggableIndex; // element's new index within new parent, only counting draggable elements
-            // evt.clone // the clone element
-            // evt.pullMode;  // when item is in another sortable: `"clone"` if cloning, `true` if moving
+            // var itemEl = evt.item;  // dragged HTMLElement
+            // console.log('move end : ', itemEl)
+            // console.log(evt.item.className);
+            // console.log(`pos : feat`)
         },
+
     })
 }
 
-
-function posChange(targetId, oldIndex, newIndex){
+function posChange(targetId, oldIndex, newIndex) {
 
 }
 
@@ -411,22 +420,14 @@ function addGroupItem(title = null, id = null, save = false) {
         title: groupTitle.textContent,
     });
     Sortable.create(collapseBlock, {
-        group: 'collapse',
+        // group: {name : 'collapse'},
+        group: {
+            name: 'itemBlock',
+        },
         animation: 150,
         fallbackOnBody: true,
         swapThreshold: 0.65,
         onEnd: function (evt) {
-            // var itemEl = evt.item;  // dragged HTMLElement
-            // console.log(evt.to);    // target list
-            // console.log(evt.from);  // previous list
-            // console.log(evt.oldIndex);  // element's old index within old parent
-            // console.log(evt.newIndex);  // element's new index within new parent
-            // console.log(evt.item.className)
-            console.log(`pos : collapse`)
-            // console.log(evt.oldDraggableIndex); // element's old index within old parent, only counting draggable elements
-            // console.log(evt.newDraggableIndex); // element's new index within new parent, only counting draggable elements
-            // console.log(evt.clone); // the clone element
-            // console.log(evt.pullMode);  // when item is in another sortable: `"clone"` if cloning, `true` if moving
         },
     })
 }
