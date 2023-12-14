@@ -127,6 +127,8 @@ function pushGroupData(obj) {
  */
 async function createUserElem() {
     if (userData.length === 0) return;
+    // userData.filter().sort();
+    userData.filter().sort();
     userData.forEach((elem) => {
         switch (elem.type) {
             case 0: // group
@@ -229,31 +231,72 @@ window.onload = async function () {
     // 拖曳元件
     // group不能放入group內
     // tuduItem可以放到group內或是拉到itemBlock中
-    Sortable.create(itemBlock[0], {
-        group: {
-            name: 'itemBlock', put:
-                function (to, from) {
-                    console.log(`from : ${from.el.className}`)
-                    console.log(`to : ${to.el.className}`);
-                    // 外圍(item-block)
-                    // 內層(collapse)
-                    return !(from.el.className === 'item-block' && to.el.className === 'collapse');
-                }
-        },
+    creatSortable(itemBlock[0], 'itemBlock', 'itemBlock');
+}
+
+function creatSortable(obj, groupName, block, option) {
+    new Sortable(obj, {
+        group: groupName,
         animation: 150,
         fallbackOnBody: true,
         swapThreshold: 0.65,
+        // sort: true,
+        onSort: function (){
+            switch (block){
+                case 'itemBlock':
+                    break;
+                case 'collapse':
+                    break;
+            }
+        },
+        onMove: function (evt, originalEvent) {
+            // Example: https://jsbin.com/nawahef/edit?js,output
+            if (evt.dragged.classList.contains('item-box') &&
+                evt.related.parentElement.classList.contains('collapse')) {
+                // group不可被放入至group中
+                return false;
+            }
+        },
         onEnd: function (evt) {
             // var itemEl = evt.item;  // dragged HTMLElement
             // console.log('move end : ', itemEl)
             // console.log(evt.item.className);
             // console.log(`pos : feat`)
-        },
+            // var itemEl = evt.item;  // dragged HTMLElement
+            // console.log(evt.item);
+            if (evt.from.className !== evt.to.className) {
+                // 跨class移動 不存在有沒有移動Index的問題 一律有移動
 
+
+            } else {
+                // 同一個class內移動
+                if(evt.oldIndex !== evt.newIndex){
+                    // 不同一個index表示有移動 需要紀錄否則不用
+                    switch (true){
+                        case evt.to.className === 'item-block':
+                            console.log('外轉外移動');
+                            break;
+                        case evt.to.classList.contains('collapse'):
+                            console.log('tuduItem移動')
+                            break;
+                        default:
+                            console.log('whats go in on')
+                            break;
+                    }
+                }
+            }
+            console.log(evt.item)
+            console.log(evt.from);  // previous list
+            console.log(evt.to);    // target list
+            console.log(evt.oldIndex);  // element's old index within old parent
+            console.log(evt.newIndex);  // element's new index within new parent
+            console.log(evt.oldDraggableIndex); // element's old index within old parent, only counting draggable elements
+            console.log(evt.newDraggableIndex); // element's new index within new parent, only counting draggable elements
+        },
     })
 }
 
-function posChange(targetId, oldIndex, newIndex) {
+function posChange(targetId, insideId, outOldIndex, outNewIndex, inOldIndex, inNewIndex) {
 
 }
 
@@ -419,17 +462,7 @@ function addGroupItem(title = null, id = null, save = false) {
         id: itemBox.id,
         title: groupTitle.textContent,
     });
-    Sortable.create(collapseBlock, {
-        // group: {name : 'collapse'},
-        group: {
-            name: 'itemBlock',
-        },
-        animation: 150,
-        fallbackOnBody: true,
-        swapThreshold: 0.65,
-        onEnd: function (evt) {
-        },
-    })
+    creatSortable(collapseBlock, 'itemBlock', 'collapse')
 }
 
 /**
@@ -565,7 +598,7 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
     }
 }
 
+
 function updateUserData() {
     window.userFeat.saveUserData(userData);
 }
-
