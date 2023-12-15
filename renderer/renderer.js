@@ -134,30 +134,50 @@ function pushGroupData(obj) {
  */
 async function createUserElem() {
     if (userData.length === 0) return;
-    // userData.filter().sort();
-    userData.forEach((elem) => {
-        switch (elem.type) {
-            case 0: // group
-                addGroupItem(elem.title)
-                break;
-            case 1: // tuduitem
-                let groupId;
-                if (elem.targetId !== -1) {
-                    groupId = elem.targetId.replace('itemBoxId', '');
-                } else {
-                    groupId = -1;
-                }
-                addTuduItem(groupId, elem.title, elem.id, elem.checked, elem.time);
-                break;
-        }
-    });
+    // sortData(userData).forEach((elem) => {
+    //     switch (elem.type) {
+    //         case 0: // group
+    //             addGroupItem(elem.title)
+    //             break;
+    //         case 1: // tuduitem
+    //             let groupId;
+    //             if (elem.targetId !== -1) {
+    //                 groupId = elem.targetId.replace('itemBoxId', '');
+    //             } else {
+    //                 groupId = -1;
+    //             }
+    //             addTuduItem(groupId, elem.title, elem.id, elem.checked, elem.time);
+    //             break;
+    //     }
+    // });
+    userData
+        .filter(e => e.outSort !== -1)
+        .sort((a, b) => a.outSort - b.outSort)
+        .forEach((data) => {
+            switch (data.type) {
+                case 0:
+                    addGroupItem(data.title);
+                    break;
+                case 1:
+                    addTuduItem(-1, data.title, data.id, data.checked, data.time);
+                    break;
+            }
+        })
+    userData
+        .filter(e => e.inSort !== -1)
+        .sort((a, b) => a.inSort - b.inSort)
+        .forEach((data) => {
+            const groupId = data.targetId.replace('itemBoxId', '');
+            addTuduItem(groupId, data.title, data.id, data.checked, data.time);
+        })
 }
 
 window.onload = async function () {
     // 讀取userData
     const loadUserData = await window.userFeat.loadUserData();
     if (loadUserData.length > 0) {
-        userData.push(...loadUserData)
+        const sortData = resetData(loadUserData)
+        userData.push(...sortData)
     }
     // modal
     addFeatModal = new bootstrap.Modal(document.getElementById('addFeatModal'));
@@ -272,38 +292,91 @@ function creatSortable(obj, groupName, block, option) {
             // console.log(evt.item);
             if (evt.from.className !== evt.to.className) {
                 // 跨class移動 不存在有沒有移動Index的問題 一律有移動
-
-
+                if (evt.to.className === 'item-block') {
+                    // 內層至外層
+                    console.log(`內到外 evt.from.className`)
+                    console.log(evt.from.className)
+                    const fromClass = evt.from.className.replace(/ /g, '.')
+                    Object.values(document.querySelector(`.${fromClass}`).children).forEach((elem, index) => {
+                        // from : collapse : inSort
+                        const dataIndex = userData.findIndex(e => e.id === elem.id)
+                        userData[dataIndex].inSort = index;
+                        userData[dataIndex].outSort = -1;
+                    })
+                    Object.values(document.querySelector(`.item-block`).children).forEach((elem, index) => {
+                        // to : item-block : outSort
+                        const dataIndex = userData.findIndex(e => e.id === elem.id)
+                        userData[dataIndex].outSort = index;
+                        userData[dataIndex].inSort = -1;
+                        if (userData[dataIndex].targetId !== -1) {
+                            // 拉出去的物件會有targetId 所以清空
+                            userData[dataIndex].targetId = -1
+                        }
+                    })
+                } else {
+                    // 外層至內層
+                    console.log(`外到內 evt.from.className`)
+                    console.log(evt.from.className)
+                    Object.values(document.querySelector(`.item-block`).children).forEach((elem, index) => {
+                        // from : item-block : outSort
+                        const dataIndex = userData.findIndex(e => e.id === elem.id)
+                        userData[dataIndex].outSort = index;
+                        userData[dataIndex].inSort = -1;
+                    })
+                    const fromClass = evt.to.className.replace(/ /g, '.')
+                    Object.values(document.querySelector(`.${fromClass}`).children).forEach((elem, index) => {
+                        // to : collapse : inSort
+                        const dataIndex = userData.findIndex(e => e.id === elem.id)
+                        userData[dataIndex].inSort = index
+                        userData[dataIndex].outSort = -1
+                        if (userData[dataIndex].targetId === -1) {
+                            // 拉進來的物件會沒有collapse的容器id 所以要補上id給他
+                            const match = evt.to.className.match(/collapse-block-(\d+)/);
+                            const number = match ? match[1] : null;
+                            userData[dataIndex].targetId = `itemBoxId${number}`
+                        }
+                    })
+                }
+                // updateUserData();
             } else {
                 // 同一個class內移動
                 if (evt.oldIndex !== evt.newIndex) {
                     // 不同一個index表示有移動 需要紀錄否則不用
                     switch (true) {
                         case evt.to.className === 'item-block':
-                            console.log('外轉外移動');
+                            // 有點懶得寫邏輯 所以把所有網頁的位置元素直接記錄下來
+                            console.log(`最外層移動`)
+                            Object.values(document.querySelector('.item-block').children).forEach((elem, index) => {
+                                const dataIndex = userData.findIndex(e => e.id === elem.id)
+                                userData[dataIndex].outSort = index;
+                            })
                             break;
                         case evt.to.classList.contains('collapse'):
-                            console.log('tuduItem移動')
-                            break;
-                        default:
-                            console.log('whats go in on')
+                            console.log(`群組內移動`)
+                            const className = evt.to.className.replace(/ /g, '.')
+                            console.log(className)
+                            // Object.values(document.querySelector(className).children)
+                            Object.values(document.querySelector(`.${className}`).children).forEach((elem, index) => {
+                                const dataIndex = userData.findIndex(e => e.id === elem.id);
+                                userData[dataIndex].inSort = index
+                            })
                             break;
                     }
+                    // updateUserData();
                 }
             }
-            console.log(evt.item)
-            console.log(evt.from);  // previous list
-            console.log(evt.to);    // target list
-            console.log(evt.oldIndex);  // element's old index within old parent
-            console.log(evt.newIndex);  // element's new index within new parent
-            console.log(evt.oldDraggableIndex); // element's old index within old parent, only counting draggable elements
-            console.log(evt.newDraggableIndex); // element's new index within new parent, only counting draggable elements
+            // console.log(`evt item`)
+            // console.log(evt.item)
+            // console.log(`evt from`)
+            // console.log(evt.from);  // previous list
+            // console.log(`evt to`)
+            // console.log(evt.to);    // target list
+            // console.log(evt.oldIndex);  // element's old index within old parent
+            // console.log(evt.newIndex);  // element's new index within new parent
+            // console.log(evt.oldDraggableIndex); // element's old index within old parent, only counting draggable elements
+            // console.log(evt.newDraggableIndex); // element's new index within new parent, only counting draggable elements
         },
     })
-}
-
-function posChange(targetId, insideId, outOldIndex, outNewIndex, inOldIndex, inNewIndex) {
-
 }
 
 /**
@@ -340,6 +413,16 @@ function editItemName(target, parent, text) {
  */
 function delItem(target) {
     const targetItem = document.querySelector(`${target}`);
+    // 刪掉之前先檢查是在哪個區塊 讓區塊重新整理
+    // if (targetItem.parentElement.className === 'item-block') {
+    //   // 重新整理外部的index
+    //   Object.values(document.querySelector('.item-block').children).forEach((elem, index)=>{
+    //
+    //       userData
+    //   })
+    // } else {
+    //
+    // }
     targetItem.remove();
     const itemIndex = userData.findIndex(e => e.id === target.replace(/[#.]/g, ''))
     userData.splice(itemIndex, 1);
@@ -463,7 +546,7 @@ function addGroupItem(title = null, id = null, save = false) {
     itemBox.appendChild(collapseBlock);
     itemBlock[0].appendChild(itemBox);
 
-    const outSortIndex = itemBlock[0].childElementCount;
+    const outSortIndex = itemBlock[0].childElementCount - 1;
     addFeatData({
         type: 0,
         save: save,
@@ -589,7 +672,7 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
             new bootstrap.Collapse(collapseBlock).show();
         }
         collapseBlock.appendChild(tuduItem)
-        const inSortIndex = collapseBlock.children.length
+        const inSortIndex = collapseBlock.children.length - 1
         pushGroupData({
             save: save,
             targetId: `itemBoxId${checkIndex}`,
@@ -602,7 +685,7 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
         }); // 新增在群組中tuduItem的資料
     } else {
         itemBlock[0].appendChild(tuduItem);
-        const outSortIndex = itemBlock[0].childElementCount;
+        const outSortIndex = itemBlock[0].childElementCount - 1;
         addFeatData({
             save: save,
             type: 1,
@@ -615,32 +698,47 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
 }
 
 
+/**
+ * 儲存資料一次
+ */
 function updateUserData() {
     window.userFeat.saveUserData(userData);
 }
 
 
 /**
- *
+ * 此方法僅對應0.1.3.7版本以前的資料
+ * 需要加上排列順序
  * @param {array}data
  */
-function resetSortIndex(data) {
-    let groupList = [];
-    let tuduItemList = [];
-    data.forEach((elem) => {
+function resetData(data) {
+    let checkIsReset = data.some(e => Object.hasOwn(e, 'outSort') || Object.hasOwn(e, 'inSort'))
+    if (checkIsReset === true) return data;
+    let groupList = []; // 整理所有的列表
+    let outSortIndex = 0; //
+    data.forEach((elem, i) => {
         switch (elem.type) {
             case 0:
-                const groupObj = {id: elem, count: 0};
-                groupList.push(groupObj);
+                // 如果是群組 將id加入群組 並且增加外部index
+                data[i].outSort = outSortIndex;
+                data[i].inSort = -1;
+                groupList.push({id: elem.id, count: 0});
+                outSortIndex++;
                 break;
             case 1:
-                if(elem.targetId != -1){
-                    const targetIndex = groupList.indexOf(elem.targetId);
-                    groupList[targetIndex].count ++;
+                if (elem.targetId === -1) {
+                    data[i].outSort = outSortIndex
+                    data[i].inSort = -1
+                    outSortIndex++;
                 } else {
-
+                    const groupIndex = groupList.findIndex((e) => e.id === elem.targetId);
+                    data[i].inSort = groupList[groupIndex].count;
+                    data[i].outSort = -1;
+                    groupList[groupIndex].count++;
                 }
                 break;
         }
     })
+    window.userFeat.saveUserData(data); //更新資料後直接儲存一次
+    return data;
 }
