@@ -49,7 +49,8 @@ let userData = [];
  * @param {number} obj.type 要加入的對象type 0 = 群組  1 = 待辦
  * @param {string} obj.id  要建立的id
  * @param {string} obj.title 要建立的title
- * @param {number} obj.sort 在列表中的排序順序
+ * @param {number} obj.inSort 在列表中的排序順序
+ * @param {number} obj.outSort 在列表中的排序順序
  * @param {boolean} obj.save save
  */
 function addFeatData(obj) {
@@ -92,6 +93,8 @@ function addFeatData(obj) {
  * @param {String}  obj.title 標題
  * @param {String}  obj.time 如有記憶時間
  * @param {String}  obj.checked 是否已完成 目前僅建立需求 都會是無
+ * @param {String}  obj.inSort 在列表中 如果於群組中就是群組中的index
+ * @param {String}  obj.outSort 在列表中 如果是最外層的順序就是index
  * @param {String | undefined}  obj.memo 備註 目前還不需要 但僅記錄用
  * @param {String}  obj.save 是否存檔
  */
@@ -105,6 +108,8 @@ function pushGroupData(obj) {
     const title = obj.title;
     const time = obj.time;
     const checked = Object.hasOwn(obj, 'checked') ? obj.checked : false;
+    const inSort = obj.inSort;
+    const outSort = obj.outSort;
 
     const item = {}
     switch (type) {
@@ -116,6 +121,8 @@ function pushGroupData(obj) {
             item.time = time;
             item.checked = checked;
             item.targetId = targetId;
+            item.inSort = inSort;
+            item.outSort = outSort;
             break;
     }
     userData.push(item);
@@ -128,7 +135,6 @@ function pushGroupData(obj) {
 async function createUserElem() {
     if (userData.length === 0) return;
     // userData.filter().sort();
-    userData.filter().sort();
     userData.forEach((elem) => {
         switch (elem.type) {
             case 0: // group
@@ -241,8 +247,8 @@ function creatSortable(obj, groupName, block, option) {
         fallbackOnBody: true,
         swapThreshold: 0.65,
         // sort: true,
-        onSort: function (){
-            switch (block){
+        onSort: function () {
+            switch (block) {
                 case 'itemBlock':
                     break;
                 case 'collapse':
@@ -270,9 +276,9 @@ function creatSortable(obj, groupName, block, option) {
 
             } else {
                 // 同一個class內移動
-                if(evt.oldIndex !== evt.newIndex){
+                if (evt.oldIndex !== evt.newIndex) {
                     // 不同一個index表示有移動 需要紀錄否則不用
-                    switch (true){
+                    switch (true) {
                         case evt.to.className === 'item-block':
                             console.log('外轉外移動');
                             break;
@@ -456,11 +462,15 @@ function addGroupItem(title = null, id = null, save = false) {
     itemBox.appendChild(groupItem);
     itemBox.appendChild(collapseBlock);
     itemBlock[0].appendChild(itemBox);
+
+    const outSortIndex = itemBlock[0].childElementCount;
     addFeatData({
         type: 0,
         save: save,
         id: itemBox.id,
         title: groupTitle.textContent,
+        outSort: outSortIndex,
+        inSort: -1,
     });
     creatSortable(collapseBlock, 'itemBlock', 'collapse')
 }
@@ -579,6 +589,7 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
             new bootstrap.Collapse(collapseBlock).show();
         }
         collapseBlock.appendChild(tuduItem)
+        const inSortIndex = collapseBlock.children.length
         pushGroupData({
             save: save,
             targetId: `itemBoxId${checkIndex}`,
@@ -586,14 +597,19 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
             type: 1,
             title: tuduTitle.textContent,
             time: tuduTime.textContent,
+            inSort: inSortIndex,
+            outSort: -1,
         }); // 新增在群組中tuduItem的資料
     } else {
         itemBlock[0].appendChild(tuduItem);
+        const outSortIndex = itemBlock[0].childElementCount;
         addFeatData({
             save: save,
             type: 1,
             id: tuduItem.id,
             title: tuduTitle.textContent,
+            outSort: outSortIndex,
+            inSort: -1,
         }); // 新增在外部的tuduItem資料
     }
 }
@@ -601,4 +617,30 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
 
 function updateUserData() {
     window.userFeat.saveUserData(userData);
+}
+
+
+/**
+ *
+ * @param {array}data
+ */
+function resetSortIndex(data) {
+    let groupList = [];
+    let tuduItemList = [];
+    data.forEach((elem) => {
+        switch (elem.type) {
+            case 0:
+                const groupObj = {id: elem, count: 0};
+                groupList.push(groupObj);
+                break;
+            case 1:
+                if(elem.targetId != -1){
+                    const targetIndex = groupList.indexOf(elem.targetId);
+                    groupList[targetIndex].count ++;
+                } else {
+
+                }
+                break;
+        }
+    })
 }
