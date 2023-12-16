@@ -156,23 +156,23 @@ async function createUserElem() {
         .forEach((data) => {
             switch (data.type) {
                 case 0:
-                    addGroupItem(data.title);
+                    addGroupItem(data.title, data.id);
                     break;
                 case 1:
                     addTuduItem(-1, data.title, data.id, data.checked, data.time);
                     break;
             }
         })
+
     userData
         .filter(e => e.inSort !== -1)
         .sort((a, b) => a.inSort - b.inSort)
         .forEach((data) => {
-            const groupId = data.targetId.replace('itemBoxId', '');
-            addTuduItem(groupId, data.title, data.id, data.checked, data.time);
+            addTuduItem(data.targetId, data.title, data.id, data.checked, data.time);
         })
 }
 
-window.onload = async function () {
+document.addEventListener('DOMContentLoaded', async function () {
     // 讀取userData
     const loadUserData = await window.userFeat.loadUserData();
     if (loadUserData.length > 0) {
@@ -226,8 +226,7 @@ window.onload = async function () {
             addTuduInput.placeholder = '內容不能為空白'
             return;
         }
-        addTuduItem(addTuduHidden.getAttribute('boxIndex'), addTuduInput.value, null, false, null, true);
-        addTuduHidden.removeAttribute('boxIndex');
+        addTuduItem(addTuduHidden.getAttribute('boxId'), addTuduInput.value, null, false, null, true);
         addTuduInput.value = ''; // 清除
         updateUserData();
         addTuduItemModel.hide();
@@ -258,7 +257,7 @@ window.onload = async function () {
     // group不能放入group內
     // tuduItem可以放到group內或是拉到itemBlock中
     creatSortable(itemBlock[0], 'itemBlock', 'itemBlock');
-}
+})
 
 function creatSortable(obj, groupName, block, option) {
     new Sortable(obj, {
@@ -337,45 +336,31 @@ function creatSortable(obj, groupName, block, option) {
                         }
                     })
                 }
-                // updateUserData();
+                updateUserData();
             } else {
                 // 同一個class內移動
                 if (evt.oldIndex !== evt.newIndex) {
                     // 不同一個index表示有移動 需要紀錄否則不用
                     switch (true) {
                         case evt.to.className === 'item-block':
-                            // 有點懶得寫邏輯 所以把所有網頁的位置元素直接記錄下來
-                            console.log(`最外層移動`)
+                            // 所有網頁的位置元素直接記錄下來
                             Object.values(document.querySelector('.item-block').children).forEach((elem, index) => {
                                 const dataIndex = userData.findIndex(e => e.id === elem.id)
                                 userData[dataIndex].outSort = index;
                             })
                             break;
                         case evt.to.classList.contains('collapse'):
-                            console.log(`群組內移動`)
                             const className = evt.to.className.replace(/ /g, '.')
-                            console.log(className)
-                            // Object.values(document.querySelector(className).children)
                             Object.values(document.querySelector(`.${className}`).children).forEach((elem, index) => {
                                 const dataIndex = userData.findIndex(e => e.id === elem.id);
                                 userData[dataIndex].inSort = index
                             })
                             break;
                     }
-                    // updateUserData();
+                    updateUserData();
                 }
             }
-            // console.log(`evt item`)
-            // console.log(evt.item)
-            // console.log(`evt from`)
-            // console.log(evt.from);  // previous list
-            // console.log(`evt to`)
-            // console.log(evt.to);    // target list
-            // console.log(evt.oldIndex);  // element's old index within old parent
-            // console.log(evt.newIndex);  // element's new index within new parent
-            // console.log(evt.oldDraggableIndex); // element's old index within old parent, only counting draggable elements
-            // console.log(evt.newDraggableIndex); // element's new index within new parent, only counting draggable elements
-        },
+       },
     })
 }
 
@@ -401,7 +386,6 @@ function updateItemChecked(targetId, checked, time) {
 function editItemName(target, parent, text) {
     const targetItem = document.querySelector(`${target}`);
     targetItem.textContent = text;
-    // console.log(parent)
     const itemIndex = userData.findIndex(e => e.id === parent.replace(/[#.]/g, ''));
     userData[itemIndex].title = text;
     updateUserData();
@@ -444,7 +428,12 @@ function addGroupItem(title = null, id = null, save = false) {
     let notUse = false;
     while (!notUse) {
         if (document.querySelector(`#itemBoxId${itemIndex}`) === null) {
-            notUse = true;
+            const checkNoUse = userData.findIndex(e => e.id === `itemBoxId${itemIndex}`) === -1
+            if (checkNoUse) {
+                notUse = true
+            } else {
+                itemIndex++;
+            }
         } else {
             itemIndex++;
         }
@@ -490,7 +479,8 @@ function addGroupItem(title = null, id = null, save = false) {
     optionsAdd.className = 'dropdown-item';
     optionsAdd.textContent = '新增';
     optionsAdd.addEventListener('click', () => {
-        addTuduHidden.setAttribute('boxIndex', `${itemIndex}`)
+        // addTuduHidden.setAttribute('boxIndex', `${itemIndex}`)
+        addTuduHidden.setAttribute('boxId', itemBox.id)
         addTuduItemModel.show();
     })
     const optionsEdit = document.createElement('li');
@@ -518,7 +508,8 @@ function addGroupItem(title = null, id = null, save = false) {
     })
     // 裝下方可摺疊的區塊
     const collapseBlock = document.createElement('div');
-    collapseBlock.className = `collapse collapse-block-${itemIndex}`
+    collapseBlock.className = `collapse`;
+    collapseBlock.classList.add(`collapse-block-${itemIndex}`);
     collapseBlock.addEventListener('show.bs.collapse', () => {
         collapseSwitchBox.classList.add('rotated-show');
         collapseSwitchBox.classList.remove('rotated-hide');
@@ -560,22 +551,26 @@ function addGroupItem(title = null, id = null, save = false) {
 
 /**
  * 建立TuduItem用的function
- * @param boxIndex {String | number} 如果在Group內 需傳入是在第幾個的Group內
+ * @param boxId {String | number} 如果在Group內 需傳入是在第幾個的Group內
  * @param title {String} title
  * @param objectId {String} 如果有id就依照此id建立
  * @param checked {boolean} 是否勾選
  * @param time {String} 是否有指定過時間
  * @param save {boolean} 是否要存檔
  */
-async function addTuduItem(boxIndex = null, title, objectId = null, checked = false, time = '99:99', save = false) {
-    const checkIndex = parseInt(boxIndex)
-    const isGroup = !(isNaN(checkIndex) || checkIndex === -1)
+async function addTuduItem(boxId = null, title, objectId = null, checked = false, time = '99:99', save = false) {
+    let isGroup = (typeof boxId === 'string')
 
     let itemIndex = 0;
     let notUse = false;
     while (!notUse) {
         if (document.querySelector(`#tuduItemId${itemIndex}`) === null) {
-            notUse = true;
+            const checkNoUsed = userData.findIndex(e => e.id === `tuduItemId${itemIndex}`) === -1;
+            if (checkNoUsed) {
+                itemIndex++;
+            } else {
+                notUse = true;
+            }
         } else {
             itemIndex++;
         }
@@ -589,7 +584,8 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
     tuduItem.className = `tudu-item`;
     tuduItem.id = `tuduItemId${itemIndex}`
     if (isGroup) {
-        tuduItem.setAttribute('boxIndex', itemIndex.toString());
+        // tuduItem.setAttribute('boxIndex', itemIndex.toString());
+        tuduItem.setAttribute('boxId', boxId);
     }
 
     const tuduTitle = document.createElement('div')
@@ -667,7 +663,8 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
     tuduItem.appendChild(tuduItemOption);
 
     if (isGroup) {
-        const collapseBlock = document.querySelector(`.collapse-block-${checkIndex}`);
+        const boxIndex = boxId.replace(/itemBoxId/g, '')
+        const collapseBlock = document.querySelector(`.collapse-block-${boxIndex}`)
         if (!collapseBlock.classList.contains('show')) {
             new bootstrap.Collapse(collapseBlock).show();
         }
@@ -675,7 +672,7 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
         const inSortIndex = collapseBlock.children.length - 1
         pushGroupData({
             save: save,
-            targetId: `itemBoxId${checkIndex}`,
+            targetId: boxId,
             id: tuduItem.id,
             type: 1,
             title: tuduTitle.textContent,
@@ -697,14 +694,12 @@ async function addTuduItem(boxIndex = null, title, objectId = null, checked = fa
     }
 }
 
-
 /**
  * 儲存資料一次
  */
 function updateUserData() {
     window.userFeat.saveUserData(userData);
 }
-
 
 /**
  * 此方法僅對應0.1.3.7版本以前的資料

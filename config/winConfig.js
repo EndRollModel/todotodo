@@ -3,10 +3,10 @@ const path = require('path');
 
 // app之中的參數
 winConfig.appConfig = {
-    version : '0.1.3.6',
+    version : '0.1.3.7',
     indexPageFile : 'index.html', // main的html頁面
     loadingPageFile : 'loading.html', // 讀取中的html頁面
-    openDevTools : true, // 是否開啟除錯模式
+    openDevTools : false, // 是否開啟除錯模式
     tuduPageName : 'tudu',
     memoPageName : 'memo',
 }
