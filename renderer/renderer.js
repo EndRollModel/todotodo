@@ -102,19 +102,20 @@ function pushGroupData(obj) {
     // action, targetId, id, type, title, time, memo = null,checked save = false
     const save = obj.save;
     if (save === false) return;
-    const targetId = obj.targetId;
-    const type = obj.type;
-    const id = obj.id;
-    const title = obj.title;
-    const time = obj.time;
+    const targetId = Object.hasOwn(obj, 'targetId') ? obj.targetId : 'null';
+    const type = Object.hasOwn(obj, 'type') ? obj.type : 'null';
+    const id = Object.hasOwn(obj, 'id') ? obj.id : 'null';
+    const title = Object.hasOwn(obj, 'title') ? obj.title : 'null';
+    const time = Object.hasOwn(obj, 'time') ? obj.time : 'null';
     const checked = Object.hasOwn(obj, 'checked') ? obj.checked : false;
-    const inSort = obj.inSort;
-    const outSort = obj.outSort;
+    const inSort = Object.hasOwn(obj, 'inSort') ? obj.inSort : 'null';
+    const outSort = Object.hasOwn(obj, 'outSort') ? obj.outSort : 'null';
+    const memo = Object.hasOwn(obj, 'memo') ? obj.outSort : 'null';
+    const memoInfo = Object.hasOwn(obj, 'memoInfo') ? obj.outSort : 'null';
 
     const item = {}
     switch (type) {
         case 1:
-        default:
             item.type = 1;
             item.id = id;
             item.title = title;
@@ -124,6 +125,17 @@ function pushGroupData(obj) {
             item.inSort = inSort;
             item.outSort = outSort;
             break;
+        case 2:
+            item.type = 2;
+            item.id = id;
+            item.memo = memo;
+            item.memoInfo = memoInfo;
+            item.targetId = targetId;
+            item.outSort = outSort;
+            item.inSort = inSort;
+            break;
+        default:
+            break
     }
     userData.push(item);
 }
@@ -360,7 +372,7 @@ function creatSortable(obj, groupName, block, option) {
                     updateUserData();
                 }
             }
-       },
+        },
     })
 }
 
@@ -549,6 +561,7 @@ function addGroupItem(title = null, id = null, save = false) {
     creatSortable(collapseBlock, 'itemBlock', 'collapse')
 }
 
+
 /**
  * 建立TuduItem用的function
  * @param boxId {String | number} 如果在Group內 需傳入是在第幾個的Group內
@@ -688,6 +701,155 @@ async function addTuduItem(boxId = null, title, objectId = null, checked = false
             type: 1,
             id: tuduItem.id,
             title: tuduTitle.textContent,
+            outSort: outSortIndex,
+            inSort: -1,
+        }); // 新增在外部的tuduItem資料
+    }
+}
+
+/**
+ * memo的item
+ * @param boxId {String | number} 如果在Group內 需傳入是在第幾個的Group內
+ * @param title {String} title
+ * @param objectId {String} 如果有id就依照此id建立
+ * @param memo {String} 需要複製的對象
+ * @param save {boolean} 是否要存檔
+ */
+async function addMemoItem(boxId = null, title, objectId = null, memo = null, save = false) {
+    let isGroup = (typeof boxId === 'string')
+    let memoIdName = `memoItemId`
+
+    let itemIndex = 0;
+    let notUse = false;
+    while (!notUse) {
+        if (document.querySelector(`#${memoIdName}${itemIndex}`) === null) {
+            const checkNoUsed = userData.findIndex(e => e.id === `${memoIdName}${itemIndex}`) === -1;
+            if (checkNoUsed) {
+                itemIndex++;
+            } else {
+                notUse = true;
+            }
+        } else {
+            itemIndex++;
+        }
+    }
+
+    if (objectId !== null) {
+        itemIndex = objectId.replace(memoIdName, '');
+    }
+
+    const memoItem = document.createElement('div');
+    memoItem.className = `memo-item`;
+    memoItem.id = `${memoIdName}${itemIndex}`
+    if (isGroup) {
+        // tuduItem.setAttribute('boxIndex', itemIndex.toString());
+        memoItem.setAttribute('boxId', boxId);
+    }
+
+    const memoTitle = document.createElement('div')
+    memoTitle.textContent = title;
+    memoTitle.className = `memo-item-title-${itemIndex}`;
+    memoTitle.id = `memo-item-title-${itemIndex}`;
+
+    const memoInfo = document.createElement('div');
+    memoInfo.style.display = 'none';
+    memoInfo.setAttribute('memoInfo', memo);
+
+    // const tuduTime = document.createElement('div');
+    // tuduTime.className = 'memo-item-time';
+    // if (time === '99:99' || time == null) {
+    //     tuduTime.style.color = 'transparent'
+    //     tuduTime.textContent = '99:99'
+    // } else {
+    //     tuduTime.style.color = 'red'
+    //     tuduTime.textContent = time;
+    // }
+
+    // const tuduCheck = document.createElement('input');
+    // tuduCheck.type = 'checkbox';
+    // tuduCheck.className = 'tudu-item-check';
+    // if (checked) {
+    //     tuduCheck.checked = true
+    // }
+    // tuduCheck.addEventListener('change', async (e) => {
+    //     if (e.target.checked) {
+    //         tuduTime.textContent = `${await window.timeFeat.timeFormat(Date.now())}`;
+    //         tuduTime.style.color = 'red'
+    //     } else {
+    //         tuduTime.textContent = '99:99'
+    //         tuduTime.style.color = 'transparent'
+    //     }
+    //     updateItemChecked(tuduItem.id, e.target.checked, tuduTime.textContent);
+    // })
+
+    const tuduItemOption = document.createElement('div');
+    tuduItemOption.className = 'memo-item-option';
+    const optionImg = document.createElement('img');
+    optionImg.src = './resource/img/list.svg';
+    optionImg.setAttribute('data-bs-toggle', 'dropdown')
+    optionImg.setAttribute('data-bs-auto-close', 'true')
+    optionImg.setAttribute('aria-expanded', 'false')
+    const optionsBlock = document.createElement('ul');
+    optionsBlock.className = 'dropdown-menu';
+    optionsBlock.setAttribute('aria-labelledby', 'defaultDropdown');
+    const optionsEdit = document.createElement('li');
+    optionsEdit.className = 'dropdown-item';
+    optionsEdit.textContent = '編輯內容';
+    optionsEdit.addEventListener('click', () => {
+        document.getElementById('editMemoInput').value = memoTitle.textContent; // 把值設定上去
+        document.getElementById('editMemoInfoInput').value = memoTitle.textContent; // 把值設定上去
+        document.getElementById('editMemoHidden').setAttribute('target', `.memo-item-title-${itemIndex}`);
+        document.getElementById('editMemoHidden').setAttribute('parentItem', `#${memoItem.id}`);
+        // new bootstrap.Modal(document.getElementById('editName')).show()
+        editNameModal.show();
+    })
+    const optionsDel = document.createElement('li');
+    optionsDel.className = 'dropdown-item';
+    optionsDel.textContent = '刪除';
+    optionsDel.addEventListener('click', () => {
+        document.getElementById('delTitleText').textContent = `確定要刪除「${memoTitle.textContent}」嗎？`
+        document.getElementById('delItemHidden').setAttribute('target', `#${memoItem.id}`)
+        delItemModal.show();
+    })
+
+    // 加入區塊
+    optionsBlock.appendChild(optionsEdit);
+    optionsBlock.appendChild(optionsDel);
+    tuduItemOption.appendChild(optionsBlock);
+    tuduItemOption.appendChild(optionImg);
+
+    // 追加項目內的東西
+    memoItem.appendChild(tuduCheck);
+    memoItem.appendChild(memoTitle);
+    memoItem.appendChild(tuduTime);
+    memoItem.appendChild(tuduItemOption);
+
+    if (isGroup) {
+        const boxIndex = boxId.replace(/itemBoxId/g, '')
+        const collapseBlock = document.querySelector(`.collapse-block-${boxIndex}`)
+        if (!collapseBlock.classList.contains('show')) {
+            new bootstrap.Collapse(collapseBlock).show();
+        }
+        collapseBlock.appendChild(memoItem)
+        const inSortIndex = collapseBlock.children.length - 1
+        pushGroupData({
+            save: save,
+            targetId: boxId,
+            id: memoItem.id,
+            type: 2,
+            title: memoTitle.textContent,
+            memo : memoInfo.textContent,
+            inSort: inSortIndex,
+            outSort: -1,
+        }); // 新增在群組中tuduItem的資料
+    } else {
+        itemBlock[0].appendChild(memoItem);
+        const outSortIndex = itemBlock[0].childElementCount - 1;
+        addFeatData({
+            save: save,
+            type: 1,
+            id: memoItem.id,
+            title: memoTitle.textContent,
             outSort: outSortIndex,
             inSort: -1,
         }); // 新增在外部的tuduItem資料
