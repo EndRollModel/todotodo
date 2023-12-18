@@ -52,6 +52,7 @@ function saveSettingListener() {
         actionElem.setAttribute('action', 'allCheckCancel');
         confirmModal.show();
     })
+    // document.getElementById('settingALLDelBtn').addEventListener('click', ()=>{})
     document.getElementById('frameOnTop').addEventListener('click', async () => {
         // 置頂
         const setOnTop = await window.pageSetting.setOnTop();

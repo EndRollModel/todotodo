@@ -17,12 +17,13 @@
 <body>
 <div class="window-frame">
     <div class="window-frame-set-feat">
-        <div id="frameSetting"><img src="resource/img/setting.svg" alt="" class="dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+        <div id="frameSetting"><img src="resource/img/setting.svg" alt="" class="dropdown-toggle"
+                                    data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 <li><a id="settingFontBtn" class="dropdown-item">設定字型</a></li>
                 <li><a id="settingALLCancelBtn" class="dropdown-item">取消全勾選</a></li>
                 <li><a id="settingAppInfoBtn" class="dropdown-item">關於程式</a></li>
-<!--                <li><a id="settingBgColorBtn" class="dropdown-item"></a></li>-->
+                <!--                <li><a id="settingBgColorBtn" class="dropdown-item"></a></li>-->
             </ul>
         </div>
         <div id="frameOnTop"><img src="resource/img/pin.svg" alt=""></div>
@@ -41,6 +42,25 @@
         </div>
     </div>
     <!-- Modal -->
+    <!--    <div class="modal fade" id="addFeatModal" tabindex="-1" data-bs-backdrop="static"-->
+    <!--         aria-labelledby="addFeatModalTitle" aria-hidden="true">-->
+    <!--        <div class="modal-dialog modal-dialog-centered">-->
+    <!--            <div class="modal-content">-->
+    <!--                <div class="modal-header">-->
+    <!--                    <h5 class="modal-title" id="addFeatModalTitle">新增</h5>-->
+    <!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+    <!--                </div>-->
+    <!--                <div class="modal-body">-->
+    <!--                    <input id="addFeatNameInput" type="text" class="form-control" placeholder="需要新增的項目名稱">-->
+    <!--                    <div class="modal-btn-group">-->
+    <!--                        <button id="addGroupBtn" type="button">群組</button>-->
+    <!--                        <button id="addTuduBtn" type="button">待辦</button>-->
+    <!--                        &lt;!&ndash;                    <button id="addMemoBtn" type="button">記事</button>&ndash;&gt;-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
     <div class="modal fade" id="addFeatModal" tabindex="-1" data-bs-backdrop="static"
          aria-labelledby="addFeatModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -50,11 +70,37 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input id="addFeatNameInput" type="text" class="form-control" placeholder="需要新增的項目名稱">
+                    <div class="add-type-select-box">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="addItemTypeRadio" id="addItemGroupRadio"
+                                   value="group" checked>
+                            <label class="form-check-label" for="addItemGroupRadio">
+                                群組
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="addItemTypeRadio" id="addItemTuduRadio"
+                                   value="tuduItem">
+                            <label class="form-check-label" for="addItemTuduRadio">
+                                待辦
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="addItemTypeRadio" id="addItemMemoRadio"
+                                   value="memoItem">
+                            <label class="form-check-label" for="addItemMemoRadio">
+                                備忘
+                            </label>
+                        </div>
+                    </div>
+                    <input id="addFeatNameInput" type="text" class="form-control" placeholder="需要新增的標題">
+                    <input id="addFeatMemoInput" type="text" class="form-control" placeholder="需要新增的複製內容">
                     <div class="modal-btn-group">
-                        <button id="addGroupBtn" type="button">群組</button>
-                        <button id="addTuduBtn" type="button">待辦</button>
-                        <!--                    <button id="addMemoBtn" type="button">記事</button>-->
+                        <button id="addTypeBtn" type="button">新增</button>
+                        <button type="button" data-bs-dismiss="modal">取消</button>
+                        <button id="addGroupBtn" type="button" hidden="hidden">群組</button>
+                        <button id="addTuduBtn" type="button" hidden="hidden">待辦</button>
+                        <!--    <button id="addMemoBtn" type="button">記事</button>-->
                     </div>
                 </div>
             </div>
@@ -146,7 +192,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="versionModalTitle">版本資訊</h5>
-<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
                 </div>
                 <div class="modal-body">
                     <div id="versionModalMsg"></div>

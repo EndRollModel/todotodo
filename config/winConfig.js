@@ -26,8 +26,8 @@ winConfig.fontTable = {
     'NaikaiFont' : '內海字型',
     'NaikaiFontLight': '內海字型(細)',
     '微軟正黑體': "微軟正黑體",
-    'NotoSansTC-Light': "思源黑體",
-    'NotoSansTC-Regular': "思源黑體(正)",
+    'NotoSansTC-Regular': "思源黑體",
+    'NotoSansTC-Light': "思源黑體(細)",
 }
 
 // 讀取中的畫面
