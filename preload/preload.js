@@ -68,6 +68,14 @@ contextBridge.exposeInMainWorld('pageSetting', {
     }
 })
 
+// 剪貼簿
+contextBridge.exposeInMainWorld('clipboardFunc', {
+    writeClipboard: (data) =>{
+        return ipcRenderer.invoke('writeClipboard', data)
+    },
+    read: ()=>{}
+})
+
 
 let closeAppBtn;
 let zoomOutBtn;

@@ -93,7 +93,7 @@
                             </label>
                         </div>
                     </div>
-                    <input id="addFeatNameInput" type="text" class="form-control" placeholder="需要新增的標題">
+                    <input id="addFeatTitleInput" type="text" class="form-control" placeholder="需要新增的標題">
                     <input id="addFeatMemoInput" type="text" class="form-control" placeholder="需要新增的複製內容">
                     <div class="modal-btn-group">
                         <button id="addTypeBtn" type="button">新增</button>
@@ -126,6 +126,43 @@
             </div>
         </div>
     </div>
+    <!--  新增SItem  -->
+    <div class="modal fade" id="addInItemModal" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addInItemModalTitle">新增</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="add-type-select-box">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="addInItemTypeRadio" id="addInTuduRadio"
+                                   value="tuduItem">
+                            <label class="form-check-label" for="addInTuduRadio">
+                                待辦
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="addInItemTypeRadio" id="addInMemoMemoRadio"
+                                   value="memoItem">
+                            <label class="form-check-label" for="addInMemoMemoRadio">
+                                備忘
+                            </label>
+                        </div>
+                    </div>
+                    <input id="addInTitleInput" type="text" class="form-control" placeholder="需要新增的標題">
+                    <input id="addInInfoInput" type="text" class="form-control" placeholder="需要新增的內容">
+                    <div class="modal-btn-group">
+                        <p id="addInHidden" hidden="hidden"></p>
+                        <button id="checkAddInItemBtn" type="button">確認</button>
+                        <button type="button" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--  edit編輯名稱   -->
     <div class="modal fade" id="editName" tabindex="-1" data-bs-backdrop="static"
          aria-labelledby="addFeatModalTitle" aria-hidden="true">
@@ -140,6 +177,27 @@
                     <p id="editTuduHidden" hidden="hidden"></p>
                     <div class="modal-btn-group">
                         <button id="editNameBtn" type="button">確認</button>
+                        <button type="button" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  edit編輯內容   -->
+    <div class="modal fade" id="editMemoModal" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editMemoModalTitle">編輯名稱</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input id="editMemoTitleInput" type="text" class="form-control" placeholder="需要編輯的標題">
+                    <input id="editMemoInput" type="text" class="form-control" placeholder="需要編輯的複製內容">
+                    <p id="editMemoHidden" hidden="hidden"></p>
+                    <div class="modal-btn-group">
+                        <button id="editMemoBtn" type="button">確認</button>
                         <button type="button" data-bs-dismiss="modal">取消</button>
                     </div>
                 </div>
@@ -230,6 +288,6 @@
 <script src="resource/js/bootstrap.bundle.min.js"></script>
 <script src="resource/js/Sortable.min.js"></script>
 <script src="renderer/renderer.js"></script>
-<script src="renderer/styleRenderer.js"></script>
+<script src="renderer/settingRenderer.js"></script>
 </body>
 </html>

@@ -255,8 +255,15 @@ body {
     background-color: rgba(255, 214, 222, 0.5);
 }
 
-.tudu-item {
-    /*群組物件*/
+.popover {
+    border-radius: 8px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ffd6de;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.tudu-item, .memo-item{
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
@@ -274,7 +281,10 @@ body {
     /*background-color: transparent;*/
     background-color: rgba(255, 255, 255, 0.3);
     box-shadow: 1px 1px 0 0 #ffd6de;
-
+}
+.memo-item > .memo-span{
+    -webkit-user-drag: none;
+    margin-left: 5%;
 }
 
 [class^="collapse-block-"] {
@@ -327,7 +337,7 @@ body {
     text-align: center;
 }
 
-.tudu-item-title {
+.tudu-item-title, .memo-item-title {
     -webkit-user-drag: none;
     text-align: center;
 }
@@ -337,11 +347,11 @@ body {
     font-size: 13px;
 }
 
-.tudu-item-option {
+.tudu-item-option, .memo-item-option {
     margin-right: 5%;
 }
 
-.tudu-item-option > img {
+.tudu-item-option > img, memo-item-option > img {
     -webkit-user-select: none;
     -webkit-user-drag: none;
 }
@@ -354,11 +364,15 @@ button:focus {
     width: 5px;
     height: 5px;
 }
-#addFeatModal > div > div > .modal-body{
+
+#addFeatModal > div > div > .modal-body,
+#addInItemModal > div > div > .modal-body,
+#editMemoModal > div > div > .modal-body{
     display: flex;
     flex-direction: column;
     gap : 5px
 }
+
 
 .modal-body > input {
     border-color: #ffd6de;
@@ -417,7 +431,7 @@ button:focus {
 .add-type-select-box{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-content: center;
     padding-bottom: 15px;
 }

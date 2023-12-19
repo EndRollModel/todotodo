@@ -2,9 +2,7 @@ const path = require('path');
 const builder = require('electron-builder');
 const appConfig = require('./config/winConfig');
 builder.build({
-
     projectDir: path.resolve(__dirname),  // 專案路徑
-
     win: ['nsis', 'portable'],  // nsis . portable
     config: {
         "appId": "com.uwumei.tudutudu",

@@ -3,27 +3,27 @@ const path = require('path');
 
 // app之中的參數
 winConfig.appConfig = {
-    version : '0.1.3.7',
-    indexPageFile : 'index.html', // main的html頁面
-    loadingPageFile : 'loading.html', // 讀取中的html頁面
-    openDevTools : false, // 是否開啟除錯模式
-    tuduPageName : 'tudu',
-    memoPageName : 'memo',
+    version: '0.1.3.7',
+    indexPageFile: 'index.html', // main的html頁面
+    loadingPageFile: 'loading.html', // 讀取中的html頁面
+    openDevTools: false, // 是否開啟除錯模式
+    tuduPageName: 'tudu',
+    memoPageName: 'memo',
 }
 
 // 頁面上的一些參數設定
 winConfig.pageConfig = {
-    pageGray : '#808080', // 灰色
-    pageColorPink : '#ffd6de', // 粉紅色
-    pageColorBlue : '#8cb5ff', // 淡藍色
-    defFont : 'Cubic_11',
+    pageGray: '#808080', // 灰色
+    pageColorPink: '#ffd6de', // 粉紅色
+    pageColorBlue: '#8cb5ff', // 淡藍色
+    defFont: 'Cubic_11',
 }
 
 // 字體對照表
 winConfig.fontTable = {
     'Cubic_11': '俐方體11號/(Cubic 11)',
-    'GenJyuuGothic' : '思源柔黑',
-    'NaikaiFont' : '內海字型',
+    'GenJyuuGothic': '思源柔黑',
+    'NaikaiFont': '內海字型',
     'NaikaiFontLight': '內海字型(細)',
     '微軟正黑體': "微軟正黑體",
     'NotoSansTC-Regular': "思源黑體",
@@ -40,8 +40,8 @@ winConfig.loadingWindowOptions = {
     movable: false, // 能否移動視窗
     maximizable: false, //禁止最大化
     autoHideMenuBar: true, // 隱藏工具列
-    delayTime : 1400, // 讀取的延遲時間
-    alwaysOnTop : true, // 是否置頂
+    delayTime: 1400, // 讀取的延遲時間
+    alwaysOnTop: true, // 是否置頂
 }
 
 // 視窗中的設定
@@ -58,7 +58,7 @@ winConfig.mainWindowOptions = {
     movable: true, // 能否移動視窗
     maximizable: false, //禁止最大化
     autoHideMenuBar: true, // 隱藏工具列
-    alwaysOnTop : false, // 是否置頂
+    alwaysOnTop: false, // 是否置頂
     webPreferences: {
         preload: path.join(__dirname, '../preload/preload.js')
     }
@@ -72,6 +72,5 @@ winConfig.saveDataOption = {
     userSettingName: 'userSetting.json',
     tuduDataName: 'tuduData.json',
 }
-
 
 module.exports = winConfig;

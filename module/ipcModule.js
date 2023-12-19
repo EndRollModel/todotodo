@@ -1,4 +1,4 @@
-const {app, ipcMain, BrowserWindow} = require('electron');
+const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard} = require('electron');
 const {appConfig, fontTable} = require('../config/winConfig');
 const versionInfo = require('../config/versionRecord');
 const fileSysModule = require('../module/fileSysModule');
@@ -13,6 +13,7 @@ function setIpcModule() {
     userFeatListener(); // 使用者資料
     userSetting(); // 使用這的設定資料
     aboutApplication(); // 回傳
+    clipboardFunc(); // 寫入剪貼簿功能
 }
 
 function mainWindowListener() {
@@ -92,6 +93,20 @@ function aboutApplication() {
         return versionInfo;
     })
 }
+
+function clipboardFunc() {
+    ipcMain.handle('writeClipboard', (ev, data)=>{
+        clipboard.writeText(data, "clipboard");
+        return 'written';
+    })
+}
+// contextBridge.exposeInMainWorld('clipboard', {
+//     write: () =>{
+//         return ipcRenderer.invoke('writeClipboard')
+//     },
+//     read: ()=>{}
+// })
+
 
 module.exports = {
     setIpcModule,

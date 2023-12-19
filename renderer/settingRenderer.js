@@ -63,6 +63,8 @@ function saveSettingListener() {
             pinState.src = './resource/img/pin.svg';
         }
     })
+
+    // 關於程式的按鈕
     document.getElementById('settingAppInfoBtn').addEventListener('click', async () => {
         // app的資訊
         const {version, info} = await window.appInfo.version();
@@ -77,6 +79,7 @@ function saveSettingListener() {
         appInfoModal.show();
     })
 
+    // clean all checked
     document.getElementById('confirmCheckBtn').addEventListener('click', (e)=>{
        // 認證的動作
         const actionValue = document.getElementById('confirmHidden').getAttribute('action')
