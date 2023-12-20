@@ -510,7 +510,7 @@ function delItem(target) {
         })
     } else {
         // 內層結構
-        const fromClass = evt.to.className.replace(/ /g, '.')
+        const fromClass = targetItem.parentElement.className.replace(/ /g, '.')
         Object.values(document.querySelector(`.${fromClass}`).children).forEach((elem, index) => {
             // collapse : inSort
             const dataIndex = userData.findIndex(e => e.id === elem.id)
@@ -847,18 +847,27 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
         // tuduItem.setAttribute('boxIndex', itemIndex.toString());
         memoItem.setAttribute('boxId', boxId);
     }
+    memoItem.addEventListener('show.bs.popover', function (env){
+        console.log('你有進來嗎?')
+            // env.target.style.fontFamily = document.body.style.fontFamily;
+        console.log(env);
+        console.log(env.target);
+    })
 
     memoItem.addEventListener('mouseup', async (ev) => {
         ev.preventDefault();
         console.log(ev.button);
         if (ev.button === 2) {
-            const dataIndex = userData.findIndex((item) => item.id === memoItem.id)
+            const dataIndex = userData.findIndex((item) => item.id === memoItem.id);
             await window.clipboardFunc.writeClipboard(userData[dataIndex].memo.toString())
             const memePopover = new bootstrap.Popover(memoItem, {
                 content: '已複製內容',
                 placement: 'auto',
             })
             memePopover.show();
+            document.querySelectorAll('.popover-body').forEach((body)=> {
+                body.style.fontFamily = document.body.style.fontFamily
+            });
             setTimeout(() => {
                 memePopover.dispose();
             }, 1000);
