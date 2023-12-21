@@ -6,12 +6,14 @@ let confirmModal;
 
 const modalList = {
     font: {name: 'fontSettingModal', object: ''},
-    bgColor: {name: 'bgColorSettingModal', object: ''},
+    theme: {name: 'themeSettingModal', object: ''},
 };
 
 (async function () {
     await loadSetting();
     await createSettingModal(modalList.font);
+    await createSettingModal(modalList.theme);
+    settingColor()
     saveSettingListener();
 })();
 
@@ -44,12 +46,23 @@ function saveSettingListener() {
         // 設定字型
         modalList.font.object.show();
     })
+    document.getElementById('settingThemeBtn').addEventListener('click', () => {
+        // 設定字型
+        modalList.theme.object.show();
+    })
     document.getElementById('settingALLCancelBtn').addEventListener("click", () => {
         //全部取消
         const msgBox = document.getElementById('confirmModalMsg')
         msgBox.textContent = '是否取消所有打勾的內容？';
         const actionElem = document.getElementById('confirmHidden');
         actionElem.setAttribute('action', 'allCheckCancel');
+        confirmModal.show();
+    })
+    document.getElementById('settingALLDelBtn').addEventListener('click', () => {
+        const msgBox = document.getElementById('confirmModalMsg');
+        msgBox.textContent = '是否刪除所有內容？';
+        const actionElem = document.getElementById('confirmHidden');
+        actionElem.setAttribute('action', 'allDataDel');
         confirmModal.show();
     })
     // document.getElementById('settingALLDelBtn').addEventListener('click', ()=>{})
@@ -80,22 +93,27 @@ function saveSettingListener() {
     })
 
     // clean all checked
-    document.getElementById('confirmCheckBtn').addEventListener('click', (e)=>{
-       // 認證的動作
+    document.getElementById('confirmCheckBtn').addEventListener('click', (e) => {
+        // 認證的動作
         const actionValue = document.getElementById('confirmHidden').getAttribute('action')
-        switch (actionValue){
+        switch (actionValue) {
             case 'allCheckCancel':
                 // 取消所有內容
-                document.querySelectorAll('[type="checkbox"]').forEach((e)=>{
+                document.querySelectorAll('[type="checkbox"]').forEach((e) => {
                     if (e.checked) {
                         e.click();
                     }
                 });
-                document.querySelectorAll('[type="checkbox"]').forEach((e)=>{
-                    if(e.checked){
+                document.querySelectorAll('[type="checkbox"]').forEach((e) => {
+                    if (e.checked) {
                         e.checked = false
                     }
                 });
+                confirmModal.hide();
+                break;
+            case 'allDataDel':
+                document.querySelector('.item-block').innerHTML = ''; // 清空
+                window.userFeat.saveUserData([]);
                 confirmModal.hide();
                 break;
             default:
@@ -123,8 +141,8 @@ async function createSettingModal(type) {
         case modalList.font.name:
             modal.id = modalList.font.name;
             break
-        case modalList.bgColor.name:
-            modal.id = modalList.bgColor.name;
+        case modalList.theme.name:
+            modal.id = modalList.theme.name;
             break
     }
     // modal.id = 'settingModal';
@@ -182,7 +200,8 @@ async function createSettingModal(type) {
         case modalList.font.name:
             modalBodyOption.append(...await createFontOption());
             break;
-        case modalList.bgColor.name:
+        case modalList.theme.name:
+            modalBodyOption.append(...await createThemeOption());
             break;
     }
 
@@ -210,7 +229,10 @@ async function createSettingModal(type) {
                 window.setting.saveUserSetting(userSetting);
                 thisModal.hide();
                 break;
-            case modalList.bgColor.name:
+            case modalList.theme.name:
+                thisModal.hide();
+                // userSetting.theme = selectTheme.value;
+                window.setting.saveUserSetting(userSetting);
                 break;
         }
     })
@@ -248,11 +270,12 @@ async function createSettingModal(type) {
         case modalList.font.name:
             modalList.font.object = thisModal;
             break;
-        case modalList.bgColor.name:
-            modalList.bgColor.object = thisModal;
+        case modalList.theme.name:
+            modalList.theme.object = thisModal;
             break;
     }
 }
+
 
 // 字型選項的內容
 async function createFontOption() {
@@ -287,5 +310,82 @@ async function createFontOption() {
         selectElement.appendChild(optionElement);
     });
     return [settingFontTitle, selectElement];
+}
+
+async function createThemeOption() {
+    // 創建 h6 元素
+    const settingColorTitle = document.createElement('h6');
+    settingColorTitle.id = 'settingBgColorTitle';
+    settingColorTitle.textContent = '主題';
+
+    // 創建 select 元素
+    const selectElement = document.createElement('select');
+    selectElement.id = 'bgColorSelect'
+    selectElement.className = 'form-select';
+    selectElement.style.width = '70%';
+    selectElement.setAttribute('aria-label', '');
+
+    // 創建 option 元素
+    const themeColorList = await window.theme.getThemeList();
+    Object.keys(themeColorList).forEach((e, index) => {
+        const optionElement = document.createElement('option');
+        if (Object.hasOwn(userSetting, 'themeColor')) {
+            if (userSetting.themeColor === e) {
+                optionElement.setAttribute('selected', 'true')
+            }
+        } else {
+            if (index === 0) {
+                optionElement.setAttribute('selected', 'true');
+            }
+        }
+        optionElement.value = e;
+        optionElement.textContent = themeColorList[e];
+        // 添加 option 到 select
+        selectElement.appendChild(optionElement);
+    });
+    return [settingColorTitle, selectElement];
+}
+
+
+async function settingColor() {
+    const mainBackground = document.querySelector('.body-block'); // 主題背景
+    // document.querySelector('[]')
+    // dark mode
+}
+const colorList = {
+    lightMode : {
+        MainBgColor: '#ffffffe6',
+        fontColor : ''
+    },
+    darkMode : {
+        MainBackgroundColor : '#212121E6',
+        fontColor : '#bdbdbdE6'
+        // background color = 212121
+        // font - color = bdbdbd
+    }
+}
+
+const alpha = {
+    '100%': 'FF',
+    '95%': 'F2',
+    '90%': 'E6',
+    '85%': 'D9',
+    '80%': 'CC',
+    '75%': 'BF',
+    '70%': 'B3',
+    '65%': 'A6',
+    '60%': '99',
+    '55%': '8C',
+    '50%': '80',
+    '45%': '73',
+    '40%': '66',
+    '35%': '59',
+    '30%': '4D',
+    '25%': '40',
+    '20%': '33',
+    '15%': '26',
+    '10%': '1A',
+    '5%': '0D',
+    '0%': '00'
 }
 

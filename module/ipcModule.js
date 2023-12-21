@@ -1,5 +1,5 @@
-const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard} = require('electron');
-const {appConfig, fontTable} = require('../config/winConfig');
+const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard, nativeTheme} = require('electron');
+const {appConfig, fontTable, themeList} = require('../config/winConfig');
 const versionInfo = require('../config/versionRecord');
 const fileSysModule = require('../module/fileSysModule');
 const dayjs = require("dayjs");
@@ -14,6 +14,7 @@ function setIpcModule() {
     userSetting(); // 使用這的設定資料
     aboutApplication(); // 回傳
     clipboardFunc(); // 寫入剪貼簿功能
+    themeFunc(); // 主題相關
 }
 
 function mainWindowListener() {
@@ -98,6 +99,25 @@ function clipboardFunc() {
     ipcMain.handle('writeClipboard', (ev, data)=>{
         clipboard.writeText(data, "clipboard");
         return 'written';
+    })
+}
+
+function themeFunc (){
+    ipcMain.handle('dark-mode:toggle', () => {
+        if (nativeTheme.shouldUseDarkColors) {
+            nativeTheme.themeSource = 'light'
+        } else {
+            nativeTheme.themeSource = 'dark'
+        }
+        return nativeTheme.shouldUseDarkColors
+    })
+
+    ipcMain.handle('dark-mode:system', () => {
+        nativeTheme.themeSource = 'system'
+    })
+
+    ipcMain.handle('getThemeList', ()=>{
+        return themeList;
     })
 }
 // contextBridge.exposeInMainWorld('clipboard', {

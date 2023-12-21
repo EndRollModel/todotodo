@@ -13,15 +13,21 @@
     <link rel="prefetch" href="resource/font/Cubic_11.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="prefetch" href="resource/font/GenJyuuGothic.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="prefetch" href="resource/font/NaikaiFont.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="prefetch" href="resource/font/NaikaiFontLight.woff" as="font" type="font/woff" crossorigin>
+    <link rel="prefetch" href="resource/font/NotoSansTC-Light.ttf" as="font" crossorigin>
+    <link rel="prefetch" href="resource/font/NotoSansTC-Regular.ttf" as="font" crossorigin>
 </head>
 <body>
 <div class="window-frame">
     <div class="window-frame-set-feat">
-        <div id="frameSetting"><img src="resource/img/setting.svg" alt="" class="dropdown-toggle"
-                                    data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+        <div id="frameSetting">
+            <img src="resource/img/setting.svg" alt="" class="dropdown-toggle" data-bs-toggle="dropdown"
+                 data-bs-auto-close="true" aria-expanded="false">
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 <li><a id="settingFontBtn" class="dropdown-item">設定字型</a></li>
+                <li><a id="settingThemeBtn" class="dropdown-item">設定主題</a></li>
                 <li><a id="settingALLCancelBtn" class="dropdown-item">取消全勾選</a></li>
+                <li><a id="settingALLDelBtn" class="dropdown-item">刪除所有內容</a></li>
                 <li><a id="settingAppInfoBtn" class="dropdown-item">關於程式</a></li>
                 <!--                <li><a id="settingBgColorBtn" class="dropdown-item"></a></li>-->
             </ul>
@@ -42,25 +48,6 @@
         </div>
     </div>
     <!-- Modal -->
-    <!--    <div class="modal fade" id="addFeatModal" tabindex="-1" data-bs-backdrop="static"-->
-    <!--         aria-labelledby="addFeatModalTitle" aria-hidden="true">-->
-    <!--        <div class="modal-dialog modal-dialog-centered">-->
-    <!--            <div class="modal-content">-->
-    <!--                <div class="modal-header">-->
-    <!--                    <h5 class="modal-title" id="addFeatModalTitle">新增</h5>-->
-    <!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-    <!--                </div>-->
-    <!--                <div class="modal-body">-->
-    <!--                    <input id="addFeatNameInput" type="text" class="form-control" placeholder="需要新增的項目名稱">-->
-    <!--                    <div class="modal-btn-group">-->
-    <!--                        <button id="addGroupBtn" type="button">群組</button>-->
-    <!--                        <button id="addTuduBtn" type="button">待辦</button>-->
-    <!--                        &lt;!&ndash;                    <button id="addMemoBtn" type="button">記事</button>&ndash;&gt;-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
     <div class="modal fade" id="addFeatModal" tabindex="-1" data-bs-backdrop="static"
          aria-labelledby="addFeatModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -145,7 +132,8 @@
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="addInItemTypeRadio" id="addInMemoMemoRadio"
+                            <input class="form-check-input" type="radio" name="addInItemTypeRadio"
+                                   id="addInMemoMemoRadio"
                                    value="memoItem">
                             <label class="form-check-label" for="addInMemoMemoRadio">
                                 備忘
@@ -233,7 +221,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h6 style="text-align: center" id="delTitleText"></h6>
+                    <h6 id="delTitleText"></h6>
                     <p id="delItemHidden" hidden="hidden"></p>
                     <div class="modal-btn-group">
                         <button id="delItemBtn" type="button">確認</button>
@@ -272,7 +260,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h6 style="text-align: center" id="confirmModalMsg"></h6>
+                    <h6 id="confirmModalMsg"></h6>
                 </div>
                 <div hidden="hidden" id="confirmHidden"></div>
                 <div class="modal-footer">

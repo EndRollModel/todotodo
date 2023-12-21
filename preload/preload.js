@@ -76,6 +76,17 @@ contextBridge.exposeInMainWorld('clipboardFunc', {
     read: ()=>{}
 })
 
+contextBridge.exposeInMainWorld('theme', {
+    getThemeList :() =>{
+        return ipcRenderer.invoke('getThemeList');
+    }
+});
+
+// 黑暗模式
+contextBridge.exposeInMainWorld('darkMode', {
+    toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
+    system: () => ipcRenderer.invoke('dark-mode:system')
+})
 
 let closeAppBtn;
 let zoomOutBtn;

@@ -216,7 +216,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     addItemTypeRadios = document.querySelectorAll('input[name="addItemTypeRadio"]');
     addItemTypeRadios.forEach(function (radio) {
         radio.addEventListener('change', () => {
-            console.log(radio.value);
             switch (radio.value) {
                 case typeList.group:
                     addFeatMemoInput.style.display = 'none';
@@ -847,16 +846,9 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
         // tuduItem.setAttribute('boxIndex', itemIndex.toString());
         memoItem.setAttribute('boxId', boxId);
     }
-    memoItem.addEventListener('show.bs.popover', function (env){
-        console.log('你有進來嗎?')
-            // env.target.style.fontFamily = document.body.style.fontFamily;
-        console.log(env);
-        console.log(env.target);
-    })
 
     memoItem.addEventListener('mouseup', async (ev) => {
         ev.preventDefault();
-        console.log(ev.button);
         if (ev.button === 2) {
             const dataIndex = userData.findIndex((item) => item.id === memoItem.id);
             await window.clipboardFunc.writeClipboard(userData[dataIndex].memo.toString())

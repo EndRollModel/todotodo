@@ -30,6 +30,11 @@ winConfig.fontTable = {
     'NotoSansTC-Light': "思源黑體(細)",
 }
 
+winConfig.themeList = {
+    'dark': '黑暗模式',
+    'light': '正常模式'
+}
+
 // 讀取中的畫面
 winConfig.loadingWindowOptions = {
     width: 500, // 預設的寬度
