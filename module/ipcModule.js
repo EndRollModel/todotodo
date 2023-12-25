@@ -1,4 +1,4 @@
-const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard, nativeTheme} = require('electron');
+const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard, nativeTheme, Notification} = require('electron');
 const {appConfig, fontTable, themeList} = require('../config/winConfig');
 const versionInfo = require('../config/versionRecord');
 const fileSysModule = require('../module/fileSysModule');
@@ -15,6 +15,7 @@ function setIpcModule() {
     aboutApplication(); // 回傳
     clipboardFunc(); // 寫入剪貼簿功能
     themeFunc(); // 主題相關
+    notificationFunc(); // 通知相關
 }
 
 function mainWindowListener() {
@@ -88,21 +89,21 @@ function userSetting() {
 
 function aboutApplication() {
     ipcMain.handle('version', () => {
-        return {version : appConfig.version , info : versionInfo[appConfig.version]};
+        return {version: appConfig.version, info: versionInfo[appConfig.version]};
     })
-    ipcMain.handle('allVersion', ()=>{
+    ipcMain.handle('allVersion', () => {
         return versionInfo;
     })
 }
 
 function clipboardFunc() {
-    ipcMain.handle('writeClipboard', (ev, data)=>{
+    ipcMain.handle('writeClipboard', (ev, data) => {
         clipboard.writeText(data, "clipboard");
         return 'written';
     })
 }
 
-function themeFunc (){
+function themeFunc() {
     ipcMain.handle('dark-mode:toggle', () => {
         if (nativeTheme.shouldUseDarkColors) {
             nativeTheme.themeSource = 'light'
@@ -116,10 +117,21 @@ function themeFunc (){
         nativeTheme.themeSource = 'system'
     })
 
-    ipcMain.handle('getThemeList', ()=>{
+    ipcMain.handle('getThemeList', () => {
         return themeList;
     })
 }
+
+function notificationFunc() {
+    ipcMain.on('sendNotification', (ev, data) => {
+        new Notification({
+            title: data.title,
+            body: data.body,
+        }).show()
+    })
+
+}
+
 // contextBridge.exposeInMainWorld('clipboard', {
 //     write: () =>{
 //         return ipcRenderer.invoke('writeClipboard')

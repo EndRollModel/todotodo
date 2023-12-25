@@ -233,6 +233,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     addTypeBtn.addEventListener('click', () => {
         addItemTypeRadios.forEach(function (radio) {
             if (radio.checked) {
+                let addItem = false;
                 switch (radio.value) {
                     case typeList.group:
                         if (addFeatTitleInput.value.trim() === '') {
@@ -241,6 +242,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                         }
                         addGroupItem(addFeatTitleInput.value, null, true);
                         addFeatTitleInput.value = ''; // 清除
+                        addItem = true;
                         break;
                     case typeList.tuduItem:
                         if (addFeatTitleInput.value.trim() === '') {
@@ -249,6 +251,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                         }
                         addTuduItem(-1, addFeatTitleInput.value, null, false, null, true);
                         addFeatTitleInput.value = ''; // 清除
+                        addItem = true;
                         break;
                     case typeList.memoItem:
                         if (addFeatTitleInput.value.trim() === '') {
@@ -262,12 +265,15 @@ document.addEventListener('DOMContentLoaded', async function () {
                         addMemoItem(-1, null, addFeatTitleInput.value, addFeatMemoInput.value, true);
                         addFeatTitleInput.value = ''; // 清除
                         addFeatMemoInput.value = ''; // 清除
+                        addItem = true;
                         break;
                 }
+                if (addItem) {
+                    updateUserData();
+                    addFeatModal.hide();
+                }
             }
-            addFeatModal.hide();
         })
-        updateUserData();
     })
 
     // 由群組新增按鈕事件
@@ -305,21 +311,21 @@ document.addEventListener('DOMContentLoaded', async function () {
     })
     checkAddInItemBtn.addEventListener('click', (ev) => {
         addInItemTypeRadios.forEach((radio) => {
-            if (addInTitleInput.value.trim() === '') {
-                addInTitleInput.placeholder = '內容不能為空白'
-                return;
-            }
-            if (addInInfoInput.value.trim() === '') {
-                addInInfoInput.placeholder = '內容不能為空白'
-                return;
-            }
             if (radio.checked) {
+                if (addInTitleInput.value.trim() === '') {
+                    addInTitleInput.placeholder = '內容不能為空白'
+                    return;
+                }
                 switch (radio.value) {
                     case typeList.tuduItem:
                         addTuduItem(addInHidden.getAttribute('boxId'), addInTitleInput.value, null, false, null, true);
-                        addTuduInput.value = ''; // 清除
+                        addInTitleInput.value = ''; // 清除
                         break;
                     case typeList.memoItem:
+                        if (addInInfoInput.value.trim() === '') {
+                            addInInfoInput.placeholder = '內容不能為空白'
+                            return;
+                        }
                         addMemoItem(addInHidden.getAttribute('boxId'), null, addInTitleInput.value, addInInfoInput.value, true)
                         addInTitleInput.value = '';
                         addInInfoInput.value = '';
@@ -375,7 +381,7 @@ document.addEventListener('DOMContentLoaded', async function () {
  * @param obj
  * @param groupName
  */
-function creatSortable(obj, groupName, block, option) {
+function creatSortable(obj, groupName) {
     new Sortable(obj, {
         group: groupName,
         animation: 150,
@@ -384,7 +390,8 @@ function creatSortable(obj, groupName, block, option) {
         onMove: function (evt, originalEvent) {
             // Example: https://jsbin.com/nawahef/edit?js,output
             if (evt.dragged.classList.contains('item-box') &&
-                evt.related.parentElement.classList.contains('collapse')) {
+                (evt.related.parentElement.classList.contains('collapse') ||
+                evt.related.parentElement.classList.contains('item-box'))) {
                 // group不可被放入至group中
                 return false;
             }
@@ -857,7 +864,7 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
                 placement: 'auto',
             })
             memePopover.show();
-            document.querySelectorAll('.popover-body').forEach((body)=> {
+            document.querySelectorAll('.popover-body').forEach((body) => {
                 body.style.fontFamily = document.body.style.fontFamily
             });
             setTimeout(() => {

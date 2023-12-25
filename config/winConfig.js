@@ -11,6 +11,82 @@ winConfig.appConfig = {
     memoPageName: 'memo',
 }
 
+winConfig.themeList = {
+    'dark': '黑暗模式',
+    'light': '明亮模式'
+}
+
+// bg(background)背景 bd(border)框線
+winConfig.windowColor = {
+    toolbarColor: {
+        name: '標題列',
+        elem: '.window-frame',
+        bgColor: '#646464', bgColorName : '--toolbarBg'
+    },
+    backgroundColor: {
+        name: '主背景顏色',
+        elem: '.body-block',
+        bgColor: '#FFFFFFE6', bgColorName: '--bgColor',
+    },
+    addFeatButton: {
+        name: '新增按鈕',
+        elem: '#addFeatBtn',
+        borderColor: '#FFD6DE', bdColorName: '--addFeatBDColor',
+        bgColor: '#00000000', bgColorName: '--addFeatBGColor',
+        hover: {}
+    },
+    groupItemColor: {
+        name: '群組',
+        elem: '.tudu-g-item',
+        borderColor: '#ffd6de', bdColorName: '--groupItemBDColor',
+        bgColor: '#FFFFFF4C', bgColorName: '--groupItemBGColor',
+        boxShadow: '1px 1px 0 0 #ffd6de'
+    },
+    memoItemColor: {
+        name: '備忘',
+        elem: '.memo-item',
+        bgColor: '#FFFFFF4C', bgColorName: '--memoItemBGColor',
+        borderColor: '#FFD6DE', bdColorName: '--memoItemBDColor',
+        boxShadow: '1px 1px 0 0 #FFD6DE '
+    },
+    tuduItemColor: {
+        name: '待辦',
+        elem: '.tudu-item',
+        bgColor: '#FFFFFF4C',
+        borderColor: '#ffd6de',
+        boxShadow: '1px 1px 0 0 #ffd6de'
+    },
+    modalInput: {
+        name: '提示框輸入框',
+        elem: '.modal-body > input',
+        focus: {borderColor: '#ffd6de', boxShadow: '2px 2px 0 0 #ffd6de'}
+    },
+    formSelect: {
+        name: '被選擇的項目',
+        elem: '.form-select',
+        borderColor: '#ffd6de',
+        focus: {borderColor: '#ffd6de', boxShadow: '2px 2px 0 0 #ffd6de'}
+    },
+    modalButton: {
+        name: '提示框按鈕',
+        elem: '.modal-btn-group > button',
+        borderColor: '#ffd6de',
+        bgColor: '#ffffff',
+        hover: {boxShadow: '2px 2px 0 0 #ffd6de;'}
+    },
+    popoverColor: {
+        name: '提示窗', elem: '.popover', bgColor: '#FFFFFFCC', borderColor: '#ffd6de', hover: {
+            backgroundColor: '#FFD6DE7F'
+        }
+    },
+    dropdownMenu: {
+        name: '選項選單',
+        elem: '.dropdown-menu',
+        bgColor: '#FFFFFFCC',
+        borderColor: '#ffd6de',
+    }
+}
+
 // 頁面上的一些參數設定
 winConfig.pageConfig = {
     pageGray: '#808080', // 灰色
@@ -28,11 +104,6 @@ winConfig.fontTable = {
     '微軟正黑體': "微軟正黑體",
     'NotoSansTC-Regular': "思源黑體",
     'NotoSansTC-Light': "思源黑體(細)",
-}
-
-winConfig.themeList = {
-    'dark': '黑暗模式',
-    'light': '正常模式'
 }
 
 // 讀取中的畫面

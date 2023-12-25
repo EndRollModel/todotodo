@@ -88,6 +88,10 @@ contextBridge.exposeInMainWorld('darkMode', {
     system: () => ipcRenderer.invoke('dark-mode:system')
 })
 
+contextBridge.exposeInMainWorld('notification', {
+    send: (data) => { ipcRenderer.send('sendNotification', data) }
+})
+
 let closeAppBtn;
 let zoomOutBtn;
 

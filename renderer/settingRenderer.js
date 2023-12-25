@@ -365,6 +365,12 @@ const colorList = {
     }
 }
 
+function setCustomColor(){
+    // focus用 addEventListener('focus')
+    // hover用 mouseenter 與 mouseleave
+    // active用 mousedown 與 mouseup
+}
+
 const alpha = {
     '100%': 'FF',
     '95%': 'F2',
