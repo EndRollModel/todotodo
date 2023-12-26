@@ -1,4 +1,9 @@
 const versionRecord = {
+    '0.1.4-beta.1':{
+      state: 'beta',
+      date: '2023/12/??',
+      info: '修復了群組內無法正常建立子項目的錯誤\r新增通知功能',
+    },
     '0.1.3.8':{
         state: 'beta',
         date: '2023/12/19',

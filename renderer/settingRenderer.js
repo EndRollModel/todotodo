@@ -1,5 +1,5 @@
 // page style with config in here
-//Cubic_11,NaikaiFont,GenJyuuGothic
+// Cubic_11,NaikaiFont,GenJyuuGothic
 let userSetting;
 let appInfoModal;
 let confirmModal;
@@ -13,7 +13,7 @@ const modalList = {
     await loadSetting();
     await createSettingModal(modalList.font);
     await createSettingModal(modalList.theme);
-    settingColor()
+    await settingColor()
     saveSettingListener();
 })();
 
@@ -84,10 +84,14 @@ function saveSettingListener() {
         const msgBox = document.getElementById('versionModalMsg');
         const versionNumTitle = document.createElement('h6');
         msgBox.innerHTML = '';
-        versionNumTitle.textContent = `版本:${version}`;
+        versionNumTitle.textContent = `版本 : ${version}`;
+        const versionNumDate = document.createElement('h6');
+        versionNumDate.textContent = `更新日期 : ${info.date}`
         const versionInfo = document.createElement('div');
-        versionInfo.innerHTML = `${info.date}<hr>${info.info}`;
+        let changeNewLine = info.info.replace(/\r/g, '</br>');
+        versionInfo.innerHTML = `<hr>${changeNewLine}`;
         msgBox.append(versionNumTitle);
+        msgBox.append(versionNumDate);
         msgBox.append(versionInfo);
         appInfoModal.show();
     })
@@ -352,20 +356,21 @@ async function settingColor() {
     // document.querySelector('[]')
     // dark mode
 }
+
 const colorList = {
-    lightMode : {
+    lightMode: {
         MainBgColor: '#ffffffe6',
-        fontColor : ''
+        fontColor: ''
     },
-    darkMode : {
-        MainBackgroundColor : '#212121E6',
-        fontColor : '#bdbdbdE6'
+    darkMode: {
+        MainBackgroundColor: '#212121E6',
+        fontColor: '#bdbdbdE6'
         // background color = 212121
         // font - color = bdbdbd
     }
 }
 
-function setCustomColor(){
+function setCustomColor() {
     // focus用 addEventListener('focus')
     // hover用 mouseenter 與 mouseleave
     // active用 mousedown 與 mouseup

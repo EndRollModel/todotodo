@@ -1,4 +1,5 @@
-const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard, nativeTheme, Notification} = require('electron');
+// const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard, nativeTheme, Notification} = require('electron');
+const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard, nativeTheme} = require('electron'); // 暫時把
 const {appConfig, fontTable, themeList} = require('../config/winConfig');
 const versionInfo = require('../config/versionRecord');
 const fileSysModule = require('../module/fileSysModule');
@@ -6,13 +7,13 @@ const dayjs = require("dayjs");
 // ipcRenderer.invoke <=>  ipcMain.handle()
 // ipcMain.send() => ipcMain.on()
 function setIpcModule() {
-    mainWindowListener(); // 主頁面上
-    tuduFeatListener(); // 資料
-    timeFeatListener(); // 時間處理
-    tuduSettingListener(); // 字型
+    mainWindowListener(); // 主頁面上 (縮小關閉)
+    tuduFeatListener(); // 資料 (拉取資料)
+    timeFeatListener(); // 時間處理 (點選check時抓取時間)
+    tuduSettingListener(); // 字型 (設定的字型)
     userFeatListener(); // 使用者資料
-    userSetting(); // 使用這的設定資料
-    aboutApplication(); // 回傳
+    userSetting(); // 使用者的設定資料
+    aboutApplication(); // 關於程式
     clipboardFunc(); // 寫入剪貼簿功能
     themeFunc(); // 主題相關
     notificationFunc(); // 通知相關
@@ -124,21 +125,12 @@ function themeFunc() {
 
 function notificationFunc() {
     ipcMain.on('sendNotification', (ev, data) => {
-        new Notification({
-            title: data.title,
-            body: data.body,
-        }).show()
+        // new Notification({
+        //     title: data.title,
+        //     body: data.body,
+        // }).show()
     })
-
 }
-
-// contextBridge.exposeInMainWorld('clipboard', {
-//     write: () =>{
-//         return ipcRenderer.invoke('writeClipboard')
-//     },
-//     read: ()=>{}
-// })
-
 
 module.exports = {
     setIpcModule,
