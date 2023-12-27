@@ -1,9 +1,10 @@
 const winConfig = {};
 const path = require('path');
+const packageInfo = require('../package.json');
 
 // app之中的參數
 winConfig.appConfig = {
-    version: '0.1.4-beta.1',
+    version: packageInfo.version,
     indexPageFile: 'index.html', // main的html頁面
     loadingPageFile: 'loading.html', // 讀取中的html頁面
     openDevTools: false, // 是否開啟除錯模式
@@ -21,7 +22,7 @@ winConfig.windowColor = {
     toolbarColor: {
         name: '標題列',
         elem: '.window-frame',
-        bgColor: '#646464', bgColorName : '--toolbarBg'
+        bgColor: '#646464', bgColorName: '--toolbarBg'
     },
     backgroundColor: {
         name: '主背景顏色',
@@ -40,42 +41,55 @@ winConfig.windowColor = {
         elem: '.tudu-g-item',
         borderColor: '#ffd6de', bdColorName: '--groupItemBDColor',
         bgColor: '#FFFFFF4C', bgColorName: '--groupItemBGColor',
-        boxShadow: '1px 1px 0 0 #ffd6de'
+        boxShadow: '1px 1px 0 0 #ffd6de', bsName: '--groupItemBS',
     },
     memoItemColor: {
-        name: '備忘',
+        name: '剪貼簿',
         elem: '.memo-item',
         bgColor: '#FFFFFF4C', bgColorName: '--memoItemBGColor',
         borderColor: '#FFD6DE', bdColorName: '--memoItemBDColor',
-        boxShadow: '1px 1px 0 0 #FFD6DE '
+        boxShadow: '1px 1px 0 0 #FFD6DE ', bsName: '--memoItemBS',
     },
     tuduItemColor: {
         name: '待辦',
         elem: '.tudu-item',
-        bgColor: '#FFFFFF4C',
-        borderColor: '#ffd6de',
-        boxShadow: '1px 1px 0 0 #ffd6de'
+        bgColor: '#FFFFFF4C', bgColorName: '--tuduItemBGColor',
+        borderColor: '#ffd6de', bdColorName: '--tuduItemBDColor',
+        boxShadow: '1px 1px 0 0 #ffd6de', bsName: '--tuduItemBS',
     },
     modalInput: {
         name: '提示框輸入框',
         elem: '.modal-body > input',
-        focus: {borderColor: '#ffd6de', boxShadow: '2px 2px 0 0 #ffd6de'}
+        borderColor: '#ffd6de', bdColorName: '--modalInBDColor',
+        focus: {
+            borderColor: '#ffd6de', bdColorName: '--modalInBDColor',
+            boxShadow: '2px 2px 0 0 #ffd6de', bsName: '--modalInFBS',
+        }
     },
     formSelect: {
         name: '被選擇的項目',
         elem: '.form-select',
-        borderColor: '#ffd6de',
-        focus: {borderColor: '#ffd6de', boxShadow: '2px 2px 0 0 #ffd6de'}
+        borderColor: '#ffd6de', bdColorName: '--formSelectBDColor',
+        focus: {
+            borderColor: '#ffd6de', bdColorName: '--formSelectFBDColor',
+            boxShadow: '2px 2px 0 0 #ffd6de', bsName: '--formSelectFBS',
+        }
     },
     modalButton: {
         name: '提示框按鈕',
         elem: '.modal-btn-group > button',
-        borderColor: '#ffd6de',
-        bgColor: '#ffffff',
-        hover: {boxShadow: '2px 2px 0 0 #ffd6de;'}
+        borderColor: '#ffd6de', bdColorName: '----modalBtnGroupBDColor',
+        bgColor: '#ffffff', bgColorName: '--modalBtnGroupBGColor',
+        hover: {
+            boxShadow: '2px 2px 0 0 #ffd6de;',
+            bsName: '--modalBtnGroupHoverBs'
+        }
     },
     popoverColor: {
-        name: '提示窗', elem: '.popover', bgColor: '#FFFFFFCC', borderColor: '#ffd6de', hover: {
+        name: '提示窗', elem: '.popover',
+        bgColor: '#FFFFFFCC',
+        borderColor: '#ffd6de',
+        hover: {
             backgroundColor: '#FFD6DE7F'
         }
     },
