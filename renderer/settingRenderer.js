@@ -17,12 +17,14 @@ const modalList = {
     saveSettingListener();
 })();
 
-
 async function loadSetting() {
     userSetting = await window.setting.loadUserSetting()
     // 設定字型
     if (Object.hasOwn(userSetting, 'fontFamily')) {
         document.body.style.fontFamily = userSetting.fontFamily;
+    }
+    if (Object.hasOwn(userSetting, 'themeColor')){
+        changeThemeColor(userSetting.themeColor);
     }
     // 設定讀取時大頭針的圖案
     const onTopState = await window.pageSetting.getOnTop();
@@ -236,7 +238,10 @@ async function createSettingModal(type) {
             case modalList.theme.name:
                 thisModal.hide();
                 // userSetting.theme = selectTheme.value;
+                const themeColor = document.getElementById('settingColorPicker').value
+                userSetting.themeColor = themeColor;
                 window.setting.saveUserSetting(userSetting);
+                changeThemeColor(themeColor);
                 break;
         }
     })
@@ -320,83 +325,104 @@ async function createThemeOption() {
     // 創建 h6 元素
     const settingColorTitle = document.createElement('h6');
     settingColorTitle.id = 'settingBgColorTitle';
-    settingColorTitle.textContent = '主題';
+    settingColorTitle.textContent = '主題顏色';
 
     // 創建 select 元素
-    const selectElement = document.createElement('select');
-    selectElement.id = 'bgColorSelect'
-    selectElement.className = 'form-select';
-    selectElement.style.width = '70%';
-    selectElement.setAttribute('aria-label', '');
-
-    // 創建 option 元素
-    const themeColorList = await window.theme.getThemeList();
-    Object.keys(themeColorList).forEach((e, index) => {
-        const optionElement = document.createElement('option');
-        if (Object.hasOwn(userSetting, 'themeColor')) {
-            if (userSetting.themeColor === e) {
-                optionElement.setAttribute('selected', 'true')
-            }
-        } else {
-            if (index === 0) {
-                optionElement.setAttribute('selected', 'true');
-            }
-        }
-        optionElement.value = e;
-        optionElement.textContent = themeColorList[e];
-        // 添加 option 到 select
-        selectElement.appendChild(optionElement);
-    });
-    return [settingColorTitle, selectElement];
+    const colorInput = document.createElement('input');
+    colorInput.id = 'settingColorPicker';
+    colorInput.type = 'color';
+    if (Object.hasOwn(userSetting, 'themeColor')) {
+        colorInput.value = userSetting.themeColor;
+    }else {
+        colorInput.value = '#FFD6DE';
+    }
+    return [settingColorTitle, colorInput];
 }
 
+function changeThemeColor(changeColor) {
+    // 主色系 - FFD6DE
+    const allList = {
+        mainColor: {
+            // 使用主色調(粉#FFD6DE)的名稱列表
+            attr: '',
+            value: '#FFD6DE',
+            list: [
+                '--addFeatBDColor',
+                '--groupItemBDColor',
+                '--memoItemBDColor',
+                '--tuduItemBDColor',
+                '--dropdownBDColor',
+                '--popoverBDColor',
+                '--modalInBDColor',
+                '--modalInFBDColor',
+                '--modalBtnGroupBDColor',
+                '--checkColor',
+                '--radioColor',
+                '--formSelectBDColor',
+                '--formSelectFBDColor'
+            ]
+        },
+        itemsBgColor: {
+            // item的背景
+            attr: '',
+            value: '#FFFFFF4C',
+            list: [
+                '--groupItemBGColor',
+                '--memoItemBGColor',
+                '--tuduItemBGColor',
+            ]
+        },
+        itemsBs: {
+            // items的陰影
+            attr: '0.03rem 0.03rem 0 0',
+            value: '#FFD6DE',
+            list: [
+                '--groupItemBS',
+                '--memoItemBS',
+                '--tuduItemBS'
+            ]
+        },
+        radioCheckBS: {
+            // check & radio 點選時的顏色
+            attr: 'inset 0 0 0 0.7px',
+            value: '#FFD6DE',
+            // value: '#E0B9C1',
+            list: ['--checkBEBS']
+        },
+        focusBS: {
+            attr: '2px 2px 0 0',
+            value: '#FFD6DE',
+            list: [
+                '--modalInFBS',
+                '--modalBtnGroupHoverBs',
+                '--formSelectFBS',
+            ]
+        },
+        dropdown: {
+            attr: '',
+            value: '#FFD6DE7F',
+            list: [
+                '--dropdownHoverColor',
+                '--dropdownActiveColor',
+            ]
+        }
+    }
+    let replaceColor = '#FFD6DE';
+    let root = document.documentElement;
+    Object.keys(allList).forEach((type) => {
+        let setValue = '';
+        if (allList[type].attr !== '') {
+            setValue += `${allList[type].attr} `
+        }
+        setValue += allList[type].value.includes(replaceColor) ? allList[type].value.replace(replaceColor, changeColor) : allList[type].value;
+        allList[type].list.forEach((name) => {
+            root.style.setProperty(name, setValue)
+        })
+    });
+}
 
 async function settingColor() {
     const mainBackground = document.querySelector('.body-block'); // 主題背景
     // document.querySelector('[]')
     // dark mode
 }
-
-const colorList = {
-    lightMode: {
-        MainBgColor: '#ffffffe6',
-        fontColor: ''
-    },
-    darkMode: {
-        MainBackgroundColor: '#212121E6',
-        fontColor: '#bdbdbdE6'
-        // background color = 212121
-        // font - color = bdbdbd
-    }
-}
-
-function setCustomColor() {
-    // focus用 addEventListener('focus')
-    // hover用 mouseenter 與 mouseleave
-    // active用 mousedown 與 mouseup
-}
-
-const alpha = {
-    '100%': 'FF',
-    '95%': 'F2',
-    '90%': 'E6',
-    '85%': 'D9',
-    '80%': 'CC',
-    '75%': 'BF',
-    '70%': 'B3',
-    '65%': 'A6',
-    '60%': '99',
-    '55%': '8C',
-    '50%': '80',
-    '45%': '73',
-    '40%': '66',
-    '35%': '59',
-    '30%': '4D',
-    '25%': '40',
-    '20%': '33',
-    '15%': '26',
-    '10%': '1A',
-    '5%': '0D',
-    '0%': '00'
-}
-

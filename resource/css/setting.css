@@ -8,7 +8,7 @@
     /*group*/
     --groupItemBGColor: #FFFFFF4C;
     --groupItemBDColor: #FFD6DE;
-    --groupItemBS: 1px 1px 0 0 #ffd6de;
+    --groupItemBS: 1px 1px 0 0 #FFD6DE;
     /*memo*/
     --memoItemBGColor: #FFFFFF4C;
     --memoItemBDColor: #FFD6DE;
@@ -19,7 +19,7 @@
     --tuduItemBS: 1px 1px 0 0 #FFD6DE;
     /*dropdownMenu*/
     --dropdownBGColor: #FFFFFFCC;
-    --dropdownBDColor: #FFD6DEFF;
+    --dropdownBDColor: #FFD6DE;
     --dropdownHoverColor: #FFD6DE7F;
     --dropdownActiveColor: #FFD6DE7F;
     /*popover*/
@@ -27,13 +27,13 @@
     --popoverBGColor: #FFFFFFCC;
     /*modal*/
     --modalInBDColor :#FFD6DE;
-    --modalInFBS : 2px 2px 0 0 #ffd6de;
-    --modalInFBDColor : #ffd6de;
+    --modalInFBDColor : #FFD6DE;
+    --modalInFBS : 2px 2px 0 0 #FFD6DE;
     /*modalGroup*/
     --modalBtnGroupBGColor : #FFFFFF;
     --modalBtnGroupBDColor : #FFD6DE;
     --modalBtnGroupColor : #5D5D5D;
-    --modalBtnGroupHoverBs : #2px 2px 0 0 #ffd6de;
+    --modalBtnGroupHoverBs : 2px 2px 0 0 #FFD6DE;
     /*check*/
     --checkColor : #FFD6DE;
     --checkBEBS: inset 0 0 0 0.7px #e0b9c1;
@@ -43,7 +43,7 @@
     /*other*/
     --formSelectBDColor: #FFD6DE;
     --formSelectFBDColor : #FFD6DE;
-    --formSelectFBS : 2px 2px 0 0 #ffd6de;
+    --formSelectFBS : 2px 2px 0 0 #FFD6DE;
 }
 
 /*新增的字型*/

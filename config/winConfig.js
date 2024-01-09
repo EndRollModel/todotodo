@@ -17,7 +17,73 @@ winConfig.themeList = {
     'light': '明亮模式'
 }
 
-// bg(background)背景 bd(border)框線
+winConfig.colorNameList = {
+    mainColor: {
+        // 使用主色調(粉#FFD6DE)的名稱列表
+        attr: '',
+        value: '#FFD6DE',
+        list: [
+            '--addFeatBDColor',
+            '--groupItemBDColor',
+            '--memoItemBDColor',
+            '--tuduItemBDColor',
+            '--dropdownBDColor',
+            '--popoverBDColor',
+            '--modalInBDColor',
+            '--modalInFBDColor',
+            '--modalBtnGroupBDColor',
+            '--checkColor',
+            '--radioColor',
+            '--formSelectBDColor',
+            '--formSelectFBDColor'
+        ]
+    },
+    itemsBgColor: {
+        // item的背景
+        attr: '',
+        value: '#FFFFFF4C',
+        list: [
+            '--groupItemBGColor',
+            '--memoItemBGColor',
+            '--tuduItemBGColor',
+        ]
+    },
+    itemsBs: {
+        attr: '1px 1px 0 0',
+        value: '#FFD6DE',
+        list: [
+            '--groupItemBS',
+            '--memoItemBS',
+            '--tuduItemBS'
+        ]
+    },
+    radioCheckBS: {
+        // check & radio 點選時的顏色
+        attr: 'inset 0 0 0 0.7px',
+        value: '#E0B9C1',
+        list: ['--checkBEBS']
+    },
+    focusBS: {
+        attr: '2px 2px 0 0',
+        value: '#FFD6DE',
+        list: [
+            '--modalInFBS',
+            '--modalBtnGroupHoverBs',
+            '--formSelectFBS',
+        ]
+    },
+    dropdown:{
+        attr: '',
+        value: '#FFD6DE7F',
+        list:[
+            '--dropdownHoverColor',
+            '--dropdownActiveColor',
+        ]
+    }
+}
+
+// 列出所有內容 未來如果需要針對個別選項去做調整時可以處理
+// boxShadow需另外處理 除外的color可填入顏色即可
 winConfig.windowColor = {
     toolbarColor: {
         name: '標題列',
@@ -32,16 +98,16 @@ winConfig.windowColor = {
     addFeatButton: {
         name: '新增按鈕',
         elem: '#addFeatBtn',
-        borderColor: '#FFD6DE', bdColorName: '--addFeatBDColor',
         bgColor: '#00000000', bgColorName: '--addFeatBGColor',
+        borderColor: '#FFD6DE', bdColorName: '--addFeatBDColor',
         hover: {}
     },
     groupItemColor: {
         name: '群組',
         elem: '.tudu-g-item',
-        borderColor: '#ffd6de', bdColorName: '--groupItemBDColor',
         bgColor: '#FFFFFF4C', bgColorName: '--groupItemBGColor',
-        boxShadow: '1px 1px 0 0 #ffd6de', bsName: '--groupItemBS',
+        borderColor: '#FFD6DE', bdColorName: '--groupItemBDColor',
+        boxShadow: '1px 1px 0 0 #FFD6DE', bsName: '--groupItemBS',
     },
     memoItemColor: {
         name: '剪貼簿',
@@ -54,50 +120,52 @@ winConfig.windowColor = {
         name: '待辦',
         elem: '.tudu-item',
         bgColor: '#FFFFFF4C', bgColorName: '--tuduItemBGColor',
-        borderColor: '#ffd6de', bdColorName: '--tuduItemBDColor',
-        boxShadow: '1px 1px 0 0 #ffd6de', bsName: '--tuduItemBS',
+        borderColor: '#FFD6DE', bdColorName: '--tuduItemBDColor',
+        boxShadow: '1px 1px 0 0 #FFD6DE', bsName: '--tuduItemBS',
     },
     modalInput: {
         name: '提示框輸入框',
         elem: '.modal-body > input',
-        borderColor: '#ffd6de', bdColorName: '--modalInBDColor',
+        borderColor: '#FFD6DE', bdColorName: '--modalInBDColor',
         focus: {
-            borderColor: '#ffd6de', bdColorName: '--modalInBDColor',
-            boxShadow: '2px 2px 0 0 #ffd6de', bsName: '--modalInFBS',
+            borderColor: '#FFD6DE', bdColorName: '--modalInBDColor',
+            boxShadow: '2px 2px 0 0 #FFD6DE', bsName: '--modalInFBS',
         }
     },
     formSelect: {
         name: '被選擇的項目',
         elem: '.form-select',
-        borderColor: '#ffd6de', bdColorName: '--formSelectBDColor',
+        borderColor: '#FFD6DE', bdColorName: '--formSelectBDColor',
         focus: {
-            borderColor: '#ffd6de', bdColorName: '--formSelectFBDColor',
-            boxShadow: '2px 2px 0 0 #ffd6de', bsName: '--formSelectFBS',
+            borderColor: '#FFD6DE', bdColorName: '--formSelectFBDColor',
+            boxShadow: '2px 2px 0 0 #FFD6DE', bsName: '--formSelectFBS',
         }
     },
     modalButton: {
         name: '提示框按鈕',
         elem: '.modal-btn-group > button',
-        borderColor: '#ffd6de', bdColorName: '----modalBtnGroupBDColor',
         bgColor: '#ffffff', bgColorName: '--modalBtnGroupBGColor',
+        borderColor: '#FFD6DE', bdColorName: '----modalBtnGroupBDColor',
         hover: {
-            boxShadow: '2px 2px 0 0 #ffd6de;',
-            bsName: '--modalBtnGroupHoverBs'
+            boxShadow: '2px 2px 0 0 #FFD6DE;', bsName: '--modalBtnGroupHoverBs'
         }
     },
     popoverColor: {
         name: '提示窗', elem: '.popover',
-        bgColor: '#FFFFFFCC',
-        borderColor: '#ffd6de',
-        hover: {
-            backgroundColor: '#FFD6DE7F'
-        }
+        bgColor: '#FFFFFFCC', bgColorName: '--popoverBGColor',
+        borderColor: '#FFD6DE', bdColorName: '--popoverBDColor',
     },
     dropdownMenu: {
         name: '選項選單',
         elem: '.dropdown-menu',
-        bgColor: '#FFFFFFCC',
-        borderColor: '#ffd6de',
+        bgColor: '#FFFFFFCC', bgColorName: '--dropdownBGColor',
+        borderColor: '#FFD6DE', bdColorName: '--dropdownBDColor',
+        hover: {
+            backgroundColor: '#FFD6DE7F', bgColorName: '--dropdownHoverColor'
+        },
+        active: {
+            borderColor: '#FFD6DE7F', bdColorName: '----dropdownActiveColor'
+        }
     }
 }
 
