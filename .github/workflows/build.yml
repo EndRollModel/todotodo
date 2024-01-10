@@ -35,13 +35,13 @@ jobs:
       - name: Cleanup Artifacts for Windows
         if: matrix.os == 'windows-latest'
         run: |
-          npx rimraf "dist/!(*.exe)"
+          npx rimraf "build/win/!(*.exe)"
 
       - name: upload artifacts
         uses: actions/upload-artifact@v3.0.0
         with:
           name: ${{ matrix.os }}
-          path: dist
+          path: build
 
       - name: release
         uses: softprops/action-gh-release@v0.1.14
