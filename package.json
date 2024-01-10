@@ -9,11 +9,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "pack": "electron-builder --dir",
     "build": "node build.js",
+    "dist" : "electron-builder -p always",
     "dist-win": "electron-builder --win --x64",
     "dist-mac": "electron-builder --mac",
     "dist-linux": "electron-builder --linux"
   },
-  "author": "",
+  "author": "UwUmei",
   "license": "MIT",
   "devDependencies": {
     "electron": "^26.4.3",
@@ -34,14 +35,14 @@
         "portable",
         "nsis"
       ],
-      "icon": "build/icon.png"
+      "verifyUpdateCodeSignature": false
     },
-    "mac": {
-      "target": "dmg"
+    "nsis": {
+      "allowToChangeInstallationDirectory": false,
+      "oneClick": false,
+      "perMachine": false
     },
-    "linux": {
-      "target": "AppImage"
-    },
+    "asar": false,
     "copyright": "Copyright © 2023 UwUmei"
   }
 }
