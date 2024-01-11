@@ -77,8 +77,8 @@ contextBridge.exposeInMainWorld('clipboardFunc', {
 })
 
 contextBridge.exposeInMainWorld('theme', {
-    getThemeList :() =>{
-        return ipcRenderer.invoke('getThemeList');
+    getThemeColorList :() =>{
+        return ipcRenderer.invoke('getThemeColorList');
     }
 });
 

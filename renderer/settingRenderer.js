@@ -311,6 +311,7 @@ async function createFontOption() {
         } else {
             if (index === 0) {
                 optionElement.setAttribute('selected', 'true');
+
             }
         }
         optionElement.value = e
@@ -339,74 +340,9 @@ async function createThemeOption() {
     return [settingColorTitle, colorInput];
 }
 
-function changeThemeColor(changeColor) {
+async function changeThemeColor(changeColor) {
     // 主色系 - FFD6DE
-    const allList = {
-        mainColor: {
-            // 使用主色調(粉#FFD6DE)的名稱列表
-            attr: '',
-            value: '#FFD6DE',
-            list: [
-                '--addFeatBDColor',
-                '--groupItemBDColor',
-                '--memoItemBDColor',
-                '--tuduItemBDColor',
-                '--dropdownBDColor',
-                '--popoverBDColor',
-                '--modalInBDColor',
-                '--modalInFBDColor',
-                '--modalBtnGroupBDColor',
-                '--checkColor',
-                '--radioColor',
-                '--formSelectBDColor',
-                '--formSelectFBDColor'
-            ]
-        },
-        itemsBgColor: {
-            // item的背景
-            attr: '',
-            value: '#FFFFFF4C',
-            list: [
-                '--groupItemBGColor',
-                '--memoItemBGColor',
-                '--tuduItemBGColor',
-            ]
-        },
-        itemsBs: {
-            // items的陰影
-            attr: '0.03rem 0.03rem 0 0',
-            value: '#FFD6DE',
-            list: [
-                '--groupItemBS',
-                '--memoItemBS',
-                '--tuduItemBS'
-            ]
-        },
-        radioCheckBS: {
-            // check & radio 點選時的顏色
-            attr: 'inset 0 0 0 0.7px',
-            value: '#FFD6DE',
-            // value: '#E0B9C1',
-            list: ['--checkBEBS']
-        },
-        focusBS: {
-            attr: '2px 2px 0 0',
-            value: '#FFD6DE',
-            list: [
-                '--modalInFBS',
-                '--modalBtnGroupHoverBs',
-                '--formSelectFBS',
-            ]
-        },
-        dropdown: {
-            attr: '',
-            value: '#FFD6DE7F',
-            list: [
-                '--dropdownHoverColor',
-                '--dropdownActiveColor',
-            ]
-        }
-    }
+    const allList = await window.theme.getThemeColorList();
     let replaceColor = '#FFD6DE';
     let root = document.documentElement;
     Object.keys(allList).forEach((type) => {

@@ -1,4 +1,9 @@
 const versionRecord = {
+    '0.1.4-beta.2':{
+        state: 'beta',
+        date: '2024/01/11',
+        info: '將使用者的資料做加密處理\r頁面上的細節調整\r主題選擇功能微調',
+    },
     '0.1.4-beta.1':{
       state: 'beta',
       date: '2024/01/09',

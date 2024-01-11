@@ -17,9 +17,9 @@ winConfig.themeList = {
     'light': '明亮模式'
 }
 
-winConfig.colorNameList = {
+winConfig.themeColorList = {
     mainColor: {
-        // 使用主色調(粉#FFD6DE)的名稱列表
+        // use main color list
         attr: '',
         value: '#FFD6DE',
         list: [
@@ -39,7 +39,7 @@ winConfig.colorNameList = {
         ]
     },
     itemsBgColor: {
-        // item的背景
+        // item background
         attr: '',
         value: '#FFFFFF4C',
         list: [
@@ -49,6 +49,7 @@ winConfig.colorNameList = {
         ]
     },
     itemsBs: {
+        // item boxShadow
         attr: '1px 1px 0 0',
         value: '#FFD6DE',
         list: [
@@ -58,12 +59,14 @@ winConfig.colorNameList = {
         ]
     },
     radioCheckBS: {
-        // check & radio 點選時的顏色
+        // check & radio check(activity)
         attr: 'inset 0 0 0 0.7px',
-        value: '#E0B9C1',
+        // value: '#E0B9C1',
+        value: '#FFD6DE',
         list: ['--checkBEBS']
     },
     focusBS: {
+        // focus
         attr: '2px 2px 0 0',
         value: '#FFD6DE',
         list: [
@@ -73,6 +76,7 @@ winConfig.colorNameList = {
         ]
     },
     dropdown:{
+        // all dropdown
         attr: '',
         value: '#FFD6DE7F',
         list:[
