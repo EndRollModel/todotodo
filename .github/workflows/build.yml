@@ -30,9 +30,7 @@ jobs:
       #          curl -o build/icon.png "${{ secrets.EXTERNAL_ICON_URL }}"
       - name: Download External Icon
         run: |
-          if [! -d "build"]; then
-            mkdir build
-          fi 
+          mkdir -p build
           curl -o build/icon.png "${{ secrets.EXTERNAL_ICON_URL }}"
 
       - name: Install Dependencies
