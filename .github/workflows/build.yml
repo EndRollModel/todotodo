@@ -25,9 +25,15 @@ jobs:
         with:
           node-version: 20
 
+#      - name: Download External Icon
+#        run: |
+#          curl -o build/icon.png "${{ secrets.EXTERNAL_ICON_URL }}"
       - name: Download External Icon
         run: |
-          curl -o build/icon.png "${{ secrets.EXTERNAL_ICON_URL }}"
+          if [ ! -d "build" ]; then
+            mkdir build
+          fi
+            curl -O build/icon.png ${{ secrets.EXTERNAL_ICON_URL }}"
 
       - name: Install Dependencies
         run: npm install
