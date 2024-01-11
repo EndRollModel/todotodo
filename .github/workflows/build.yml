@@ -8,6 +8,7 @@ on:
 jobs:
   release:
     name: build and release electron app
+    environment: prod
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -23,6 +24,10 @@ jobs:
         uses: actions/setup-node@v3.0.0
         with:
           node-version: 20
+
+      - name: Download External Icon
+        run: |
+          curl -o dist/icon.ico ${{ secrets.EXTERNAL_ICON_URL }}
 
       - name: Install Dependencies
         run: npm install

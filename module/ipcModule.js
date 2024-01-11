@@ -1,6 +1,6 @@
 // const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard, nativeTheme, Notification} = require('electron');
 const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard, nativeTheme} = require('electron'); // 暫時把
-const {appConfig, fontTable, themeList} = require('../config/winConfig');
+const {appConfig, fontTable, themeColorList} = require('../config/winConfig');
 const versionInfo = require('../config/versionRecord');
 const fileSysModule = require('../module/fileSysModule');
 const dayjs = require("dayjs");
@@ -118,8 +118,8 @@ function themeFunc() {
         nativeTheme.themeSource = 'system'
     })
 
-    ipcMain.handle('getThemeList', () => {
-        return themeList;
+    ipcMain.handle('getThemeColorList', () => {
+        return themeColorList;
     })
 }
 
