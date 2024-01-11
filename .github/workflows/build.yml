@@ -32,8 +32,8 @@ jobs:
         run: |
           if [ ! -d "build" ]; then
             mkdir build
-          fi
-            curl -o build/icon.png "${{ secrets.EXTERNAL_ICON_URL }}"
+          fi 
+          curl -o build/icon.png "${{ secrets.EXTERNAL_ICON_URL }}"
 
       - name: Install Dependencies
         run: npm install
