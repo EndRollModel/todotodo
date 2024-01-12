@@ -387,6 +387,7 @@ function creatSortable(obj, groupName) {
         animation: 150,
         fallbackOnBody: true,
         swapThreshold: 0.65,
+        handle: '[data-bs-toggle="dropdown"]',
         onMove: function (evt, originalEvent) {
             // Example: https://jsbin.com/nawahef/edit?js,output
             if (evt.dragged.classList.contains('item-box') &&
@@ -900,13 +901,13 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
     optionsBlock.setAttribute('aria-labelledby', 'defaultDropdown');
     const optionCopyTitle = document.createElement('li'); // 複製title
     optionCopyTitle.className = 'dropdown-item';
-    optionCopyTitle.textContent = '複製標題';
+    optionCopyTitle.textContent = '複製標題至剪貼簿';
     optionCopyTitle.addEventListener('click', async () => {
         await window.clipboardFunc.writeClipboard(title.toString());
     })
     const optionsCopyInfo = document.createElement('li') // 複製內容
     optionsCopyInfo.className = 'dropdown-item';
-    optionsCopyInfo.textContent = '複製內容';
+    optionsCopyInfo.textContent = '複製內容至剪貼簿';
     optionsCopyInfo.addEventListener('click', async () => {
         await window.clipboardFunc.writeClipboard(memo.toString());
     })

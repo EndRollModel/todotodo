@@ -1,4 +1,9 @@
 const versionRecord = {
+    '0.1.4-beta.3':{
+        state: 'beta',
+        date: '2024/01/11',
+        info: '修正部分的文字敘述\r修改拖曳的方式',
+    },
     '0.1.4-beta.2':{
         state: 'beta',
         date: '2024/01/11',

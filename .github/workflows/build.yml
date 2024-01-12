@@ -25,9 +25,6 @@ jobs:
         with:
           node-version: 20
 
-      #      - name: Download External Icon
-      #        run: |
-      #          curl -o build/icon.png "${{ secrets.EXTERNAL_ICON_URL }}"
       - name: Download External Icon
         run: |
           mkdir -p build

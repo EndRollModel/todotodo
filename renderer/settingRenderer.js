@@ -55,7 +55,7 @@ function saveSettingListener() {
     document.getElementById('settingALLCancelBtn').addEventListener("click", () => {
         //全部取消
         const msgBox = document.getElementById('confirmModalMsg')
-        msgBox.textContent = '是否取消所有打勾的內容？';
+        msgBox.textContent = '是否取消所有已勾選的內容？';
         const actionElem = document.getElementById('confirmHidden');
         actionElem.setAttribute('action', 'allCheckCancel');
         confirmModal.show();
@@ -172,7 +172,14 @@ async function createSettingModal(type) {
     const modalTitle = document.createElement('h5');
     modalTitle.className = 'modal-title';
     modalTitle.id = 'settingModalTitle';
-    modalTitle.textContent = '設定選項';
+    switch (type.name){
+        case modalList.font.name :
+            modalTitle.textContent = '選擇字型';
+            break
+        case modalList.theme.name :
+            modalTitle.textContent = '選擇主題顏色';
+            break
+    }
 
     // 創建 btn-close 元素
     const btnClose = document.createElement('button');
@@ -210,6 +217,11 @@ async function createSettingModal(type) {
             modalBodyOption.append(...await createThemeOption());
             break;
     }
+
+    const modalFooter = document.createElement('div');
+    modalFooter.className = 'modal-footer';
+
+    const splitLine = document.createElement('hr');
 
     // 創建 p 元素
     const delItemHidden = document.createElement('p');
@@ -259,12 +271,13 @@ async function createSettingModal(type) {
     // 添加所有元素到 modal-body
     modalBody.appendChild(modalBodyOption);
     modalBody.appendChild(delItemHidden);
-    modalBody.appendChild(modalBtnGroup);
+    modalFooter.appendChild(modalBtnGroup);
 
     // 添加 modal-header 和 modal-body 到 modal-content
     modalContent.appendChild(modalHeader);
     modalContent.appendChild(modalBody);
 
+    modalContent.appendChild(modalFooter);
     // 添加 modal-content 到 modal-dialog
     modalDialog.appendChild(modalContent);
 
@@ -323,11 +336,16 @@ async function createFontOption() {
 }
 
 async function createThemeOption() {
+    const selectedBox = document.createElement('div');
+    selectedBox.style.display = 'flex';
+    selectedBox.style.flexDirection = 'column';
+    selectedBox.style.flexWrap = 'false';
+    selectedBox.style.justifyContent = 'center';
+    selectedBox.style.alignItems = 'center';
     // 創建 h6 元素
     const settingColorTitle = document.createElement('h6');
     settingColorTitle.id = 'settingBgColorTitle';
     settingColorTitle.textContent = '主題顏色';
-
     // 創建 select 元素
     const colorInput = document.createElement('input');
     colorInput.id = 'settingColorPicker';
@@ -337,7 +355,10 @@ async function createThemeOption() {
     }else {
         colorInput.value = '#FFD6DE';
     }
-    return [settingColorTitle, colorInput];
+    selectedBox.appendChild(settingColorTitle)
+    selectedBox.appendChild(colorInput);
+
+    return [selectedBox];
 }
 
 async function changeThemeColor(changeColor) {

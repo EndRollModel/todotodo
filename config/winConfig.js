@@ -67,7 +67,7 @@ winConfig.themeColorList = {
     },
     focusBS: {
         // focus
-        attr: '2px 2px 0 0',
+        attr: '1px 1px 0 0',
         value: '#FFD6DE',
         list: [
             '--modalInFBS',

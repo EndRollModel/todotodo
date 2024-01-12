@@ -471,9 +471,10 @@ button:focus {
 
 .modal-btn-group {
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
     justify-content: space-around;
     align-items: center;
+    gap: 20px
 }
 
 .modal-btn-group > button {
