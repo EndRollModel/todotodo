@@ -4,6 +4,7 @@ const packageInfo = require('../package.json');
 
 // app之中的參數
 winConfig.appConfig = {
+    appName: packageInfo.build.appId,
     version: packageInfo.version,
     indexPageFile: 'index.html', // main的html頁面
     loadingPageFile: 'loading.html', // 讀取中的html頁面
@@ -202,8 +203,11 @@ winConfig.loadingWindowOptions = {
     movable: false, // 能否移動視窗
     maximizable: false, //禁止最大化
     autoHideMenuBar: true, // 隱藏工具列
-    delayTime: 1400, // 讀取的延遲時間
+    delayTime: 1900, // 讀取的延遲時間
     alwaysOnTop: true, // 是否置頂
+    webPreferences: {
+        preload: path.join(__dirname, '../preload/preload.js')
+    }
 }
 
 // 視窗中的設定

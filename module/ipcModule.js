@@ -90,7 +90,7 @@ function userSetting() {
 
 function aboutApplication() {
     ipcMain.handle('version', () => {
-        return {version: appConfig.version, info: versionInfo[appConfig.version]};
+        return {version: appConfig.version, info: versionInfo[appConfig.version], appName: appConfig.appName};
     })
     ipcMain.handle('allVersion', () => {
         return versionInfo;

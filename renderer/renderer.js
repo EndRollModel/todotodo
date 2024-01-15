@@ -859,20 +859,23 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
         ev.preventDefault();
         if (ev.button === 2) {
             const dataIndex = userData.findIndex((item) => item.id === memoItem.id);
-            await window.clipboardFunc.writeClipboard(userData[dataIndex].memo.toString())
-            const memePopover = new bootstrap.Popover(memoItem, {
-                content: '已複製內容',
-                placement: 'auto',
-            })
-            memePopover.show();
-            document.querySelectorAll('.popover-body').forEach((body) => {
-                body.style.fontFamily = document.body.style.fontFamily
-            });
-            setTimeout(() => {
-                memePopover.dispose();
-            }, 1000);
+            await copyData(userData[dataIndex].memo.toString());
         }
     })
+    async function copyData(data){
+        await window.clipboardFunc.writeClipboard()
+        const memePopover = new bootstrap.Popover(memoItem, {
+            content: '已複製至剪貼簿',
+            placement: 'auto',
+        })
+        memePopover.show();
+        document.querySelectorAll('.popover-body').forEach((body) => {
+            body.style.fontFamily = document.body.style.fontFamily
+        });
+        setTimeout(() => {
+            memePopover.dispose();
+        }, 1000);
+    }
 
     const memoTitle = document.createElement('div')
     memoTitle.textContent = title;
