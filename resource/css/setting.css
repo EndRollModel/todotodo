@@ -115,12 +115,13 @@ body {
 
 .window-frame {
     -webkit-app-region: drag;
-    height: 28px;
+    height: 36px;
     background-color: var(--toolbarBg);
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-radius: 8px 8px 0 0;
+    padding: 4px;
     box-shadow: 0 1px 0 #626262;
 }
 
@@ -139,7 +140,7 @@ body {
     text-align: center;
     width: 13px;
     height: 13px;
-    margin: 0 8px;
+    margin: 0 12px;
     background-color: darkseagreen;
     border-radius: 50px;
 }
@@ -151,11 +152,19 @@ body {
 #frameClose {
     /* 關閉按鈕 */
     -webkit-app-region: no-drag;
-    width: 13px;
-    height: 13px;
-    margin: 0 8px;
-    background-color: orangered;
-    border-radius: 50px;
+    width: 18px;
+    height: 18px;
+    margin: 0 4px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#frameClose > img{
+    width: 24px;
+    height: 24px;
 }
 
 #frameClose:hover {
@@ -168,8 +177,8 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 50px;
-    margin: 0 6px;
-    width: 14px;
+    margin: 0 8px;
+    width: 16px;
 }
 
 #frameSetting > img {
@@ -189,7 +198,8 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 50px;
-    margin: 0 6px;
+    margin: 0 8px;
+    width: 16px;
 }
 
 #frameOnTop > img {
