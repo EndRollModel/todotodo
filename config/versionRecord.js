@@ -1,4 +1,9 @@
 const versionRecord = {
+    '0.1.4-beta.4':{
+        state : 'beta',
+        data : '2024/01/16',
+        info : '預計新增分頁功能',
+    },
     '0.1.4-beta.3':{
         state: 'beta',
         date: '2024/01/11',

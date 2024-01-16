@@ -1,6 +1,7 @@
 let addFeatBtn;
 let tuduList;
 let itemBlock;
+let bodyBlock;
 
 // elem
 let addFeatTitleInput; // 輸入名稱的input內容 (feat)
@@ -25,6 +26,9 @@ let editNameBtn; // 編輯名稱的內容
 let delItemHidden; // 刪除的對象指定內容
 let delItemBtn; // 刪除的按鈕
 let settingModalTitle; // 設定的modal內容
+
+let pageGroup; // 分頁群組
+let pagePlus; // 分頁的新增按鈕
 
 const typeList = {
     group: 'group',
@@ -188,6 +192,21 @@ async function createUserElem() {
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
+    bodyBlock = document.querySelector('.body-block');
+    bodyBlock.addEventListener('mouseup', async (ev) => {
+        ev.preventDefault();
+        if (ev.button === 2) {
+            const bodyFeatDropdown = document.createElement('ul');
+            bodyFeatDropdown.className = 'dropdown-menu';
+            bodyFeatDropdown.setAttribute('aria-labelledby', 'defaultDropdown');
+            const bodyFeatAdd = document.createElement('li');
+            bodyFeatAdd.className = 'dropdown-item';
+            bodyFeatAdd.textContent = '新增項目'
+            bodyFeatDropdown.setAttribute('data-bs-toggle', 'dropdown')
+            bodyFeatDropdown.appendChild(bodyFeatAdd)
+        }
+    })
+    // bodyBlock.
     // 讀取userData
     const loadUserData = await window.userFeat.loadUserData();
     if (loadUserData.length > 0) {
@@ -863,7 +882,7 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
         }
     })
     async function copyData(data){
-        await window.clipboardFunc.writeClipboard()
+        await window.clipboardFunc.writeClipboard(data)
         const memePopover = new bootstrap.Popover(memoItem, {
             content: '已複製至剪貼簿',
             placement: 'auto',

@@ -84,7 +84,15 @@ winConfig.themeColorList = {
             '--dropdownHoverColor',
             '--dropdownActiveColor',
         ]
-    }
+    },
+// --pageGroupBoxColor: 1px dashed #FFD6DE;
+// --pageItemHoverColor: #FFD6DE7F;
+// --pageItemSelectedColor: #FFD6DE;
+// --pageItemSelectedBS: 2px 2px 0 0 #FFD6DE;
+// --pageItemBorderColor: #FFD6DE;
+//     pageGroup:{
+//
+//     }
 }
 
 // 列出所有內容 未來如果需要針對個別選項去做調整時可以處理
@@ -203,7 +211,7 @@ winConfig.loadingWindowOptions = {
     movable: false, // 能否移動視窗
     maximizable: false, //禁止最大化
     autoHideMenuBar: true, // 隱藏工具列
-    delayTime: 1900, // 讀取的延遲時間
+    delayTime: 0, // 讀取的延遲時間
     alwaysOnTop: true, // 是否置頂
     webPreferences: {
         preload: path.join(__dirname, '../preload/preload.js')
