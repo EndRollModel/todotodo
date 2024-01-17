@@ -3,6 +3,7 @@
 let userSetting;
 let appInfoModal;
 let confirmModal;
+let showPageLayout;
 
 const modalList = {
     font: {name: 'fontSettingModal', object: ''},
@@ -23,8 +24,14 @@ async function loadSetting() {
     if (Object.hasOwn(userSetting, 'fontFamily')) {
         document.body.style.fontFamily = userSetting.fontFamily;
     }
-    if (Object.hasOwn(userSetting, 'themeColor')){
-        changeThemeColor(userSetting.themeColor);
+    if (Object.hasOwn(userSetting, 'themeColor')) {
+        await changeThemeColor(userSetting.themeColor);
+    }
+    if (Object.hasOwn(userSetting, 'showPageLayout')) {
+        showPageLayout = userSetting.showPageLayout
+        showPageGroup();
+    } else {
+        showPageLayout = false
     }
     // 設定讀取時大頭針的圖案
     const onTopState = await window.pageSetting.getOnTop();
@@ -40,10 +47,34 @@ async function loadSetting() {
     confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'))
 }
 
+/**
+ * 開關顯示分頁籤
+ */
+function showPageGroup(){
+    const settingPageGroup = document.getElementById('settingShowPageGroup');
+    const pageGroupBox = document.querySelector('.page-group-box');
+    if (!showPageLayout) {
+        settingPageGroup.textContent = '開啟分頁籤'
+        pageGroupBox.style.display = 'none';
+    } else {
+        settingPageGroup.textContent = '隱藏分頁籤'
+        pageGroupBox.style.display = 'flex';
+    }
+}
+
+/**
+ * 設定中的所有按鈕監聽事件
+ */
 function saveSettingListener() {
     // document.getElementById('frameSetting').addEventListener('click', () => {
     //     settingModal.show();
     // })
+    document.getElementById('settingShowPageGroup').addEventListener('click', async () => {
+        showPageLayout = !showPageLayout;
+        userSetting.showPageLayout = showPageLayout;
+        await window.setting.saveUserSetting(userSetting);
+        showPageGroup();
+    })
     document.getElementById('settingFontBtn').addEventListener('click', () => {
         // 設定字型
         modalList.font.object.show();
@@ -172,7 +203,7 @@ async function createSettingModal(type) {
     const modalTitle = document.createElement('h5');
     modalTitle.className = 'modal-title';
     modalTitle.id = 'settingModalTitle';
-    switch (type.name){
+    switch (type.name) {
         case modalList.font.name :
             modalTitle.textContent = '選擇字型';
             break
@@ -237,14 +268,14 @@ async function createSettingModal(type) {
     saveSettingBtn.id = 'saveSettingBtn';
     saveSettingBtn.type = 'button';
     saveSettingBtn.textContent = '保存';
-    saveSettingBtn.addEventListener('click', () => {
+    saveSettingBtn.addEventListener('click', async () => {
         switch (type.name) {
             case modalList.font.name:
                 const fontSelect = document.getElementById('fontSelect');
                 const selectedFont = fontSelect.querySelector('option:checked');
                 document.body.style.fontFamily = selectedFont.value;
                 userSetting.fontFamily = selectedFont.value;
-                window.setting.saveUserSetting(userSetting);
+                await window.setting.saveUserSetting(userSetting);
                 thisModal.hide();
                 break;
             case modalList.theme.name:
@@ -252,8 +283,8 @@ async function createSettingModal(type) {
                 // userSetting.theme = selectTheme.value;
                 const themeColor = document.getElementById('settingColorPicker').value
                 userSetting.themeColor = themeColor;
-                window.setting.saveUserSetting(userSetting);
-                changeThemeColor(themeColor);
+                await window.setting.saveUserSetting(userSetting);
+                await changeThemeColor(themeColor);
                 break;
         }
     })
@@ -352,7 +383,7 @@ async function createThemeOption() {
     colorInput.type = 'color';
     if (Object.hasOwn(userSetting, 'themeColor')) {
         colorInput.value = userSetting.themeColor;
-    }else {
+    } else {
         colorInput.value = '#FFD6DE';
     }
     selectedBox.appendChild(settingColorTitle)

@@ -87,6 +87,7 @@ function loadUserData() {
 
 function saveUserData(data) {
     console.log('saved');
+    console.log(JSON.stringify(data))
     checkSettingConfigExist();
     const userDataPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.tuduDataName);
     const userEncData = Buffer.from(safeStorage.encryptString(JSON.stringify(data))).toString('base64');
