@@ -211,7 +211,7 @@ winConfig.loadingWindowOptions = {
     movable: false, // 能否移動視窗
     maximizable: false, //禁止最大化
     autoHideMenuBar: true, // 隱藏工具列
-    delayTime: 1900, // 讀取的延遲時間
+    delayTime: 0, // 讀取的延遲時間
     alwaysOnTop: true, // 是否置頂
     webPreferences: {
         preload: path.join(__dirname, '../preload/preload.js')

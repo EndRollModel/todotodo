@@ -17,6 +17,9 @@
     --tuduItemBGColor: #FFFFFF4C;
     --tuduItemBDColor: #FFD6DE;
     --tuduItemBS: 1px 1px 0 0 #FFD6DE;
+    /*items*/
+    /*--itemsHoverBS : 1.2px 1.2px 0 0 currentColor;*/
+    --itemsHoverBS : 1.2px 1.2px 0 0 rgba(0, 0, 0, 0.65);
     /*dropdownMenu*/
     --dropdownBGColor: #FFFFFFCC;
     --dropdownBDColor: #FFD6DE;
@@ -383,6 +386,14 @@ body {
     border-color: var(--memoItemBDColor);
     background-color: var(--memoItemBGColor);
     box-shadow: var(--memoItemBS);
+}
+
+
+.tudu-g-item:hover,
+.tudu-item:hover,
+.memo-item:hover
+{
+    box-shadow: var(--itemsHoverBS);
 }
 
 .memo-item > .memo-span {

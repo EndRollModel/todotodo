@@ -26,6 +26,8 @@ let editNameBtn; // 編輯名稱的內容
 let delItemHidden; // 刪除的對象指定內容
 let delItemBtn; // 刪除的按鈕
 let settingModalTitle; // 設定的modal內容
+// dropdown
+let addFeatDropdownMenu;
 
 let pageGroup; // 分頁群組
 let pagePlus; // 分頁的新增按鈕
@@ -193,19 +195,7 @@ async function createUserElem() {
 
 document.addEventListener('DOMContentLoaded', async function () {
     bodyBlock = document.querySelector('.body-block');
-    bodyBlock.addEventListener('mouseup', async (ev) => {
-        ev.preventDefault();
-        if (ev.button === 2) {
-            const bodyFeatDropdown = document.createElement('ul');
-            bodyFeatDropdown.className = 'dropdown-menu';
-            bodyFeatDropdown.setAttribute('aria-labelledby', 'defaultDropdown');
-            const bodyFeatAdd = document.createElement('li');
-            bodyFeatAdd.className = 'dropdown-item';
-            bodyFeatAdd.textContent = '新增項目'
-            bodyFeatDropdown.setAttribute('data-bs-toggle', 'dropdown')
-            bodyFeatDropdown.appendChild(bodyFeatAdd)
-        }
-    })
+
     // bodyBlock.
     // 讀取userData
     const loadUserData = await window.userFeat.loadUserData();
@@ -225,6 +215,40 @@ document.addEventListener('DOMContentLoaded', async function () {
     tuduList = document.getElementById('tudulist');
     itemBlock = document.getElementsByClassName('item-block');
 
+    /**
+     * 背景滑鼠按鍵事件偵測
+     */
+    // bodyBlock.addEventListener('mouseup', async (ev) => {
+    //     ev.preventDefault();
+    //     if (ev.button === 2) {
+    //         const allDropdowns = document.querySelectorAll('.dropdown-menu');
+    //         allDropdowns.forEach(item => {
+    //             if (item !== addFeatDropdownMenu) {
+    //                 item.style.display = 'none';
+    //             }
+    //         });
+    //
+    //         const dropAddItem = document.getElementById('DropAddItem')
+    //         dropAddItem.addEventListener('click', function(e){
+    //             addFeatModal.show()
+    //         })
+    //
+    //         // 設置顯示的位置
+    //         addFeatDropdownMenu.style.left = ev.clientX + 'px';
+    //         addFeatDropdownMenu.style.top = ev.clientY + 'px';
+    //
+    //         // 顯示 dropdown
+    //         addFeatDropdownMenu.style.display = 'block';
+    //
+    //         // 點擊其他地方時隱藏 dropdown
+    //         document.addEventListener('click', function hideDropdown() {
+    //             addFeatDropdownMenu.style.display = 'none';
+    //             document.removeEventListener('click', hideDropdown);
+    //         });
+    //     }
+    // })
+
+    addFeatDropdownMenu = document.getElementById('addFeatDropDown');
     // 由最外層按下的按鈕新增的事件
     // modal 新增群組按鈕
     // modal tudu新增按鈕
@@ -411,7 +435,7 @@ function creatSortable(obj, groupName) {
             // Example: https://jsbin.com/nawahef/edit?js,output
             if (evt.dragged.classList.contains('item-box') &&
                 (evt.related.parentElement.classList.contains('collapse') ||
-                evt.related.parentElement.classList.contains('item-box'))) {
+                    evt.related.parentElement.classList.contains('item-box'))) {
                 // group不可被放入至group中
                 return false;
             }
@@ -676,6 +700,11 @@ function addGroupItem(title = null, id = null, save = false) {
     itemBox.appendChild(collapseBlock);
     itemBlock[0].appendChild(itemBox);
 
+    groupItem.addEventListener('contextmenu', (e)=>{
+        e.preventDefault();
+        groupOption.click();
+    })
+
     const outSortIndex = itemBlock[0].childElementCount - 1;
     addFeatData({
         type: 0,
@@ -881,7 +910,8 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
             await copyData(userData[dataIndex].memo.toString());
         }
     })
-    async function copyData(data){
+
+    async function copyData(data) {
         await window.clipboardFunc.writeClipboard(data)
         const memePopover = new bootstrap.Popover(memoItem, {
             content: '已複製至剪貼簿',
