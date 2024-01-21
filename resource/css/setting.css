@@ -19,7 +19,7 @@
     --tuduItemBS: 1px 1px 0 0 #FFD6DE;
     /*items*/
     /*--itemsHoverBS : 1.2px 1.2px 0 0 currentColor;*/
-    --itemsHoverBS : 1.2px 1.2px 0 0 rgba(0, 0, 0, 0.65);
+    --itemsHoverBS : 1.2px 1.2px 0 0 rgba(68, 68, 68, 0.65);
     /*dropdownMenu*/
     --dropdownBGColor: #FFFFFFCC;
     --dropdownBDColor: #FFD6DE;
@@ -90,7 +90,8 @@ html {
     width: 100%;
     height: 100%;
     background-color: transparent;
-    border-radius: 7px 7px 0 0;
+    /*border-radius: 7px 7px 0 0;*/
+    border-radius: 8px;
 }
 
 h6 {
@@ -106,7 +107,7 @@ body {
     display: flex;
     flex-direction: column;
     background-color: transparent;
-    border-radius: 7px;
+    border-radius: 8px;
     -webkit-user-select: none; /* for Chrome、Safari */
 }
 
@@ -560,6 +561,8 @@ button:focus {
     flex-direction: row;
     background-color: var(--bgColor);
     margin: 0;
+    /*border-radius: 0 0 7px 7px;*/
+    border-radius: 8px;
 }
 
 .page-group {
@@ -661,4 +664,5 @@ button:focus {
     background-color: var(--bgColor);
     height: 8px;
     width: 100vw;
+    border-radius: 0 0 8px 8px;
 }

@@ -50,13 +50,13 @@ let userData = [];
 
 /**
  * 建立群組或是待辦元件的function
- * @param {number} obj.action 0 = 'create' = 畫面建立時 , 1 = 'join' 後續加入時使用
+ // * @param {number} obj.action 0 = 'create' = 畫面建立時 , 1 = 'join' 後續加入時使用
  * @param {number} obj.type 要加入的對象type 0 = 群組  1 = 待辦
  * @param {string} obj.id  要建立的id
  * @param {string} obj.title 要建立的title
  * @param {number} obj.inSort 在列表中的排序順序
  * @param {number} obj.outSort 在列表中的排序順序
- * @param {boolean} obj.save save
+ * @param {boolean} obj.save save 建立時是否要儲存
  */
 function addFeatData(obj) {
     // type, id, title, save = false
