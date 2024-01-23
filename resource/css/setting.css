@@ -91,7 +91,7 @@ html {
     height: 100%;
     background-color: transparent;
     /*border-radius: 7px 7px 0 0;*/
-    border-radius: 8px;
+    border-radius: 7px;
 }
 
 h6 {
@@ -107,7 +107,7 @@ body {
     display: flex;
     flex-direction: column;
     background-color: transparent;
-    border-radius: 8px;
+    border-radius: 7px;
     -webkit-user-select: none; /* for Chrome、Safari */
 }
 
@@ -131,7 +131,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 8px 8px 0 0;
+    border-radius: 7px 7px 0 0;
     padding: 4px;
     box-shadow: 0 1px 0 #626262;
 }
@@ -238,7 +238,7 @@ body {
     margin: 8px 16px;
     width: auto;
     height: 40px;
-    border-radius: 8px;
+    border-radius: 7px;
     border-width: 0.08em;
     border-style: dashed;
     /*border-color: #ffd6de;*/
@@ -247,7 +247,7 @@ body {
 
 #addFeatBtn:hover {
     /*box-shadow: 1px 1px 1px 0 #ffd6de;*/
-    border-radius: 8px;
+    border-radius: 7px;
     border-width: 0.12em;
     border-style: dashed;
     /*border-color: rgba(255, 214, 222, 0.3);*/
@@ -289,7 +289,7 @@ body {
     height: 40px;
     padding: 0 10px;
     /*padding-left: 5px;*/
-    border-radius: 8px;
+    border-radius: 7px;
     border-width: 0.7px;
     border-style: solid;
     /*border-color: #ffd6de;*/
@@ -340,7 +340,7 @@ body {
 
 .popover {
     /*.*/
-    border-radius: 8px;
+    border-radius: 7px;
     border-width: 1px;
     border-style: solid;
     border-color: var(--popoverBDColor);
@@ -358,7 +358,7 @@ body {
     height: 40px;
     padding: 0 10px;
     margin: auto;
-    border-radius: 8px;
+    border-radius: 7px;
     border-width: 1px;
     border-style: solid;
     gap: 10px;
@@ -381,7 +381,7 @@ body {
     padding: 0 10px;
     margin: auto;
     gap: 10px;
-    border-radius: 8px;
+    border-radius: 7px;
     border-width: 1px;
     border-style: solid;
     border-color: var(--memoItemBDColor);
@@ -562,7 +562,7 @@ button:focus {
     background-color: var(--bgColor);
     margin: 0;
     /*border-radius: 0 0 7px 7px;*/
-    border-radius: 8px;
+    border-radius: 7px;
 }
 
 .page-group {
@@ -664,5 +664,5 @@ button:focus {
     background-color: var(--bgColor);
     height: 8px;
     width: 100vw;
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 7px 7px;
 }
