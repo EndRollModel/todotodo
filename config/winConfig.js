@@ -4,7 +4,7 @@ const packageInfo = require('../package.json');
 
 // app之中的參數
 winConfig.appConfig = {
-    appName: packageInfo.build.appId,
+    appName: packageInfo.applicationId,
     version: packageInfo.version,
     indexPageFile: 'index.html', // main的html頁面
     loadingPageFile: 'loading.html', // 讀取中的html頁面
