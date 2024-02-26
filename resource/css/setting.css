@@ -176,6 +176,7 @@ body {
 }
 
 #frameClose > img {
+    -webkit-user-drag: none;
     width: 24px;
     height: 24px;
 }
@@ -216,6 +217,7 @@ body {
 }
 
 #frameOnTop > img {
+    -webkit-user-drag: none;
     transform: rotate(0deg);
     transition: transform 0.5s ease-out;
 }
