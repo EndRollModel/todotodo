@@ -84,7 +84,15 @@ winConfig.themeColorList = {
             '--dropdownHoverColor',
             '--dropdownActiveColor',
         ]
-    }
+    },
+// --pageGroupBoxColor: 1px dashed #FFD6DE;
+// --pageItemHoverColor: #FFD6DE7F;
+// --pageItemSelectedColor: #FFD6DE;
+// --pageItemSelectedBS: 2px 2px 0 0 #FFD6DE;
+// --pageItemBorderColor: #FFD6DE;
+//     pageGroup:{
+//
+//     }
 }
 
 // 列出所有內容 未來如果需要針對個別選項去做調整時可以處理

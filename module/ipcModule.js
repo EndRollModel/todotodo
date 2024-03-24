@@ -1,5 +1,5 @@
 // const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard, nativeTheme, Notification} = require('electron');
-const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard, nativeTheme} = require('electron'); // 暫時把
+const {app, ipcMain, BrowserWindow, ipcRenderer, clipboard, nativeTheme} = require('electron');
 const {appConfig, fontTable, themeColorList} = require('../config/winConfig');
 const versionInfo = require('../config/versionRecord');
 const fileSysModule = require('../module/fileSysModule');

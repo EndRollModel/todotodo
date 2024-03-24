@@ -1,7 +1,12 @@
 const versionRecord = {
+    '0.1.4-beta.4':{
+        state : 'beta',
+        data : '2024/01/17',
+        info : '修復了剪貼簿無法右鍵使用的錯誤\n',
+    },
     '0.1.4-beta.3':{
         state: 'beta',
-        date: '2024/01/11',
+        date: '2024/01/14',
         info: '修正部分的文字敘述\r修改拖曳的方式\r更換了icon',
     },
     '0.1.4-beta.2':{

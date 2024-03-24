@@ -1,15 +1,16 @@
 {
   "name": "tudutudu",
-  "version": "0.1.4-beta.3",
+  "version": "0.1.4",
   "description": "tudutudu",
   "main": "main.js",
+  "applicationId": "com.uwumei.tudutudu",
   "scripts": {
     "winDebug": "chcp 65001 && electron .",
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "pack": "electron-builder --dir",
     "build": "node build.js",
-    "dist" : "electron-builder -p always",
+    "dist": "electron-builder -p always",
     "dist-win": "electron-builder --win --x64",
     "dist-mac": "electron-builder --mac",
     "dist-linux": "electron-builder --linux"
@@ -22,6 +23,7 @@
     "electron-builder": "^24.9.1"
   },
   "dependencies": {
+    "better-sqlite3": "^9.4.3",
     "croner": "^7.0.4",
     "dayjs": "^1.11.10"
   },
@@ -30,6 +32,9 @@
     "appId": "com.uwumei.tudutudu",
     "directories": {
       "output": "build/win"
+    },
+    "mac": {
+      "icon": "build/icon.png"
     },
     "win": {
       "target": [

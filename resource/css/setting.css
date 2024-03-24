@@ -17,6 +17,9 @@
     --tuduItemBGColor: #FFFFFF4C;
     --tuduItemBDColor: #FFD6DE;
     --tuduItemBS: 1px 1px 0 0 #FFD6DE;
+    /*items*/
+    /*--itemsHoverBS : 1.2px 1.2px 0 0 currentColor;*/
+    --itemsHoverBS : 1.2px 1.2px 0 0 rgba(68, 68, 68, 0.65);
     /*dropdownMenu*/
     --dropdownBGColor: #FFFFFFCC;
     --dropdownBDColor: #FFD6DE;
@@ -26,24 +29,30 @@
     --popoverBDColor: #FFD6DE;
     --popoverBGColor: #FFFFFFCC;
     /*modal*/
-    --modalInBDColor :#FFD6DE;
-    --modalInFBDColor : #FFD6DE;
-    --modalInFBS : 2px 2px 0 0 #FFD6DE;
+    --modalInBDColor: #FFD6DE;
+    --modalInFBDColor: #FFD6DE;
+    --modalInFBS: 2px 2px 0 0 #FFD6DE;
     /*modalGroup*/
-    --modalBtnGroupBGColor : #FFFFFF;
-    --modalBtnGroupBDColor : #FFD6DE;
-    --modalBtnGroupColor : #5D5D5D;
-    --modalBtnGroupHoverBs : 2px 2px 0 0 #FFD6DE;
+    --modalBtnGroupBGColor: #FFFFFF;
+    --modalBtnGroupBDColor: #FFD6DE;
+    --modalBtnGroupColor: #5D5D5D;
+    --modalBtnGroupHoverBs: 2px 2px 0 0 #FFD6DE;
     /*check*/
-    --checkColor : #FFD6DE;
+    --checkColor: #FFD6DE;
     --checkBEBS: inset 0 0 0 0.7px #e0b9c1;
     /*radio*/
-    --radioColor : #FFD6DE;
+    --radioColor: #FFD6DE;
     --radioBEBS: inset 0 0 0 0.7px #e0b9c1;
     /*other*/
     --formSelectBDColor: #FFD6DE;
-    --formSelectFBDColor : #FFD6DE;
-    --formSelectFBS : 2px 2px 0 0 #FFD6DE;
+    --formSelectFBDColor: #FFD6DE;
+    --formSelectFBS: 2px 2px 0 0 #FFD6DE;
+    /*pageGroup*/
+    --pageGroupBoxColor: 0.07rem dashed #383838;
+    --pageItemHoverColor: #FFD6DE7F;
+    --pageItemSelectedColor: #FFD6DE;
+    --pageItemSelectedBS: 2px 2px 0 0 #FFD6DE;
+    --pageItemBorderColor: #FFD6DE;
 }
 
 /*新增的字型*/
@@ -81,7 +90,8 @@ html {
     width: 100%;
     height: 100%;
     background-color: transparent;
-    border-radius: 7px 7px 0 0;
+    /*border-radius: 7px 7px 0 0;*/
+    border-radius: 7px;
 }
 
 h6 {
@@ -102,11 +112,12 @@ body {
 }
 
 .body-block {
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 0 0;
     width: 100%;
     height: 100%;
     background-color: var(--bgColor);
     overflow: auto;
+    padding: 0 0 12px 0;
 }
 
 ::-webkit-scrollbar {
@@ -120,7 +131,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 8px 8px 0 0;
+    border-radius: 7px 7px 0 0;
     padding: 4px;
     box-shadow: 0 1px 0 #626262;
 }
@@ -152,17 +163,20 @@ body {
 #frameClose {
     /* 關閉按鈕 */
     -webkit-app-region: no-drag;
-    width: 18px;
-    height: 18px;
-    margin: 0 4px;
-    border-radius: 30px;
+    width: 20px;
+    height: 20px;
+    padding: 0 0 0 1px;
+    margin: 0 6px;
+    border-radius: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-content: center;
     align-items: center;
 }
 
-#frameClose > img{
+#frameClose > img {
+    -webkit-user-drag: none;
     width: 24px;
     height: 24px;
 }
@@ -203,6 +217,7 @@ body {
 }
 
 #frameOnTop > img {
+    -webkit-user-drag: none;
     transform: rotate(0deg);
     transition: transform 0.5s ease-out;
 }
@@ -225,7 +240,7 @@ body {
     margin: 8px 16px;
     width: auto;
     height: 40px;
-    border-radius: 8px;
+    border-radius: 7px;
     border-width: 0.08em;
     border-style: dashed;
     /*border-color: #ffd6de;*/
@@ -234,7 +249,7 @@ body {
 
 #addFeatBtn:hover {
     /*box-shadow: 1px 1px 1px 0 #ffd6de;*/
-    border-radius: 8px;
+    border-radius: 7px;
     border-width: 0.12em;
     border-style: dashed;
     /*border-color: rgba(255, 214, 222, 0.3);*/
@@ -269,13 +284,14 @@ body {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
+    gap: 10px;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     height: 40px;
     padding: 0 10px;
     /*padding-left: 5px;*/
-    border-radius: 8px;
+    border-radius: 7px;
     border-width: 0.7px;
     border-style: solid;
     /*border-color: #ffd6de;*/
@@ -297,6 +313,7 @@ body {
 
 .tudu-g-title {
     font-size: 16px;
+    overflow: scroll;
 }
 
 .tudu-g-option {
@@ -325,7 +342,7 @@ body {
 
 .popover {
     /*.*/
-    border-radius: 8px;
+    border-radius: 7px;
     border-width: 1px;
     border-style: solid;
     border-color: var(--popoverBDColor);
@@ -343,9 +360,10 @@ body {
     height: 40px;
     padding: 0 10px;
     margin: auto;
-    border-radius: 8px;
+    border-radius: 7px;
     border-width: 1px;
     border-style: solid;
+    gap: 10px;
     /*border-color: #ffd6de;*/
     /*background-color: rgba(255, 255, 255, 0.3);*/
     /*box-shadow: 1px 1px 0 0 #ffd6de;    */
@@ -364,12 +382,21 @@ body {
     height: 40px;
     padding: 0 10px;
     margin: auto;
-    border-radius: 8px;
+    gap: 10px;
+    border-radius: 7px;
     border-width: 1px;
     border-style: solid;
     border-color: var(--memoItemBDColor);
     background-color: var(--memoItemBGColor);
     box-shadow: var(--memoItemBS);
+}
+
+
+.tudu-g-item:hover,
+.tudu-item:hover,
+.memo-item:hover
+{
+    box-shadow: var(--itemsHoverBS);
 }
 
 .memo-item > .memo-span {
@@ -413,11 +440,13 @@ body {
 [class^='tudu-item-title-'] {
     -webkit-user-drag: none;
     text-align: center;
+    overflow: scroll;
 }
 
 .tudu-item-title, .memo-item-title {
     -webkit-user-drag: none;
     text-align: center;
+    overflow: scroll;
 }
 
 .tudu-item-time {
@@ -525,12 +554,63 @@ button:focus {
     padding-bottom: 15px;
 }
 
-[type=radio]:focus {
+.page-group-box {
+    height: 36px;
+    width: auto;
+    gap: 15px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: row;
+    background-color: var(--bgColor);
+    margin: 0;
+    /*border-radius: 0 0 7px 7px;*/
+    border-radius: 7px;
+}
+
+.page-group {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+    /*background-color: var(--bgColor);*/
+    white-space: nowrap;
+    padding: 4px 8px;
+    border-top: var(--pageGroupBoxColor);
+}
+
+.page-item, .page-plus {
+    border-radius: 15%;
+    height: 24px;
+    width: auto;
+    padding: 2px 7px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: var(--pageGroupBoxColor);
+    color: var(--toolbarBg);
+}
+
+.page-item:hover {
+    /*background-color: var(--addFeatBDColor);*/
+    background-color: var(--pageItemHoverColor);
+}
+
+.page-selected {
+    background-color: var(--pageItemSelectedColor);
+}
+
+/*addItemTypeRadio*/
+/*addInItemTypeRadio*/
+[name=addItemTypeRadio]:focus, [name=addInItemTypeRadio]:focus {
     box-shadow: none !important;
 }
 
 /* Basic styling */
-[type=checkbox], [type=radio] {
+/*[type=checkbox], [type=radio] {*/
+[type=checkbox], [name=addItemTypeRadio], [name=addInItemTypeRadio] {
     -webkit-user-drag: none;
     width: 1.2rem;
     height: 1.2rem;
@@ -547,7 +627,8 @@ button:focus {
 }
 
 /* Pseudo element for check styling */
-[type=checkbox]::before, [type=radio]::before {
+/*[type=checkbox]::before, [type=radio]::before {*/
+[type=checkbox]::before, [name=addItemTypeRadio]::before, [name=addInItemTypeRadio]::before {
     content: "";
     color: transparent;
     display: block;
@@ -562,18 +643,28 @@ button:focus {
     box-shadow: var(--checkBEBS);
 }
 
-[type=checkbox]:checked, [type=radio]:checked {
+/*[type=checkbox]:checked, [type=radio]:checked {*/
+[type=checkbox]:checked, [name=addItemTypeRadio]:checked, [name=addInItemTypeRadio]:checked {
     background-color: currentcolor;
 }
 
-[type=checkbox]:checked::before, [type=radio]:checked::before {
+/*[type=checkbox]:checked::before, [type=radio]:checked::before {*/
+[type=checkbox]:checked::before, [name=addItemTypeRadio]:checked::before, [name=addInItemTypeRadio]:checked::before {
     box-shadow: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M15.88 8.29L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z' fill='%23fff'/%3E %3C/svg%3E");
 }
 
 /* Disabled */
-[type=checkbox]:disabled, [type=radio]:disabled {
+/*[type=checkbox]:disabled, [type=radio]:disabled {*/
+[type=checkbox]:disabled, [name=addItemTypeRadio]:disabled, [name=addInItemTypeRadio]:disabled {
     background-color: #CCD3D8;
     opacity: 0.84;
     cursor: not-allowed;
+}
+
+.space-line {
+    background-color: var(--bgColor);
+    height: 8px;
+    width: 100vw;
+    border-radius: 0 0 7px 7px;
 }

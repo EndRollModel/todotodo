@@ -1,7 +1,10 @@
 const fs = require('fs');
 const winConfig = require('../config/winConfig');
 const {app, safeStorage} = require('electron');
+const sqlite = require('better-sqlite3');
 const path = require('path');
+const dataDirPath = '../com';
+const dataPath = `${dataDirPath}/user.sqlite`;
 
 function checkSettingConfigExist() {
     const userDataPath = `${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`
@@ -10,6 +13,30 @@ function checkSettingConfigExist() {
         fs.mkdirSync(userDataPath);
     }
 }
+
+const tableList = [
+    {
+        name: 'user_info',
+        pre: 'CREATE TABLE todo_info (PageId TEXT, itemId TEXT, targetId INTEGER, type INTEGER, id: TEXT, title TEXT, )',
+    },
+    {name: 'page_info', pre: 'CREATE TABLE page_info (PageId TEXT, PageName TEXT, PageSort TEXT)'},
+    {name: 'error_log', pre: 'CREATE TABLE error_log (date TEXT, Msg TEXT)'},
+];
+
+/**
+ * 檢查資料夾路徑
+ * @return {Promise<unknown>}
+ */
+function checkDirPath() {
+    return new Promise((resolve) => {
+        const exitPath = fs.existsSync(dataDirPath);
+        if (!exitPath) {
+            fs.mkdirSync(dataDirPath);
+        }
+        resolve('ok');
+    });
+}
+
 
 function saveMainWinSetting(browser) {
     checkSettingConfigExist();
@@ -54,12 +81,10 @@ function loadUserData() {
     checkSettingConfigExist();
     let userData = [];
     const userDataPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.tuduDataName);
-    console.log(userDataPath)
     try {
         userData = fs.readFileSync(userDataPath, 'utf-8')
         let deData = safeStorage.decryptString(Buffer.from(userData, 'base64'));
         userData = JSON.parse(deData)
-        // userData = JSON.parse(userData)
     } catch (e) {
         switch (true) {
             case e.message.indexOf('Unexpected non-whitespace character') > -1: //json parse fail
@@ -93,7 +118,6 @@ function saveUserData(data) {
     checkSettingConfigExist();
     const userDataPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.tuduDataName);
     const userEncData = Buffer.from(safeStorage.encryptString(JSON.stringify(data))).toString('base64');
-    // const userEncData = JSON.stringify(data);
     fs.writeFileSync(userDataPath, userEncData);
 }
 
