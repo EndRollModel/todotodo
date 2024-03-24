@@ -16,7 +16,6 @@
     "dist-linux": "electron-builder --linux"
   },
   "author": "UwUmei",
-  "applicationId": "com.uwumei.tudutudu",
   "license": "MIT",
   "devDependencies": {
     "electron": "^26.4.3",
