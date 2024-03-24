@@ -33,9 +33,6 @@
     "directories": {
       "output": "build/win"
     },
-    "mac": {
-      "icon": "build/icon.png"
-    },
     "win": {
       "target": [
         "portable",
