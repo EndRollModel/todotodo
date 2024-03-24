@@ -48,6 +48,9 @@ let delItemModal; // 刪除時的跳窗
 
 let userData = [];
 
+function cleanUserData(){
+    userData = [];
+}
 /**
  * 建立群組或是待辦元件的function
  // * @param {number} obj.action 0 = 'create' = 畫面建立時 , 1 = 'join' 後續加入時使用

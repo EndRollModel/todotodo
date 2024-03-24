@@ -151,6 +151,7 @@ function saveSettingListener() {
             case 'allDataDel':
                 document.querySelector('.item-block').innerHTML = ''; // 清空
                 window.userFeat.saveUserData([]);
+                cleanUserData();
                 confirmModal.hide();
                 break;
             default:
