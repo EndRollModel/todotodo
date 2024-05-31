@@ -42,7 +42,21 @@ jobs:
       - name: Cleanup Artifacts for Windows
         if: matrix.os == 'windows-latest'
         run: |
-          npx rimraf "build/win/!(*.exe)"
+          npx rimraf "build/win/*/locales"
+          npx rimraf "build/win/*/resources"
+          npx rimraf "build/win/*.ico"
+          npx rimraf "build/win/*.js"
+          npx rimraf "build/win/*.dll"
+          npx rimraf "build/win/*.pdb"
+          npx rimraf "build/win/*.log"
+          npx rimraf "build/win/*.txt"
+          npx rimraf "build/win/*.pak"
+          npx rimraf "build/win/*.dat"
+          npx rimraf "build/win/*.html"
+          npx rimraf "build/win/*.bin"
+          npx rimraf "build/win/*.json"
+          npx rimraf "build/win/*.yam"
+          npx rimraf "build/win/*.yaml"
 
       - name: upload artifacts
         uses: actions/upload-artifact@v3.0.0
