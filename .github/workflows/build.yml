@@ -39,6 +39,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: List directories in build/win
+        if: matrix.os == 'windows-latest'
+        run: |
+          dir build\win /s
+          
       - name: Cleanup Artifacts for Windows
         if: matrix.os == 'windows-latest'
         run: |
