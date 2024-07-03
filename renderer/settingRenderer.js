@@ -3,6 +3,7 @@
 let userSetting;
 let appInfoModal;
 let confirmModal;
+let resourceModal;
 let showPageLayout;
 
 const modalList = {
@@ -24,9 +25,11 @@ async function loadSetting() {
     if (Object.hasOwn(userSetting, 'fontFamily')) {
         document.body.style.fontFamily = userSetting.fontFamily;
     }
+    // 設定主題顏色
     if (Object.hasOwn(userSetting, 'themeColor')) {
         await changeThemeColor(userSetting.themeColor);
     }
+    // 設定顯示分頁頁籤
     if (Object.hasOwn(userSetting, 'showPageLayout')) {
         showPageLayout = userSetting.showPageLayout
         showPageGroup();
@@ -43,6 +46,8 @@ async function loadSetting() {
     }
     // 設定appInfo的modal
     appInfoModal = new bootstrap.Modal(document.getElementById('versionModal'))
+    // 設定關於系統資訊的modal
+    resourceModal = new bootstrap.Modal(document.getElementById('resourceModal'))
     // 確認用的
     confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'))
 }
@@ -50,7 +55,7 @@ async function loadSetting() {
 /**
  * 開關顯示分頁籤
  */
-function showPageGroup(){
+function showPageGroup() {
     const settingPageGroup = document.getElementById('settingShowPageGroup');
     const pageGroupBox = document.querySelector('.page-group-box');
     if (!showPageLayout) {
@@ -69,11 +74,13 @@ function saveSettingListener() {
     // document.getElementById('frameSetting').addEventListener('click', () => {
     //     settingModal.show();
     // })
-    document.getElementById('settingShowPageGroup').addEventListener('click', async () => {
-        showPageLayout = !showPageLayout;
-        userSetting.showPageLayout = showPageLayout;
-        await window.setting.saveUserSetting(userSetting);
-        showPageGroup();
+    document.getElementById('settingShowPageGroup').addEventListener('click', () => {
+        (async () => {
+            showPageLayout = !showPageLayout;
+            userSetting.showPageLayout = showPageLayout;
+            await window.setting.saveUserSetting(userSetting);
+            showPageGroup();
+        })()
     })
     document.getElementById('settingFontBtn').addEventListener('click', () => {
         // 設定字型
@@ -99,34 +106,52 @@ function saveSettingListener() {
         confirmModal.show();
     })
     // document.getElementById('settingALLDelBtn').addEventListener('click', ()=>{})
-    document.getElementById('frameOnTop').addEventListener('click', async () => {
-        // 置頂
-        const setOnTop = await window.pageSetting.setOnTop();
-        const pinState = document.querySelector('#frameOnTop img');
-        if (setOnTop === true) {
-            pinState.src = './resource/img/pin-fill.svg';
-        } else {
-            pinState.src = './resource/img/pin.svg';
-        }
+    document.getElementById('frameOnTop').addEventListener('click', () => {
+        (async () => {
+            // 置頂
+            const setOnTop = await window.pageSetting.setOnTop();
+            const pinState = document.querySelector('#frameOnTop img');
+            if (setOnTop === true) {
+                pinState.src = './resource/img/pin-fill.svg';
+            } else {
+                pinState.src = './resource/img/pin.svg';
+            }
+        })()
+
     })
 
     // 關於程式的按鈕
-    document.getElementById('settingAppInfoBtn').addEventListener('click', async () => {
-        // app的資訊
-        const {version, info} = await window.appInfo.version();
-        const msgBox = document.getElementById('versionModalMsg');
-        const versionNumTitle = document.createElement('h6');
-        msgBox.innerHTML = '';
-        versionNumTitle.textContent = `版本 : ${version}`;
-        const versionNumDate = document.createElement('h6');
-        versionNumDate.textContent = `更新日期 : ${info.date}`
-        const versionInfo = document.createElement('div');
-        let changeNewLine = info.info.replace(/\r/g, '</br>');
-        versionInfo.innerHTML = `<hr>${changeNewLine}`;
-        msgBox.append(versionNumTitle);
-        msgBox.append(versionNumDate);
-        msgBox.append(versionInfo);
-        appInfoModal.show();
+    document.getElementById('settingAppInfoBtn').addEventListener('click', () => {
+        (async () => {
+            // app的資訊
+            const {version, info} = await window.appInfo.version();
+            const msgBox = document.getElementById('versionModalMsg');
+            const versionNumTitle = document.createElement('h6');
+            msgBox.innerHTML = '';
+            versionNumTitle.textContent = `版本 : ${version}`;
+            const versionNumDate = document.createElement('h6');
+            versionNumDate.textContent = `更新日期 : ${info.date}`
+            const versionInfo = document.createElement('div');
+            let changeNewLine = info.info.replace(/\r/g, '</br>');
+            versionInfo.innerHTML = `<hr>${changeNewLine}`;
+            msgBox.append(versionNumTitle);
+            msgBox.append(versionNumDate);
+            msgBox.append(versionInfo);
+            appInfoModal.show();
+        })()
+    })
+
+    // 資源資訊的內容
+    document.getElementById('resourceInfoBtn').addEventListener("click", ()=>{
+        (async ()=>{
+            const {info} = await window.appInfo.version();
+            const msgBox = document.getElementById('resourceModalMsg');
+            msgBox.innerHTML = ''
+            const resourceMsg = document.createElement('h6');
+            resourceMsg.innerHTML = info.resource
+            msgBox.append(resourceMsg)
+            resourceModal.show();
+        })()
     })
 
     // clean all checked
@@ -269,25 +294,27 @@ async function createSettingModal(type) {
     saveSettingBtn.id = 'saveSettingBtn';
     saveSettingBtn.type = 'button';
     saveSettingBtn.textContent = '保存';
-    saveSettingBtn.addEventListener('click', async () => {
-        switch (type.name) {
-            case modalList.font.name:
-                const fontSelect = document.getElementById('fontSelect');
-                const selectedFont = fontSelect.querySelector('option:checked');
-                document.body.style.fontFamily = selectedFont.value;
-                userSetting.fontFamily = selectedFont.value;
-                await window.setting.saveUserSetting(userSetting);
-                thisModal.hide();
-                break;
-            case modalList.theme.name:
-                thisModal.hide();
-                // userSetting.theme = selectTheme.value;
-                const themeColor = document.getElementById('settingColorPicker').value
-                userSetting.themeColor = themeColor;
-                await window.setting.saveUserSetting(userSetting);
-                await changeThemeColor(themeColor);
-                break;
-        }
+    saveSettingBtn.addEventListener('click', () => {
+        (async () => {
+            switch (type.name) {
+                case modalList.font.name:
+                    const fontSelect = document.getElementById('fontSelect');
+                    const selectedFont = fontSelect.querySelector('option:checked');
+                    document.body.style.fontFamily = selectedFont.value;
+                    userSetting.fontFamily = selectedFont.value;
+                    await window.setting.saveUserSetting(userSetting);
+                    thisModal.hide();
+                    break;
+                case modalList.theme.name:
+                    thisModal.hide();
+                    // userSetting.theme = selectTheme.value;
+                    const themeColor = document.getElementById('settingColorPicker').value
+                    userSetting.themeColor = themeColor;
+                    await window.setting.saveUserSetting(userSetting);
+                    await changeThemeColor(themeColor);
+                    break;
+            }
+        })()
     })
 
     // 創建取消按鈕

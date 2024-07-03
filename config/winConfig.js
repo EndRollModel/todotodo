@@ -192,13 +192,13 @@ winConfig.pageConfig = {
 
 // 字體對照表
 winConfig.fontTable = {
-    'Cubic_11': '俐方體11號/(Cubic 11)',
+    'NotoSansTC-Regular': "思源黑體",
+    'NotoSansTC-Light': "思源黑體(細)",
     'GenJyuuGothic': '思源柔黑',
     'NaikaiFont': '內海字型',
     'NaikaiFontLight': '內海字型(細)',
     '微軟正黑體': "微軟正黑體",
-    'NotoSansTC-Regular': "思源黑體",
-    'NotoSansTC-Light': "思源黑體(細)",
+    'Cubic_11': '俐方體11號/(Cubic 11)',
 }
 
 // 讀取中的畫面
