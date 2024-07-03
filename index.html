@@ -26,7 +26,7 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 <li><a id="settingFontBtn" class="dropdown-item">設定字型</a></li>
                 <li><a id="settingThemeBtn" class="dropdown-item">設定主題顏色</a></li>
-<!--                <li><a id="settingShowPageGroup" class="dropdown-item">顯示頁籤列</a></li>-->
+                <li><a id="settingShowPageGroup" class="dropdown-item">顯示頁籤列</a></li>
                 <li><a id="settingALLCancelBtn" class="dropdown-item">取消全勾選</a></li>
                 <li><a id="settingALLDelBtn" class="dropdown-item">刪除所有內容</a></li>
                 <li><a id="settingAppInfoBtn" class="dropdown-item">關於程式</a></li>
@@ -245,6 +245,26 @@
                     <div id="versionModalMsg"></div>
                 </div>
                 <div class="modal-footer">
+                    <div class="modal-btn-group d-flex justify-content-around" >
+                        <button type="button" id="resourceInfoBtn">其他</button>
+                        <button type="button" data-bs-dismiss="modal">關閉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  resource  -->
+    <div class="modal fade" id="resourceModal" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resourceModalTitle">特別感謝/引用</h5>
+                </div>
+                <div class="modal-body">
+                    <div id="resourceModalMsg"></div>
+                </div>
+                <div class="modal-footer">
                     <div class="modal-btn-group">
                         <button type="button" data-bs-dismiss="modal">關閉</button>
                     </div>
@@ -279,13 +299,13 @@
     </ul>
 </div>
 <div id="pageGroupSpace" class="space-line"></div>
-<!--<div class="page-group-box">-->
-<!--    <div class="page-group">-->
-<!--        <div class="page-item-group">-->
-<!--        </div>-->
-<!--        <div class="page-plus">+</div>-->
-<!--    </div>-->
-<!--</div>-->
+<div class="page-group-box">
+    <div class="page-group">
+        <div class="page-item-group">
+        </div>
+        <div class="page-plus">+</div>
+    </div>
+</div>
 <script src="resource/js/bootstrap.bundle.min.js"></script>
 <script src="resource/js/Sortable.min.js"></script>
 <script src="renderer/settingRenderer.js"></script>

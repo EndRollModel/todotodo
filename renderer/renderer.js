@@ -48,9 +48,10 @@ let delItemModal; // 刪除時的跳窗
 
 let userData = [];
 
-function cleanUserData(){
+function cleanUserData() {
     userData = [];
 }
+
 /**
  * 建立群組或是待辦元件的function
  // * @param {number} obj.action 0 = 'create' = 畫面建立時 , 1 = 'join' 後續加入時使用
@@ -196,239 +197,242 @@ async function createUserElem() {
         })
 }
 
-document.addEventListener('DOMContentLoaded', async function () {
-    bodyBlock = document.querySelector('.body-block');
+document.addEventListener('DOMContentLoaded', function () {
+    (async () => {
+        bodyBlock = document.querySelector('.body-block');
 
-    // bodyBlock.
-    // 讀取userData
-    const loadUserData = await window.userFeat.loadUserData();
-    if (loadUserData.length > 0) {
-        const sortData = resetData(loadUserData)
-        userData.push(...sortData)
-    }
-    // modal
-    addFeatModal = new bootstrap.Modal(document.getElementById('addFeatModal'));
-    addTuduItemModel = new bootstrap.Modal(document.getElementById('addTuduItem'));
-    editNameModal = new bootstrap.Modal(document.getElementById('editName'));
-    editMemoModal = new bootstrap.Modal(document.getElementById('editMemoModal'));
-    delItemModal = new bootstrap.Modal(document.getElementById('delItemModal'));
-    addInItemModal = new bootstrap.Modal(document.getElementById('addInItemModal'));
+        // bodyBlock.
+        // 讀取userData
+        const loadUserData = await window.userFeat.loadUserData();
+        if (loadUserData.length > 0) {
+            const sortData = resetData(loadUserData)
+            userData.push(...sortData)
+        }
+        // modal
+        addFeatModal = new bootstrap.Modal(document.getElementById('addFeatModal'));
+        addTuduItemModel = new bootstrap.Modal(document.getElementById('addTuduItem'));
+        editNameModal = new bootstrap.Modal(document.getElementById('editName'));
+        editMemoModal = new bootstrap.Modal(document.getElementById('editMemoModal'));
+        delItemModal = new bootstrap.Modal(document.getElementById('delItemModal'));
+        addInItemModal = new bootstrap.Modal(document.getElementById('addInItemModal'));
 
-    addFeatBtn = document.getElementById('addFeatBtn');
-    tuduList = document.getElementById('tudulist');
-    itemBlock = document.getElementsByClassName('item-block');
+        addFeatBtn = document.getElementById('addFeatBtn');
+        tuduList = document.getElementById('tudulist');
+        itemBlock = document.getElementsByClassName('item-block');
 
-    /**
-     * 背景滑鼠按鍵事件偵測
-     */
-    // bodyBlock.addEventListener('mouseup', async (ev) => {
-    //     ev.preventDefault();
-    //     if (ev.button === 2) {
-    //         const allDropdowns = document.querySelectorAll('.dropdown-menu');
-    //         allDropdowns.forEach(item => {
-    //             if (item !== addFeatDropdownMenu) {
-    //                 item.style.display = 'none';
-    //             }
-    //         });
-    //
-    //         const dropAddItem = document.getElementById('DropAddItem')
-    //         dropAddItem.addEventListener('click', function(e){
-    //             addFeatModal.show()
-    //         })
-    //
-    //         // 設置顯示的位置
-    //         addFeatDropdownMenu.style.left = ev.clientX + 'px';
-    //         addFeatDropdownMenu.style.top = ev.clientY + 'px';
-    //
-    //         // 顯示 dropdown
-    //         addFeatDropdownMenu.style.display = 'block';
-    //
-    //         // 點擊其他地方時隱藏 dropdown
-    //         document.addEventListener('click', function hideDropdown() {
-    //             addFeatDropdownMenu.style.display = 'none';
-    //             document.removeEventListener('click', hideDropdown);
-    //         });
-    //     }
-    // })
+        /**
+         * 背景滑鼠按鍵事件偵測
+         */
+        // bodyBlock.addEventListener('mouseup', async (ev) => {
+        //     ev.preventDefault();
+        //     if (ev.button === 2) {
+        //         const allDropdowns = document.querySelectorAll('.dropdown-menu');
+        //         allDropdowns.forEach(item => {
+        //             if (item !== addFeatDropdownMenu) {
+        //                 item.style.display = 'none';
+        //             }
+        //         });
+        //
+        //         const dropAddItem = document.getElementById('DropAddItem')
+        //         dropAddItem.addEventListener('click', function(e){
+        //             addFeatModal.show()
+        //         })
+        //
+        //         // 設置顯示的位置
+        //         addFeatDropdownMenu.style.left = ev.clientX + 'px';
+        //         addFeatDropdownMenu.style.top = ev.clientY + 'px';
+        //
+        //         // 顯示 dropdown
+        //         addFeatDropdownMenu.style.display = 'block';
+        //
+        //         // 點擊其他地方時隱藏 dropdown
+        //         document.addEventListener('click', function hideDropdown() {
+        //             addFeatDropdownMenu.style.display = 'none';
+        //             document.removeEventListener('click', hideDropdown);
+        //         });
+        //     }
+        // })
 
-    addFeatDropdownMenu = document.getElementById('addFeatDropDown');
-    // 由最外層按下的按鈕新增的事件
-    // modal 新增群組按鈕
-    // modal tudu新增按鈕
-    // modal 新增按鈕(改為radio選擇)
-    addFeatTitleInput = document.getElementById('addFeatTitleInput');
-    addFeatMemoInput = document.getElementById('addFeatMemoInput');
-    addFeatMemoInput.style.display = 'none';
-    addItemTypeRadios = document.querySelectorAll('input[name="addItemTypeRadio"]');
-    addItemTypeRadios.forEach(function (radio) {
-        radio.addEventListener('change', () => {
-            switch (radio.value) {
-                case typeList.group:
-                    addFeatMemoInput.style.display = 'none';
-                    break;
-                case typeList.tuduItem:
-                    addFeatMemoInput.style.display = 'none';
-                    break;
-                case typeList.memoItem:
-                    addFeatMemoInput.style.display = 'flex';
-                    break;
-            }
-        })
-    })
-    addTypeBtn = document.getElementById('addTypeBtn');
-    addTypeBtn.addEventListener('click', () => {
+        addFeatDropdownMenu = document.getElementById('addFeatDropDown');
+        // 由最外層按下的按鈕新增的事件
+        // modal 新增群組按鈕
+        // modal tudu新增按鈕
+        // modal 新增按鈕(改為radio選擇)
+        addFeatTitleInput = document.getElementById('addFeatTitleInput');
+        addFeatMemoInput = document.getElementById('addFeatMemoInput');
+        addFeatMemoInput.style.display = 'none';
+        addItemTypeRadios = document.querySelectorAll('input[name="addItemTypeRadio"]');
         addItemTypeRadios.forEach(function (radio) {
-            if (radio.checked) {
-                let addItem = false;
+            radio.addEventListener('change', () => {
                 switch (radio.value) {
                     case typeList.group:
-                        if (addFeatTitleInput.value.trim() === '') {
-                            addFeatTitleInput.placeholder = '內容不能為空白'
-                            return;
-                        }
-                        addGroupItem(addFeatTitleInput.value, null, true);
-                        addFeatTitleInput.value = ''; // 清除
-                        addItem = true;
+                        addFeatMemoInput.style.display = 'none';
                         break;
                     case typeList.tuduItem:
-                        if (addFeatTitleInput.value.trim() === '') {
-                            addFeatTitleInput.placeholder = '內容不能為空白'
-                            return;
-                        }
-                        addTuduItem(-1, addFeatTitleInput.value, null, false, null, true);
-                        addFeatTitleInput.value = ''; // 清除
-                        addItem = true;
+                        addFeatMemoInput.style.display = 'none';
                         break;
                     case typeList.memoItem:
-                        if (addFeatTitleInput.value.trim() === '') {
-                            addFeatTitleInput.placeholder = '內容不能為空白'
-                            return;
-                        }
-                        if (addFeatMemoInput.value.trim() === '') {
-                            addFeatMemoInput.placeholder = '內容不能為空白'
-                            return;
-                        }
-                        addMemoItem(-1, null, addFeatTitleInput.value, addFeatMemoInput.value, true);
-                        addFeatTitleInput.value = ''; // 清除
-                        addFeatMemoInput.value = ''; // 清除
-                        addItem = true;
+                        addFeatMemoInput.style.display = 'flex';
                         break;
                 }
-                if (addItem) {
-                    updateUserData();
-                    addFeatModal.hide();
-                }
-            }
+            })
         })
-    })
+        addTypeBtn = document.getElementById('addTypeBtn');
+        addTypeBtn.addEventListener('click', () => {
+            addItemTypeRadios.forEach(function (radio) {
+                if (radio.checked) {
+                    let addItem = false;
+                    switch (radio.value) {
+                        case typeList.group:
+                            if (addFeatTitleInput.value.trim() === '') {
+                                addFeatTitleInput.placeholder = '內容不能為空白'
+                                return;
+                            }
+                            addGroupItem(addFeatTitleInput.value, null, true);
+                            addFeatTitleInput.value = ''; // 清除
+                            addItem = true;
+                            break;
+                        case typeList.tuduItem:
+                            if (addFeatTitleInput.value.trim() === '') {
+                                addFeatTitleInput.placeholder = '內容不能為空白'
+                                return;
+                            }
+                            addTuduItem(-1, addFeatTitleInput.value, null, false, null, true);
+                            addFeatTitleInput.value = ''; // 清除
+                            addItem = true;
+                            break;
+                        case typeList.memoItem:
+                            if (addFeatTitleInput.value.trim() === '') {
+                                addFeatTitleInput.placeholder = '內容不能為空白'
+                                return;
+                            }
+                            if (addFeatMemoInput.value.trim() === '') {
+                                addFeatMemoInput.placeholder = '內容不能為空白'
+                                return;
+                            }
+                            addMemoItem(-1, null, addFeatTitleInput.value, addFeatMemoInput.value, true);
+                            addFeatTitleInput.value = ''; // 清除
+                            addFeatMemoInput.value = ''; // 清除
+                            addItem = true;
+                            break;
+                    }
+                    if (addItem) {
+                        updateUserData();
+                        addFeatModal.hide();
+                    }
+                }
+            })
+        })
 
-    // 由群組新增按鈕事件
-    // 新增 tudu
-    addTuduInput = document.getElementById('addTuduInput')
-    addTuduHidden = document.getElementById('addTuduHidden');
-    checkAddTudu = document.getElementById('checkAddTudu');
-    checkAddTudu.addEventListener('click', () => {
-        if (addTuduInput.value.trim() === '') {
-            addTuduInput.placeholder = '內容不能為空白'
-            return;
-        }
-        addTuduItem(addTuduHidden.getAttribute('boxId'), addTuduInput.value, null, false, null, true);
-        addTuduInput.value = ''; // 清除
-        updateUserData();
-        addTuduItemModel.hide();
-    })
-    addInHidden = document.getElementById('addInHidden')
-    addInTitleInput = document.getElementById('addInTitleInput')
-    addInInfoInput = document.getElementById('addInInfoInput')
-    addInInfoInput.style.display = 'none';
-    checkAddInItemBtn = document.getElementById('checkAddInItemBtn');
-    addInItemTypeRadios = document.querySelectorAll(`[name='addInItemTypeRadio']`)
-    addInItemTypeRadios.forEach((radio) => {
-        radio.addEventListener('change', () => {
-            switch (radio.value) {
-                case typeList.tuduItem:
-                    addInInfoInput.style.display = 'none';
-                    break;
-                case typeList.memoItem:
-                    addInInfoInput.style.display = 'flex';
-                    break;
+        // 由群組新增按鈕事件
+        // 新增 tudu
+        addTuduInput = document.getElementById('addTuduInput')
+        addTuduHidden = document.getElementById('addTuduHidden');
+        checkAddTudu = document.getElementById('checkAddTudu');
+        checkAddTudu.addEventListener('click', () => {
+            if (addTuduInput.value.trim() === '') {
+                addTuduInput.placeholder = '內容不能為空白'
+                return;
             }
+            addTuduItem(addTuduHidden.getAttribute('boxId'), addTuduInput.value, null, false, null, true);
+            addTuduInput.value = ''; // 清除
+            updateUserData();
+            addTuduItemModel.hide();
         })
-    })
-    checkAddInItemBtn.addEventListener('click', (ev) => {
+        addInHidden = document.getElementById('addInHidden')
+        addInTitleInput = document.getElementById('addInTitleInput')
+        addInInfoInput = document.getElementById('addInInfoInput')
+        addInInfoInput.style.display = 'none';
+        checkAddInItemBtn = document.getElementById('checkAddInItemBtn');
+        addInItemTypeRadios = document.querySelectorAll(`[name='addInItemTypeRadio']`)
         addInItemTypeRadios.forEach((radio) => {
-            if (radio.checked) {
-                if (addInTitleInput.value.trim() === '') {
-                    addInTitleInput.placeholder = '內容不能為空白'
-                    return;
-                }
+            radio.addEventListener('change', () => {
                 switch (radio.value) {
                     case typeList.tuduItem:
-                        addTuduItem(addInHidden.getAttribute('boxId'), addInTitleInput.value, null, false, null, true);
-                        addInTitleInput.value = ''; // 清除
+                        addInInfoInput.style.display = 'none';
                         break;
                     case typeList.memoItem:
-                        if (addInInfoInput.value.trim() === '') {
-                            addInInfoInput.placeholder = '內容不能為空白'
-                            return;
-                        }
-                        addMemoItem(addInHidden.getAttribute('boxId'), null, addInTitleInput.value, addInInfoInput.value, true)
-                        addInTitleInput.value = '';
-                        addInInfoInput.value = '';
+                        addInInfoInput.style.display = 'flex';
                         break;
                 }
-                updateUserData();
-                addInItemModal.hide();
-            }
+            })
         })
-    })
+        checkAddInItemBtn.addEventListener('click', (ev) => {
+            addInItemTypeRadios.forEach((radio) => {
+                if (radio.checked) {
+                    if (addInTitleInput.value.trim() === '') {
+                        addInTitleInput.placeholder = '內容不能為空白'
+                        return;
+                    }
+                    switch (radio.value) {
+                        case typeList.tuduItem:
+                            addTuduItem(addInHidden.getAttribute('boxId'), addInTitleInput.value, null, false, null, true);
+                            addInTitleInput.value = ''; // 清除
+                            break;
+                        case typeList.memoItem:
+                            if (addInInfoInput.value.trim() === '') {
+                                addInInfoInput.placeholder = '內容不能為空白'
+                                return;
+                            }
+                            addMemoItem(addInHidden.getAttribute('boxId'), null, addInTitleInput.value, addInInfoInput.value, true)
+                            addInTitleInput.value = '';
+                            addInInfoInput.value = '';
+                            break;
+                    }
+                    updateUserData();
+                    addInItemModal.hide();
+                }
+            })
+        })
 
-    // 編輯名稱 edit
-    editTuduInput = document.getElementById('editTuduInput');
-    editTuduHidden = document.getElementById('editTuduHidden');
-    editNameBtn = document.getElementById('editNameBtn');
-    editNameBtn.addEventListener('click', () => {
-        if (editTuduInput.value.trim() === '') {
-            editTuduInput.placeholder = '內容不能為空白'
-            return;
-        }
-        editItemName(editTuduHidden.getAttribute('target'), editTuduHidden.getAttribute('parentItem'), editTuduInput.value);
-        editTuduHidden.removeAttribute('target');
-        editTuduHidden.removeAttribute('parentItem');
-        editNameModal.hide();
-    });
-    //
-    editMemoHidden = document.getElementById('editMemoHidden');
-    editMemoTitleInput = document.getElementById('editMemoTitleInput')
-    editMemoInput = document.getElementById('editMemoInput')
-    editMemoBtn = document.getElementById('editMemoBtn')
-    editMemoBtn.addEventListener('click', () => {
-        editItemName(editMemoHidden.getAttribute('target'), editMemoHidden.getAttribute('parentItem'), editMemoTitleInput.value, editMemoInput.value);
-        editMemoModal.hide();
-    })
-    // editMemoTitleInput;
-    // editMemoInput;
-    // 刪除 del
-    delItemHidden = document.getElementById('delItemHidden')
-    delItemBtn = document.getElementById('delItemBtn');
-    delItemBtn.addEventListener('click', () => {
-        delItem(document.getElementById('delItemHidden').getAttribute('target'));
-        delItemModal.hide();
-    })
-    await createUserElem();
-    // 拖曳元件
-    // group不能放入group內
-    // tuduItem可以放到group內或是拉到itemBlock中
-    creatSortable(itemBlock[0], 'itemBlock', 'itemBlock');
+        // 編輯名稱 edit
+        editTuduInput = document.getElementById('editTuduInput');
+        editTuduHidden = document.getElementById('editTuduHidden');
+        editNameBtn = document.getElementById('editNameBtn');
+        editNameBtn.addEventListener('click', () => {
+            if (editTuduInput.value.trim() === '') {
+                editTuduInput.placeholder = '內容不能為空白'
+                return;
+            }
+            editItemName(editTuduHidden.getAttribute('target'), editTuduHidden.getAttribute('parentItem'), editTuduInput.value);
+            editTuduHidden.removeAttribute('target');
+            editTuduHidden.removeAttribute('parentItem');
+            editNameModal.hide();
+        });
+        //
+        editMemoHidden = document.getElementById('editMemoHidden');
+        editMemoTitleInput = document.getElementById('editMemoTitleInput')
+        editMemoInput = document.getElementById('editMemoInput')
+        editMemoBtn = document.getElementById('editMemoBtn')
+        editMemoBtn.addEventListener('click', () => {
+            editItemName(editMemoHidden.getAttribute('target'), editMemoHidden.getAttribute('parentItem'), editMemoTitleInput.value, editMemoInput.value);
+            editMemoModal.hide();
+        })
+        // editMemoTitleInput;
+        // editMemoInput;
+        // 刪除 del
+        delItemHidden = document.getElementById('delItemHidden')
+        delItemBtn = document.getElementById('delItemBtn');
+        delItemBtn.addEventListener('click', () => {
+            delItem(document.getElementById('delItemHidden').getAttribute('target'));
+            delItemModal.hide();
+        })
+        await createUserElem();
+        // 拖曳元件
+        // group不能放入group內
+        // tuduItem可以放到group內或是拉到itemBlock中
+        creatSortable(itemBlock[0], 'itemBlock', 'itemBlock');
+    })()
 })
 
 /**
  * 加入sortable
  * @param obj
  * @param groupName
+ * @param typeName
  */
-function creatSortable(obj, groupName) {
-    new Sortable(obj, {
+function creatSortable(obj, groupName, typeName) {
+    const sortable = new Sortable(obj, {
         group: groupName,
         animation: 150,
         fallbackOnBody: true,
@@ -703,7 +707,7 @@ function addGroupItem(title = null, id = null, save = false) {
     itemBox.appendChild(collapseBlock);
     itemBlock[0].appendChild(itemBox);
 
-    groupItem.addEventListener('contextmenu', (e)=>{
+    groupItem.addEventListener('contextmenu', (e) => {
         e.preventDefault();
         groupOption.click();
     })
@@ -957,14 +961,18 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
     const optionCopyTitle = document.createElement('li'); // 複製title
     optionCopyTitle.className = 'dropdown-item';
     optionCopyTitle.textContent = '複製標題至剪貼簿';
-    optionCopyTitle.addEventListener('click', async () => {
-        await window.clipboardFunc.writeClipboard(title.toString());
+    optionCopyTitle.addEventListener('click', () => {
+        (async () => {
+            await window.clipboardFunc.writeClipboard(title.toString());
+        })()
     })
     const optionsCopyInfo = document.createElement('li') // 複製內容
     optionsCopyInfo.className = 'dropdown-item';
     optionsCopyInfo.textContent = '複製內容至剪貼簿';
-    optionsCopyInfo.addEventListener('click', async () => {
-        await window.clipboardFunc.writeClipboard(memo.toString());
+    optionsCopyInfo.addEventListener('click', () => {
+        (async () => {
+            await window.clipboardFunc.writeClipboard(memo.toString());
+        })()
     })
     const optionsEdit = document.createElement('li');
     optionsEdit.className = 'dropdown-item';

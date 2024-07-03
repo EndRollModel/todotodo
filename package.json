@@ -22,7 +22,6 @@
     "electron-builder": "^24.9.1"
   },
   "dependencies": {
-    "better-sqlite3": "^9.4.3",
     "croner": "^7.0.4",
     "dayjs": "^1.11.10"
   },
