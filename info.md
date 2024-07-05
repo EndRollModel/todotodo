@@ -5,7 +5,8 @@ dayjs: 1.11.10
 
 ### not used
 croner: 7.0.4   
-better-sqlite3 - 9.4.3
+
+[//]: # (better-sqlite3 - 9.4.3)
 
 ### 外觀
 - 做成透明的可移動區塊
