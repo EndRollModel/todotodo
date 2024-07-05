@@ -1,5 +1,3 @@
-# Tudutudu
-
 ## 兔嘟莉絲特
 
 因朋友要求加上自己想寫看看 Electron      
