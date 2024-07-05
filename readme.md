@@ -20,7 +20,7 @@
 ### license ＆ 聲明
 本程式的開發與分發採用 <font style="color='blue'">MIT License</font>。        
 
-##### Logo聲明      
+#### Logo聲明      
 本程式的Logo版權歸[Tibbar♦](https://www.plurk.com/m/zeyami)所有。   
 該圖片不包含在本程式的分發中，請勿未經授權使用。
 
