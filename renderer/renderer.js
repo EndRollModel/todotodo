@@ -784,15 +784,17 @@ async function addTuduItem(boxId = null, title, objectId = null, checked = false
     if (checked) {
         tuduCheck.checked = true
     }
-    tuduCheck.addEventListener('change', async (e) => {
-        if (e.target.checked) {
-            tuduTime.textContent = `${await window.timeFeat.timeFormat(Date.now())}`;
-            tuduTime.style.color = 'red'
-        } else {
-            tuduTime.textContent = '99:99'
-            tuduTime.style.color = 'transparent'
-        }
-        updateItemChecked(tuduItem.id, e.target.checked, tuduTime.textContent);
+    tuduCheck.addEventListener('change',(e) => {
+        (async ()=>{
+            if (e.target.checked) {
+                tuduTime.textContent = `${await window.timeFeat.timeFormat(Date.now())}`;
+                tuduTime.style.color = 'red'
+            } else {
+                tuduTime.textContent = '99:99'
+                tuduTime.style.color = 'transparent'
+            }
+            updateItemChecked(tuduItem.id, e.target.checked, tuduTime.textContent);
+        })()
     })
 
     const tuduItemOption = document.createElement('div');
@@ -910,12 +912,14 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
         memoItem.setAttribute('boxId', boxId);
     }
 
-    memoItem.addEventListener('mouseup', async (ev) => {
-        ev.preventDefault();
-        if (ev.button === 2) {
-            const dataIndex = userData.findIndex((item) => item.id === memoItem.id);
-            await copyData(userData[dataIndex].memo.toString());
-        }
+    memoItem.addEventListener('mouseup',  (ev) => {
+        (async ()=>{
+            ev.preventDefault();
+            if (ev.button === 2) {
+                const dataIndex = userData.findIndex((item) => item.id === memoItem.id);
+                await copyData(userData[dataIndex].memo.toString());
+            }
+        })()
     })
 
     async function copyData(data) {
