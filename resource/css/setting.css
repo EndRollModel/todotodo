@@ -669,10 +669,10 @@ button:focus {
     border-radius: 0 0 7px 7px;
 }
 
-#settingShowPageGroup, .page-group-box{
-    /*0.1.4版本隱藏*/
-    display: none;
-}
+/*#settingShowPageGroup, .page-group-box{*/
+/*    !*0.1.4版本隱藏*!*/
+/*    display: none;*/
+/*}*/
 
 a {
     text-decoration: none;
