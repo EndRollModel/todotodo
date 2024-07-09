@@ -197,7 +197,11 @@ async function createUserElem() {
         })
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+/**
+ * 取得分頁資料的內容
+ * @param pageNum
+ */
+function loadPageData (pageNum){
     (async () => {
         bodyBlock = document.querySelector('.body-block');
 
@@ -423,6 +427,10 @@ document.addEventListener('DOMContentLoaded', function () {
         // tuduItem可以放到group內或是拉到itemBlock中
         creatSortable(itemBlock[0], 'itemBlock', 'itemBlock');
     })()
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    loadPageData();
 })
 
 /**
@@ -1015,6 +1023,7 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
     // 追加項目內的東西
     memoItem.appendChild(memoSpan.cloneNode(true));
     memoItem.appendChild(memoTitle);
+    // memoItem.appendChild(memoSpan.cloneNode(true));
     memoItem.appendChild(memoItemOption);
 
     if (isGroup) {

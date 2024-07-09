@@ -11,6 +11,7 @@ winConfig.appConfig = {
     openDevTools: false, // 是否開啟除錯模式
     tuduPageName: 'tudu',
     memoPageName: 'memo',
+    showLog : true, // 自定義log開關
 }
 
 winConfig.themeList = {

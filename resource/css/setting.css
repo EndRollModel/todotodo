@@ -431,17 +431,17 @@ body {
     transform: rotate(0deg);
 }
 
-
 .tudu-item-check {
     -webkit-user-drag: none;
     margin-left: 5%;
 }
 
-[class^='tudu-item-title-'] {
+[class^='tudu-item-title-'], [class^='memo-item-title-']  {
     -webkit-user-drag: none;
     text-align: center;
     overflow: scroll;
 }
+
 
 .tudu-item-title, .memo-item-title {
     -webkit-user-drag: none;

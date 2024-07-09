@@ -2,10 +2,10 @@ const fs = require('fs');
 const winConfig = require('../config/winConfig');
 const {app, safeStorage} = require('electron');
 const path = require('path');
+const {showLog, showELog} = require('./loggerModule')
 
 function checkSettingConfigExist() {
     const userDataPath = `${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`
-    // console.log(userDataPath)
     if (!fs.existsSync(userDataPath)) {
         fs.mkdirSync(userDataPath);
     }
@@ -84,6 +84,7 @@ function loadUserData() {
                 break;
         }
     }
+    showLog(userData)
     return userData;
 }
 

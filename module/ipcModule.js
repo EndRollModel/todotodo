@@ -9,7 +9,7 @@ const dayjs = require("dayjs");
 function setIpcModule() {
     mainWindowListener(); // 主頁面上 (縮小關閉)
     tuduFeatListener(); // 資料 (拉取資料)
-    timeFeatListener(); // 時間處理 (點選check時抓取時間)
+    timeFeatListener(); // 時間處理 (點選check時抓取時間)Ｉ
     tuduSettingListener(); // 字型 (設定的字型)
     userFeatListener(); // 使用者資料
     userSetting(); // 使用者的設定資料
@@ -35,6 +35,7 @@ function mainWindowListener() {
         // });
     })
 
+    // 置頂
     ipcMain.handle('setOnTop', (e) => {
         const isOnTop = BrowserWindow.getAllWindows()[0].isAlwaysOnTop();
         BrowserWindow.getAllWindows()[0].setAlwaysOnTop(!isOnTop);
@@ -46,6 +47,7 @@ function mainWindowListener() {
 }
 
 function tuduSettingListener() {
+    // 取得字型清單
     ipcMain.handle('getFontList', () => {
         return fontTable;
     })
