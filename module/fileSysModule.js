@@ -58,8 +58,16 @@ function loadUserData() {
     try {
         userData = fs.readFileSync(userDataPath, 'utf-8')
         let deData = safeStorage.decryptString(Buffer.from(userData, 'base64'));
-        userData = JSON.parse(deData)
         // userData = JSON.parse(userData)
+        // userData = JSON.parse(deData)
+
+        if (Object.hasOwn(JSON.parse(deData)[0], 'pageId')) {
+            userData = JSON.parse(deData)
+        } else {
+            // 0.1.5版後資料改版
+            let oldData = JSON.parse(deData);
+            userData = [{pageId: 0, pageName: '預設', sort: 0, pageData: oldData}];
+        }
     } catch (e) {
         switch (true) {
             case e.message.indexOf('Unexpected non-whitespace character') > -1: //json parse fail

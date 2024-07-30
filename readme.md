@@ -2,8 +2,7 @@
 
 <hr>
 
-簡易的待辦事務清單程式 ( 使用electron製作 )
-
+使用Electron製作的簡易的待辦事務清單程式
 
 ### 功能
 目前提供以下主要功能    
@@ -15,7 +14,25 @@
   - 可用於快速的複製文字    
 
 
-### 開發相關資訊
+### 如何使用
+可下載releases打包的exe版本直接使用   
+exe的執行可能會有疑慮    
+可自行建立環境並執行    
+請安裝[nodejs](https://nodejs.org/en)環境 (必須)       
+移動到該目錄資料夾中執行以下指令
+```shell
+npm install
+```
+另 log使用中文撰寫其中會遇到console亂碼問題 若需要瀏覽console的狀況下 請使用
+```shell
+npm run winDebug
+````
+若不需看console只需要則執行
+```shell
+npm run start 
+```
+
+### 開發功能與相關資訊
 
 功能與開發一些相關的內容 另紀錄於[說明](info.md)裡面
 

@@ -46,11 +46,14 @@ let editNameModal; // 編輯名稱時用的Modal
 let editMemoModal; // 編輯memo用的modal
 let delItemModal; // 刪除時的跳窗
 
-let userData = [];
+let allUserData = [];
+let userChooseData = [];
 
 function cleanUserData() {
-    userData = [];
+    userChooseData = [];
 }
+
+let choosePageId = -1;
 
 /**
  * 建立群組或是待辦元件的function
@@ -102,7 +105,7 @@ function addFeatData(obj) {
             updateData.inSort = inSort;
             break;
     }
-    userData.push(updateData);
+    userChooseData.push(updateData);
 }
 
 /**
@@ -157,7 +160,7 @@ function pushGroupData(obj) {
         default:
             break
     }
-    userData.push(item);
+    userChooseData.push(item);
 }
 
 /**
@@ -165,8 +168,8 @@ function pushGroupData(obj) {
  * @return {Promise<void>}
  */
 async function createUserElem() {
-    if (userData.length === 0) return;
-    userData
+    if (userChooseData.length === 0) return;
+    userChooseData
         .filter(e => e.outSort !== -1)
         .sort((a, b) => a.outSort - b.outSort)
         .forEach((data) => {
@@ -182,7 +185,7 @@ async function createUserElem() {
                     break;
             }
         })
-    userData
+    userChooseData
         .filter(e => e.inSort !== -1)
         .sort((a, b) => a.inSort - b.inSort)
         .forEach((data) => {
@@ -199,18 +202,21 @@ async function createUserElem() {
 
 /**
  * 取得分頁資料的內容
- * @param pageNum
+ * @param pageId
  */
-function loadPageData (pageNum){
+function loadPageData (pageId){
     (async () => {
         bodyBlock = document.querySelector('.body-block');
 
         // bodyBlock.
         // 讀取userData
         const loadUserData = await window.userFeat.loadUserData();
+        allUserData = loadUserData;
+        choosePageId = pageId;
         if (loadUserData.length > 0) {
-            const sortData = resetData(loadUserData)
-            userData.push(...sortData)
+            // const sortData = resetData(loadUserData)
+            // userData.push(...sortData)
+            userChooseData.push(...loadUserData[pageId].pageData)
         }
         // modal
         addFeatModal = new bootstrap.Modal(document.getElementById('addFeatModal'));
@@ -430,7 +436,7 @@ function loadPageData (pageNum){
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    loadPageData();
+    loadPageData(0);
 })
 
 /**
@@ -463,39 +469,39 @@ function creatSortable(obj, groupName, typeName) {
                     const fromClass = evt.from.className.replace(/ /g, '.')
                     Object.values(document.querySelector(`.${fromClass}`).children).forEach((elem, index) => {
                         // from : collapse : inSort
-                        const dataIndex = userData.findIndex(e => e.id === elem.id)
-                        userData[dataIndex].inSort = index;
-                        userData[dataIndex].outSort = -1;
+                        const dataIndex = userChooseData.findIndex(e => e.id === elem.id)
+                        userChooseData[dataIndex].inSort = index;
+                        userChooseData[dataIndex].outSort = -1;
                     })
                     Object.values(document.querySelector(`.item-block`).children).forEach((elem, index) => {
                         // to : item-block : outSort
-                        const dataIndex = userData.findIndex(e => e.id === elem.id)
-                        userData[dataIndex].outSort = index;
-                        userData[dataIndex].inSort = -1;
-                        if (userData[dataIndex].targetId !== -1) {
+                        const dataIndex = userChooseData.findIndex(e => e.id === elem.id)
+                        userChooseData[dataIndex].outSort = index;
+                        userChooseData[dataIndex].inSort = -1;
+                        if (userChooseData[dataIndex].targetId !== -1) {
                             // 拉出去的物件會有targetId 所以清空
-                            userData[dataIndex].targetId = -1
+                            userChooseData[dataIndex].targetId = -1
                         }
                     })
                 } else {
                     // 外層至內層
                     Object.values(document.querySelector(`.item-block`).children).forEach((elem, index) => {
                         // from : item-block : outSort
-                        const dataIndex = userData.findIndex(e => e.id === elem.id)
-                        userData[dataIndex].outSort = index;
-                        userData[dataIndex].inSort = -1;
+                        const dataIndex = userChooseData.findIndex(e => e.id === elem.id)
+                        userChooseData[dataIndex].outSort = index;
+                        userChooseData[dataIndex].inSort = -1;
                     })
                     const fromClass = evt.to.className.replace(/ /g, '.')
                     Object.values(document.querySelector(`.${fromClass}`).children).forEach((elem, index) => {
                         // to : collapse : inSort
-                        const dataIndex = userData.findIndex(e => e.id === elem.id)
-                        userData[dataIndex].inSort = index
-                        userData[dataIndex].outSort = -1
-                        if (userData[dataIndex].targetId === -1) {
+                        const dataIndex = userChooseData.findIndex(e => e.id === elem.id)
+                        userChooseData[dataIndex].inSort = index
+                        userChooseData[dataIndex].outSort = -1
+                        if (userChooseData[dataIndex].targetId === -1) {
                             // 拉進來的物件會沒有collapse的容器id 所以要補上id給他
                             const match = evt.to.className.match(/collapse-block-(\d+)/);
                             const number = match ? match[1] : null;
-                            userData[dataIndex].targetId = `itemBoxId${number}`
+                            userChooseData[dataIndex].targetId = `itemBoxId${number}`
                         }
                     })
                 }
@@ -508,15 +514,15 @@ function creatSortable(obj, groupName, typeName) {
                         case evt.to.className === 'item-block':
                             // 所有網頁的位置元素直接記錄下來
                             Object.values(document.querySelector('.item-block').children).forEach((elem, index) => {
-                                const dataIndex = userData.findIndex(e => e.id === elem.id)
-                                userData[dataIndex].outSort = index;
+                                const dataIndex = userChooseData.findIndex(e => e.id === elem.id)
+                                userChooseData[dataIndex].outSort = index;
                             })
                             break;
                         case evt.to.classList.contains('collapse'):
                             const className = evt.to.className.replace(/ /g, '.')
                             Object.values(document.querySelector(`.${className}`).children).forEach((elem, index) => {
-                                const dataIndex = userData.findIndex(e => e.id === elem.id);
-                                userData[dataIndex].inSort = index
+                                const dataIndex = userChooseData.findIndex(e => e.id === elem.id);
+                                userChooseData[dataIndex].inSort = index
                             })
                             break;
                     }
@@ -534,9 +540,9 @@ function creatSortable(obj, groupName, typeName) {
  * @param time
  */
 function updateItemChecked(targetId, checked, time) {
-    const targetIndex = userData.findIndex(e => e.id === targetId);
-    userData[targetIndex].checked = checked;
-    userData[targetIndex].time = time;
+    const targetIndex = userChooseData.findIndex(e => e.id === targetId);
+    userChooseData[targetIndex].checked = checked;
+    userChooseData[targetIndex].time = time;
     updateUserData();
 }
 
@@ -550,10 +556,10 @@ function updateItemChecked(targetId, checked, time) {
 function editItemName(target, parent, title, memo = null) {
     const targetItem = document.querySelector(`${target}`);
     targetItem.textContent = title;
-    const itemIndex = userData.findIndex(e => e.id === parent.replace(/[#.]/g, ''));
-    userData[itemIndex].title = title;
+    const itemIndex = userChooseData.findIndex(e => e.id === parent.replace(/[#.]/g, ''));
+    userChooseData[itemIndex].title = title;
     if (memo != null) {
-        userData[itemIndex].memo = memo
+        userChooseData[itemIndex].memo = memo
     }
     updateUserData();
 }
@@ -569,23 +575,23 @@ function delItem(target) {
         // 重新整理外部的index
         Object.values(document.querySelector(`.item-block`).children).forEach((elem, index) => {
             // item-block : outSort
-            const dataIndex = userData.findIndex(e => e.id === elem.id)
-            userData[dataIndex].outSort = index;
-            userData[dataIndex].inSort = -1;
+            const dataIndex = userChooseData.findIndex(e => e.id === elem.id)
+            userChooseData[dataIndex].outSort = index;
+            userChooseData[dataIndex].inSort = -1;
         })
     } else {
         // 內層結構
         const fromClass = targetItem.parentElement.className.replace(/ /g, '.')
         Object.values(document.querySelector(`.${fromClass}`).children).forEach((elem, index) => {
             // collapse : inSort
-            const dataIndex = userData.findIndex(e => e.id === elem.id)
-            userData[dataIndex].inSort = index
-            userData[dataIndex].outSort = -1
+            const dataIndex = userChooseData.findIndex(e => e.id === elem.id)
+            userChooseData[dataIndex].inSort = index
+            userChooseData[dataIndex].outSort = -1
         })
     }
     targetItem.remove();
-    const itemIndex = userData.findIndex(e => e.id === target.replace(/[#.]/g, ''))
-    userData.splice(itemIndex, 1);
+    const itemIndex = userChooseData.findIndex(e => e.id === target.replace(/[#.]/g, ''))
+    userChooseData.splice(itemIndex, 1);
     updateUserData();
 }
 
@@ -604,7 +610,7 @@ function addGroupItem(title = null, id = null, save = false) {
     let notUse = false;
     while (!notUse) {
         if (document.querySelector(`#itemBoxId${itemIndex}`) === null) {
-            const checkNoUse = userData.findIndex(e => e.id === `itemBoxId${itemIndex}`) === -1
+            const checkNoUse = userChooseData.findIndex(e => e.id === `itemBoxId${itemIndex}`) === -1
             if (checkNoUse) {
                 notUse = true
             } else {
@@ -748,7 +754,7 @@ async function addTuduItem(boxId = null, title, objectId = null, checked = false
     let notUse = false;
     while (!notUse) {
         if (document.querySelector(`#tuduItemId${itemIndex}`) === null) {
-            const checkNoUsed = userData.findIndex(e => e.id === `tuduItemId${itemIndex}`) === -1;
+            const checkNoUsed = userChooseData.findIndex(e => e.id === `tuduItemId${itemIndex}`) === -1;
             if (checkNoUsed) {
                 notUse = true;
             } else {
@@ -896,7 +902,7 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
     let notUse = false;
     while (!notUse) {
         if (document.querySelector(`#${memoIdName}${itemIndex}`) === null) {
-            const checkNoUsed = userData.findIndex(e => e.id === `${memoIdName}${itemIndex}`) === -1;
+            const checkNoUsed = userChooseData.findIndex(e => e.id === `${memoIdName}${itemIndex}`) === -1;
             if (checkNoUsed) {
                 notUse = true;
             } else {
@@ -924,8 +930,8 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
         (async ()=>{
             ev.preventDefault();
             if (ev.button === 2) {
-                const dataIndex = userData.findIndex((item) => item.id === memoItem.id);
-                await copyData(userData[dataIndex].memo.toString());
+                const dataIndex = userChooseData.findIndex((item) => item.id === memoItem.id);
+                await copyData(userChooseData[dataIndex].memo.toString());
             }
         })()
     })
@@ -991,12 +997,12 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
     optionsEdit.textContent = '編輯';
     optionsEdit.addEventListener('click', (ev) => {
         document.getElementById('editMemoTitleInput').value = memoTitle.textContent; // 把值設定上去
-        const memoDataIndex = userData.findIndex((item) => item.id === memoItem.id);
+        const memoDataIndex = userChooseData.findIndex((item) => item.id === memoItem.id);
         let memoData;
         if (memoDataIndex === -1) {
             memoData = memo
         } else {
-            memoData = userData[memoDataIndex].memo;
+            memoData = userChooseData[memoDataIndex].memo;
         }
         document.getElementById('editMemoInput').value = memoData; // 把值設定上去
         document.getElementById('editMemoHidden').setAttribute('parentItem', `#${memoItem.id}`);
@@ -1064,11 +1070,21 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
  * 儲存資料一次
  */
 function updateUserData() {
-    window.userFeat.saveUserData(userData);
+    // userChooseData, choosePageId
+    console.log(userChooseData)
+    allUserData.forEach((userData, i)=>{
+        if (userData.pageId === choosePageId) {
+            allUserData[i].pageData = userChooseData;
+        }
+    })
+    console.log(allUserData)
+    window.userFeat.saveUserData(allUserData);
 }
 
 /**
+ * 0.1.5棄用此方法
  * 此方法僅對應0.1.3.7版本以前的資料
+ * @deprecated
  * 需要加上排列順序
  * @param {array}data
  */
