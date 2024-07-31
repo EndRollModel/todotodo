@@ -1,4 +1,17 @@
 const versionRecord = {
+    '0.1.5-pre-alpha':{
+        state : 'pre-alpha',
+        date : '2024/07/31',
+        info : '分頁的功能新增',
+        resource : 'Logo:<br/>' +
+            '<a target="_blank" rel="noopener noreferrer" href="https://www.plurk.com/m/zeyami">Tibbar♦</a></br>'+
+            '</br>字體:</br>' +
+            '<a href="https://github.com/ACh-K/Cubic-11" target="_blank" rel="noopener noreferrer">俐方體11號</a></br>' +
+            '<a href="https://github.com/max32002/naikaifont" target="_blank" rel="noopener noreferrer" >內海字體</a></br>' +
+            '<a href="https://fonts.google.com/noto/specimen/Noto+Sans+TC" target="_blank" rel="noopener noreferrer">思源黑體</a></br></br>' +
+            '還有 親愛的使用者❤️',
+        special: 'You',
+    },
     '0.1.4':{
         state : 'release',
         date : '2024/06/30',

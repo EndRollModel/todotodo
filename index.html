@@ -294,6 +294,26 @@
             </div>
         </div>
     </div>
+    <!--  page add  -->
+    <div class="modal fade" id="addPageModal" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPageModalTitle">新增分頁</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input id="addPageInput" type="text" class="form-control" placeholder="新增的分頁名稱">
+                    <p id="addPageHidden" hidden="hidden"></p>
+                    <div class="modal-btn-group">
+                        <button id="addPageBtn" type="button">確認</button>
+                        <button type="button" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <ul id="addFeatDropDown" class="dropdown-menu">
         <li><a id="DropAddItem" class="dropdown-item">新增項目</a></li>
     </ul>
@@ -301,9 +321,9 @@
 <div id="pageGroupSpace" class="space-line"></div>
 <div class="page-group-box">
     <div class="page-group">
+        <div class="page-plus">+</div>
         <div class="page-item-group">
         </div>
-        <div class="page-plus">+</div>
     </div>
 </div>
 <script src="resource/js/bootstrap.bundle.min.js"></script>

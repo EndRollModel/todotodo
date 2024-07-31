@@ -30,6 +30,7 @@ let settingModalTitle; // 設定的modal內容
 let addFeatDropdownMenu;
 
 let pageGroup; // 分頁群組
+let pageItemGroup; // 分頁分組的內容
 let pagePlus; // 分頁的新增按鈕
 
 const typeList = {
@@ -41,10 +42,11 @@ const typeList = {
 // modal
 let addFeatModal; // 新增群組或是TuduItem的modal
 let addTuduItemModel; // 由群組新增TuduItem的modal
-let addInItemModal; // 群組內新增用
-let editNameModal; // 編輯名稱時用的Modal
+let addInItemModal; // 群組內新增用的modal
+let editNameModal; // 編輯名稱時用的modal
 let editMemoModal; // 編輯memo用的modal
-let delItemModal; // 刪除時的跳窗
+let delItemModal; // 刪除時的modal
+let addPageModal; // 分頁用的modal
 
 let allUserData = [];
 let userChooseData = [];
@@ -218,6 +220,23 @@ function loadPageData (pageId){
             // userData.push(...sortData)
             userChooseData.push(...loadUserData[pageId].pageData)
         }
+        // page-select-group
+        pageItemGroup = document.querySelector('.page-item-group')
+        allUserData.forEach((page)=>{
+            const pageItem = document.createElement('div');
+            pageItem.className = 'page-item';
+            pageItem.textContent = page.pageName;
+            pageItem.addEventListener('click', ()=>{
+            });
+            pageItemGroup.append(pageItem)
+        })
+        pagePlus = document.querySelector('.page-plus');
+        addPageModal = new bootstrap.Modal(document.getElementById('addPageModal'))
+        pagePlus.addEventListener('click', ()=>{
+            addPageModal.show();
+        });
+
+
         // modal
         addFeatModal = new bootstrap.Modal(document.getElementById('addFeatModal'));
         addTuduItemModel = new bootstrap.Modal(document.getElementById('addTuduItem'));
@@ -1071,13 +1090,11 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
  */
 function updateUserData() {
     // userChooseData, choosePageId
-    console.log(userChooseData)
     allUserData.forEach((userData, i)=>{
         if (userData.pageId === choosePageId) {
             allUserData[i].pageData = userChooseData;
         }
     })
-    console.log(allUserData)
     window.userFeat.saveUserData(allUserData);
 }
 

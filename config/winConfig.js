@@ -11,7 +11,7 @@ winConfig.appConfig = {
     openDevTools: false, // 是否開啟除錯模式
     tuduPageName: 'tudu',
     memoPageName: 'memo',
-    showLog : true, // 自定義log開關
+    showLog: true, // 自定義log開關
 }
 
 winConfig.themeList = {
@@ -37,7 +37,7 @@ winConfig.themeColorList = {
             '--checkColor',
             '--radioColor',
             '--formSelectBDColor',
-            '--formSelectFBDColor'
+            '--formSelectFBDColor',
         ]
     },
     itemsBgColor: {
@@ -77,15 +77,23 @@ winConfig.themeColorList = {
             '--formSelectFBS',
         ]
     },
-    dropdown:{
+    dropdown: {
         // all dropdown
         attr: '',
         value: '#FFD6DE7F',
-        list:[
+        list: [
             '--dropdownHoverColor',
             '--dropdownActiveColor',
         ]
     },
+    pageItem: {
+        // pageItem
+        attr: '',
+        value: '#FFD6DE7F',
+        list: [
+            '--pageItemHoverColor',
+        ]
+    }
 // --pageGroupBoxColor: 1px dashed #FFD6DE;
 // --pageItemHoverColor: #FFD6DE7F;
 // --pageItemSelectedColor: #FFD6DE;
