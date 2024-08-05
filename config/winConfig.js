@@ -92,6 +92,7 @@ winConfig.themeColorList = {
         value: '#FFD6DE7F',
         list: [
             '--pageItemHoverColor',
+            '--pageItemSelectedColor'
         ]
     }
 // --pageGroupBoxColor: 1px dashed #FFD6DE;

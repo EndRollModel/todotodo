@@ -32,6 +32,8 @@ let addFeatDropdownMenu;
 let pageGroup; // 分頁群組
 let pageItemGroup; // 分頁分組的內容
 let pagePlus; // 分頁的新增按鈕
+let addPageButton; // 分頁的新增確定按鈕
+let addPageInput; // 分頁的名稱輸入
 
 const typeList = {
     group: 'group',
@@ -226,6 +228,9 @@ function loadPageData (pageId){
             const pageItem = document.createElement('div');
             pageItem.className = 'page-item';
             pageItem.textContent = page.pageName;
+            if(pageId === page.pageId){
+                pageItem.classList.add('page-selected')
+            }
             pageItem.addEventListener('click', ()=>{
             });
             pageItemGroup.append(pageItem)
@@ -235,6 +240,13 @@ function loadPageData (pageId){
         pagePlus.addEventListener('click', ()=>{
             addPageModal.show();
         });
+        addPageButton = document.getElementById('addPageBtn');
+        addPageInput = document.getElementById('addPageInput');
+        addPageButton.addEventListener('click', ()=>{
+            if(addPageInput.value.trim() === ''){
+
+            }
+        })
 
 
         // modal

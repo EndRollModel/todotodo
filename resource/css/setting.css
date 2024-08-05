@@ -50,7 +50,7 @@
     /*pageGroup*/
     --pageGroupBoxColor: 0.07rem dashed #383838;
     --pageItemHoverColor: #FFD6DE7F;
-    --pageItemSelectedColor: #FFD6DE;
+    --pageItemSelectedColor: #FFD6DE7A;
     --pageItemSelectedBS: 2px 2px 0 0 #FFD6DE;
     --pageItemBorderColor: #FFD6DE;
 }
