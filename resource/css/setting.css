@@ -1,4 +1,5 @@
 :root {
+    --colorBlack: #000000;
     --toolbarBg: #646464;
     --bgColor: #FFFFFFF2;
     --themeLightBG: #FFFFFFE6;
@@ -581,6 +582,12 @@ button:focus {
     border-top: var(--pageGroupBoxColor);
 }
 
+.page-item-group{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
 .page-item, .page-plus {
     border-radius: 15%;
     height: 24px;
@@ -591,7 +598,7 @@ button:focus {
     justify-content: center;
     align-items: center;
     border: var(--pageGroupBoxColor);
-    color: var(--toolbarBg);
+    color: var(--colorBlack);
 }
 
 .page-item:hover {

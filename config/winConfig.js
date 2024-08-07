@@ -21,7 +21,7 @@ winConfig.themeList = {
 
 winConfig.themeColorList = {
     mainColor: {
-        // use main color list
+        // 主色調的名單列表
         attr: '',
         value: '#FFD6DE',
         list: [
@@ -233,7 +233,7 @@ winConfig.mainWindowOptions = {
     title: '兔嘟莉絲特', // TuDuLeSuTer Tùdūlìsītè
     width: 335, // 預設的寬度
     height: 520, // 預設的高度
-    minWidth: 335, // 最高的寬度
+    minWidth: 335, // 最小的寬度
     minHeight: 520, // 最低的高度
     show: false, // 預設是否先秀出
     transparent: true, // 透明

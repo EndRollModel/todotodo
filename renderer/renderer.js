@@ -208,10 +208,9 @@ async function createUserElem() {
  * 取得分頁資料的內容
  * @param pageId
  */
-function loadPageData (pageId){
+function loadPageData(pageId) {
     (async () => {
         bodyBlock = document.querySelector('.body-block');
-
         // bodyBlock.
         // 讀取userData
         const loadUserData = await window.userFeat.loadUserData();
@@ -224,30 +223,32 @@ function loadPageData (pageId){
         }
         // page-select-group
         pageItemGroup = document.querySelector('.page-item-group')
-        allUserData.forEach((page)=>{
+        allUserData.forEach((page) => {
             const pageItem = document.createElement('div');
             pageItem.className = 'page-item';
             pageItem.textContent = page.pageName;
-            if(pageId === page.pageId){
+            pageItem.setAttribute('id', pageId)
+            if (pageId === page.pageId) {
                 pageItem.classList.add('page-selected')
             }
-            pageItem.addEventListener('click', ()=>{
-            });
+            pageItem.addEventListener('click', pageSelectEnv);
             pageItemGroup.append(pageItem)
         })
         pagePlus = document.querySelector('.page-plus');
         addPageModal = new bootstrap.Modal(document.getElementById('addPageModal'))
-        pagePlus.addEventListener('click', ()=>{
+        pagePlus.addEventListener('click', () => {
             addPageModal.show();
         });
         addPageButton = document.getElementById('addPageBtn');
         addPageInput = document.getElementById('addPageInput');
-        addPageButton.addEventListener('click', ()=>{
-            if(addPageInput.value.trim() === ''){
-
+        addPageButton.addEventListener('click', () => {
+            if (addPageInput.value.trim() === '') {
+                addPageInput.placeholder = '內容不能為空白'
+            } else {
+                addPageItem(addPageInput.value);
+                addPageModal.hide();
             }
         })
-
 
         // modal
         addFeatModal = new bootstrap.Modal(document.getElementById('addFeatModal'));
@@ -260,7 +261,7 @@ function loadPageData (pageId){
         addFeatBtn = document.getElementById('addFeatBtn');
         tuduList = document.getElementById('tudulist');
         itemBlock = document.getElementsByClassName('item-block');
-
+        itemBlock.innerHTML = '';
         /**
          * 背景滑鼠按鍵事件偵測
          */
@@ -564,6 +565,15 @@ function creatSortable(obj, groupName, typeName) {
     })
 }
 
+function creatPageSortable(obj) {
+    const sortable = new Sortable(obj, {
+        group: "pageGroup",
+        onEnd: function (evt) {
+
+        }
+    })
+}
+
 /**
  * 選項被勾選
  * @param targetId
@@ -829,8 +839,8 @@ async function addTuduItem(boxId = null, title, objectId = null, checked = false
     if (checked) {
         tuduCheck.checked = true
     }
-    tuduCheck.addEventListener('change',(e) => {
-        (async ()=>{
+    tuduCheck.addEventListener('change', (e) => {
+        (async () => {
             if (e.target.checked) {
                 tuduTime.textContent = `${await window.timeFeat.timeFormat(Date.now())}`;
                 tuduTime.style.color = 'red'
@@ -957,8 +967,8 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
         memoItem.setAttribute('boxId', boxId);
     }
 
-    memoItem.addEventListener('mouseup',  (ev) => {
-        (async ()=>{
+    memoItem.addEventListener('mouseup', (ev) => {
+        (async () => {
             ev.preventDefault();
             if (ev.button === 2) {
                 const dataIndex = userChooseData.findIndex((item) => item.id === memoItem.id);
@@ -1098,11 +1108,64 @@ async function addMemoItem(boxId = null, objectId = null, title, memo = null, sa
 }
 
 /**
+ * 新增分頁的內容
+ * @param pageName
+ */
+function addPageItem(pageName) {
+    let pageIndex = 0;
+    let notUse = false;
+    while (!notUse) {
+        console.log(pageIndex)
+        const checkNoUse = allUserData.findIndex(e => e.pageId === pageIndex) === -1
+        if (checkNoUse) {
+            notUse = true
+        } else {
+            pageIndex++;
+        }
+    }
+    const pageItem = document.createElement('div');
+    pageItem.className = 'page-item';
+    pageItem.textContent = pageName;
+    pageItem.setAttribute('id', pageIndex);
+    pageItem.addEventListener('click', pageSelectEnv);
+    const newPage = {};
+    newPage.pageId = pageIndex;
+    newPage.pageName = pageName;
+    newPage.sort = allUserData.length;
+    newPage.pageData = [];
+    allUserData.push(newPage);
+    pageItemGroup.append(pageItem);
+    updateUserData();
+}
+
+/**
+ * 選擇分頁時的動作
+ * @param elem
+ */
+function pageSelectEnv (elem){
+    const allPage = document.querySelector('.page-item-group').children;
+    // 如果已經帶有被選擇的屬性 則不做任何事情
+    if(!elem.target.classList.contains('page-selected')){
+        for (let i = 0; i < allPage.length; i++) {
+            allPage[i].className = 'page-item';
+        }
+        elem.target.classList.add('page-selected');
+        const pageId = elem.target.getAttribute('id');
+        choosePageId = pageId;
+        loadPageData(pageId)
+    }
+}
+
+function delPageItem() {
+
+}
+
+/**
  * 儲存資料一次
  */
 function updateUserData() {
     // userChooseData, choosePageId
-    allUserData.forEach((userData, i)=>{
+    allUserData.forEach((userData, i) => {
         if (userData.pageId === choosePageId) {
             allUserData[i].pageData = userChooseData;
         }
