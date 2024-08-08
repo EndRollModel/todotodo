@@ -410,6 +410,7 @@ body {
     flex-wrap: wrap;
     margin-left: 5%;
     gap: 5px;
+    transition: height 0.07s !important;
 }
 
 .collapse-switch-box {

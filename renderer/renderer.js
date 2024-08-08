@@ -53,6 +53,8 @@ let addPageModal; // 分頁用的modal
 let allUserData = [];
 let userChooseData = [];
 
+let firstOpen = true;
+
 function cleanUserData() {
     userChooseData = [];
 }
@@ -208,32 +210,37 @@ async function createUserElem() {
  * 取得分頁資料的內容
  * @param pageId
  */
-function loadPageData(pageId) {
+function loadPageData(pageId = 0) {
     (async () => {
         bodyBlock = document.querySelector('.body-block');
         // bodyBlock.
         // 讀取userData
         const loadUserData = await window.userFeat.loadUserData();
-        allUserData = loadUserData;
+        if (firstOpen) allUserData = loadUserData; // 取得所有資料
+        cleanUserData(); // 清除使用者資料
         choosePageId = pageId;
         if (loadUserData.length > 0) {
             // const sortData = resetData(loadUserData)
             // userData.push(...sortData)
             userChooseData.push(...loadUserData[pageId].pageData)
         }
+        firstOpen = false
+
         // page-select-group
-        pageItemGroup = document.querySelector('.page-item-group')
-        allUserData.forEach((page) => {
-            const pageItem = document.createElement('div');
-            pageItem.className = 'page-item';
-            pageItem.textContent = page.pageName;
-            pageItem.setAttribute('id', pageId)
-            if (pageId === page.pageId) {
-                pageItem.classList.add('page-selected')
-            }
-            pageItem.addEventListener('click', pageSelectEnv);
-            pageItemGroup.append(pageItem)
-        })
+        pageItemGroup = document.querySelector('.page-item-group');
+        if (allUserData.length !== pageItemGroup.children.length) {
+            allUserData.forEach((page) => {
+                const pageItem = document.createElement('div');
+                pageItem.className = 'page-item';
+                pageItem.textContent = page.pageName;
+                pageItem.setAttribute('id', page.pageId)
+                if (pageId === page.pageId) {
+                    pageItem.classList.add('page-selected')
+                }
+                pageItem.addEventListener('click', pageSelectEnv);
+                pageItemGroup.append(pageItem)
+            })
+        }
         pagePlus = document.querySelector('.page-plus');
         addPageModal = new bootstrap.Modal(document.getElementById('addPageModal'))
         pagePlus.addEventListener('click', () => {
@@ -246,10 +253,10 @@ function loadPageData(pageId) {
                 addPageInput.placeholder = '內容不能為空白'
             } else {
                 addPageItem(addPageInput.value);
+                addPageInput.value = '';
                 addPageModal.hide();
             }
-        })
-
+        });
         // modal
         addFeatModal = new bootstrap.Modal(document.getElementById('addFeatModal'));
         addTuduItemModel = new bootstrap.Modal(document.getElementById('addTuduItem'));
@@ -261,7 +268,8 @@ function loadPageData(pageId) {
         addFeatBtn = document.getElementById('addFeatBtn');
         tuduList = document.getElementById('tudulist');
         itemBlock = document.getElementsByClassName('item-block');
-        itemBlock.innerHTML = '';
+        const itemBlockElem = document.querySelector(`.item-block`)
+        itemBlockElem.innerHTML = '';
         /**
          * 背景滑鼠按鍵事件偵測
          */
@@ -468,7 +476,7 @@ function loadPageData(pageId) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    loadPageData(0);
+    loadPageData();
 })
 
 /**
@@ -1142,10 +1150,10 @@ function addPageItem(pageName) {
  * 選擇分頁時的動作
  * @param elem
  */
-function pageSelectEnv (elem){
+function pageSelectEnv(elem) {
     const allPage = document.querySelector('.page-item-group').children;
     // 如果已經帶有被選擇的屬性 則不做任何事情
-    if(!elem.target.classList.contains('page-selected')){
+    if (!elem.target.classList.contains('page-selected')) {
         for (let i = 0; i < allPage.length; i++) {
             allPage[i].className = 'page-item';
         }
@@ -1166,7 +1174,7 @@ function delPageItem() {
 function updateUserData() {
     // userChooseData, choosePageId
     allUserData.forEach((userData, i) => {
-        if (userData.pageId === choosePageId) {
+        if (userData.pageId.toString() === choosePageId.toString()) {
             allUserData[i].pageData = userChooseData;
         }
     })
