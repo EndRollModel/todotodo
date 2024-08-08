@@ -229,12 +229,14 @@ function loadPageData(pageId = 0) {
         // page-select-group
         pageItemGroup = document.querySelector('.page-item-group');
         if (allUserData.length !== pageItemGroup.children.length) {
+            // 若所有資料與 目前畫面上數量不符代表尚未讀取 讀取該內容
+            allUserData.sort((a, b) => a.sort - b.sort)
             allUserData.forEach((page) => {
                 const pageItem = document.createElement('div');
                 pageItem.className = 'page-item';
                 pageItem.textContent = page.pageName;
                 pageItem.setAttribute('id', page.pageId)
-                if (pageId === page.pageId) {
+                if (page.selected) {
                     pageItem.classList.add('page-selected')
                 }
                 pageItem.addEventListener('click', pageSelectEnv);
@@ -472,6 +474,7 @@ function loadPageData(pageId = 0) {
         // group不能放入group內
         // tuduItem可以放到group內或是拉到itemBlock中
         creatSortable(itemBlock[0], 'itemBlock', 'itemBlock');
+        creatPageSortable(pageItemGroup);
     })()
 }
 
@@ -576,8 +579,16 @@ function creatSortable(obj, groupName, typeName) {
 function creatPageSortable(obj) {
     const sortable = new Sortable(obj, {
         group: "pageGroup",
+        animation: 150,
+        swapThreshold: 0.65,
         onEnd: function (evt) {
-
+            const allPage = document.querySelector('.page-item-group').children;
+            for (let i = 0; i < allPage.length; i++) {
+                const pageId = allPage[i].getAttribute('id');
+                const findPageIdIndex = allUserData.findIndex((e) => e.pageId.toString() === pageId.toString());
+                allUserData[findPageIdIndex].sort = i;
+                updateUserData()
+            }
         }
     })
 }
@@ -1141,6 +1152,7 @@ function addPageItem(pageName) {
     newPage.pageName = pageName;
     newPage.sort = allUserData.length;
     newPage.pageData = [];
+    newPage.selected = false;
     allUserData.push(newPage);
     pageItemGroup.append(pageItem);
     updateUserData();
@@ -1156,9 +1168,12 @@ function pageSelectEnv(elem) {
     if (!elem.target.classList.contains('page-selected')) {
         for (let i = 0; i < allPage.length; i++) {
             allPage[i].className = 'page-item';
+            allUserData[i].selected = false;
         }
         elem.target.classList.add('page-selected');
         const pageId = elem.target.getAttribute('id');
+        const findSelectId = allUserData.findIndex((e) => e.pageId.toString() === pageId.toString())
+        allUserData[findSelectId].selected = true;
         choosePageId = pageId;
         loadPageData(pageId)
     }

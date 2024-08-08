@@ -65,7 +65,7 @@ function loadUserData() {
         } else {
             // 0.1.5版後資料改版
             let oldData = JSON.parse(deData);
-            userData = [{pageId: 0, pageName: '預設', sort: 0, pageData: oldData}];
+            userData = [{pageId: 0, pageName: '預設', sort: 0, pageData: oldData, selected : true}];
         }
     } catch (e) {
         switch (true) {
@@ -75,7 +75,7 @@ function loadUserData() {
                 break;
             case e.message.indexOf('no such file or directory') > -1: // no file, new user
                 // 沒有資料 建立新使用者 保持空陣列不變
-                userData = [{pageId: 0, pageName: '預設', sort: 0, pageData: []}];
+                userData = [{pageId: 0, pageName: '預設', sort: 0, pageData: [], selected : true}];
                 break;
             case e.message.indexOf('Error while decrypting the ciphertext provided to safeStorage.decryptString') > -1: // decode fail, (ver0.1.4beta.1)
                 // buffer後的資料無法被解密 可能是原本低於版本的舊資料
@@ -96,6 +96,7 @@ function loadUserData() {
 }
 
 function saveUserData(data) {
+    showLog(data)
     checkSettingConfigExist();
     const userDataPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.tuduDataName);
     const userEncData = Buffer.from(safeStorage.encryptString(JSON.stringify(data))).toString('base64');
