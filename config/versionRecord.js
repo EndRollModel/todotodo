@@ -1,6 +1,6 @@
 const versionRecord = {
-    '0.1.5-pre-alpha':{
-        state : 'pre-alpha',
+    '0.1.5-alpha':{
+        state : 'alpha',
         date : '2024/07/31',
         info : '分頁功能初版完成\n0.1.3.7版以前的資料兼容版本移除(僅0.1.4以後的版本資料兼容)',
         resource : 'Logo:<br/>' +

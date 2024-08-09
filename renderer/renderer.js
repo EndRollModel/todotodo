@@ -228,6 +228,10 @@ function loadPageData(pageId) {
         // page-select-group
         pageItemGroup = document.querySelector('.page-item-group');
         if (allUserData.length !== pageItemGroup.children.length) {
+            if(allUserData.length < pageItemGroup.children.length ){
+                // 刪除了分頁的狀況
+                pageItemGroup.innerHTML = '';
+            }
             // 若所有資料與 目前畫面上數量不符代表尚未讀取 讀取該內容
             allUserData.forEach((page) => {
                 const pageItem = document.createElement('div');
@@ -1177,8 +1181,10 @@ function pageSelectEnv(elem) {
     }
 }
 
-function delPageItem() {
-
+function delPageItem(pageId) {
+    const pageIndex = allUserData.findIndex((p)=> p.pageId === pageId);
+    allUserData.splice(pageIndex, 1);
+    loadPageData();
 }
 
 /**
