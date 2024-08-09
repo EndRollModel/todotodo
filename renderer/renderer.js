@@ -208,21 +208,20 @@ async function createUserElem() {
 
 /**
  * 取得分頁資料的內容
- * @param pageId
  */
-function loadPageData(pageId = 0) {
+function loadPageData(pageId) {
     (async () => {
         bodyBlock = document.querySelector('.body-block');
-        // bodyBlock.
         // 讀取userData
         const loadUserData = await window.userFeat.loadUserData();
         if (firstOpen) allUserData = loadUserData; // 取得所有資料
+        allUserData.sort((a, b) => a.sort - b.sort)
         cleanUserData(); // 清除使用者資料
-        choosePageId = pageId;
-        if (loadUserData.length > 0) {
-            // const sortData = resetData(loadUserData)
-            // userData.push(...sortData)
-            userChooseData.push(...loadUserData[pageId].pageData)
+        const selectedIndex = allUserData.findIndex((p)=> p.selected === true)
+        choosePageId = allUserData[selectedIndex].pageId;
+        if (allUserData.length > 0) {
+            const getPageIdIndex = allUserData.findIndex((p) => p.pageId === choosePageId)
+            userChooseData.push(...allUserData[getPageIdIndex].pageData)
         }
         firstOpen = false
 
@@ -230,7 +229,6 @@ function loadPageData(pageId = 0) {
         pageItemGroup = document.querySelector('.page-item-group');
         if (allUserData.length !== pageItemGroup.children.length) {
             // 若所有資料與 目前畫面上數量不符代表尚未讀取 讀取該內容
-            allUserData.sort((a, b) => a.sort - b.sort)
             allUserData.forEach((page) => {
                 const pageItem = document.createElement('div');
                 pageItem.className = 'page-item';
@@ -475,6 +473,7 @@ function loadPageData(pageId = 0) {
         // tuduItem可以放到group內或是拉到itemBlock中
         creatSortable(itemBlock[0], 'itemBlock', 'itemBlock');
         creatPageSortable(pageItemGroup);
+        updateUserData();
     })()
 }
 
@@ -1171,11 +1170,10 @@ function pageSelectEnv(elem) {
             allUserData[i].selected = false;
         }
         elem.target.classList.add('page-selected');
-        const pageId = elem.target.getAttribute('id');
-        const findSelectId = allUserData.findIndex((e) => e.pageId.toString() === pageId.toString())
+        const pageId = parseInt(elem.target.getAttribute('id'));
+        const findSelectId = allUserData.findIndex((e) => e.pageId === pageId)
         allUserData[findSelectId].selected = true;
-        choosePageId = pageId;
-        loadPageData(pageId)
+        loadPageData(pageId);
     }
 }
 

@@ -8,7 +8,7 @@ winConfig.appConfig = {
     version: packageInfo.version,
     indexPageFile: 'index.html', // main的html頁面
     loadingPageFile: 'loading.html', // 讀取中的html頁面
-    openDevTools: false, // 是否開啟除錯模式
+    openDevTools: true, // 是否開啟除錯模式
     tuduPageName: 'tudu',
     memoPageName: 'memo',
     showLog: true, // 自定義log開關
