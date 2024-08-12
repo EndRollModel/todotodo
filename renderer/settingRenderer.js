@@ -175,8 +175,8 @@ function saveSettingListener() {
                 break;
             case 'allDataDel':
                 document.querySelector('.item-block').innerHTML = ''; // 清空
-                window.userFeat.saveUserData([]);
-                cleanUserData();
+                cleanUserData(); // 先清除一次使用者資訊
+                updateUserData(); // 儲存使用者資訊
                 confirmModal.hide();
                 break;
             default:

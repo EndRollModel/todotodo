@@ -2,7 +2,7 @@ const versionRecord = {
     '0.1.5-alpha':{
         state : 'alpha',
         date : '2024/07/31',
-        info : '分頁功能初版完成\n0.1.3.7版以前的資料兼容版本移除(僅0.1.4以後的版本資料兼容)',
+        info : '分頁功能初版完成<br/>0.1.3.7版以前的資料兼容版本移除(僅0.1.4以後的版本資料兼容)',
         resource : 'Logo:<br/>' +
             '<a target="_blank" rel="noopener noreferrer" href="https://www.plurk.com/m/zeyami">Tibbar♦</a></br>'+
             '</br>字體:</br>' +

@@ -55,6 +55,7 @@ let userChooseData = [];
 
 let firstOpen = true;
 
+/** 清除使用者的資料 **/
 function cleanUserData() {
     userChooseData = [];
 }
@@ -1150,6 +1151,24 @@ function addPageItem(pageName) {
     pageItem.textContent = pageName;
     pageItem.setAttribute('id', pageIndex);
     pageItem.addEventListener('click', pageSelectEnv);
+    // pageItem.addEventListener('contextmenu', pageDropdownEnv);
+    // 選項內容
+    // const optionBlock = document.createElement('ul');
+    // optionBlock.className = 'dropdown-menu';
+    // optionBlock.setAttribute('aria-labelledby', 'defaultDropdown');
+    // const optionsAdd = document.createElement('li');
+    // optionsAdd.className = 'dropdown-item';
+    // optionsAdd.textContent = '新增';
+    // optionsAdd.addEventListener('click', () => {
+    //     // addInHidden.setAttribute('boxId', itemBox.id);
+    //     // addInItemModal.show();
+    // })
+    // const pageOptionDropdown = new bootstrap.Dropdown(optionBlock);
+    // pageItem.addEventListener('contextmenu', ()=> {
+    //     console.log('show')
+    //     pageOptionDropdown.show();
+    // })
+    //
     const newPage = {};
     newPage.pageId = pageIndex;
     newPage.pageName = pageName;
@@ -1181,6 +1200,15 @@ function pageSelectEnv(elem) {
     }
 }
 
+/**
+ * 分頁功能右鍵的事件處理
+ * @param elem
+ */
+function pageDropdownEnv(elem) {
+    elem.preventDefault(); // 取消原有事件
+}
+
+/** 刪除分頁事件 **/
 function delPageItem(pageId) {
     const pageIndex = allUserData.findIndex((p)=> p.pageId === pageId);
     allUserData.splice(pageIndex, 1);
