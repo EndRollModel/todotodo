@@ -314,6 +314,45 @@
             </div>
         </div>
     </div>
+    <!--  page edit modal  -->
+    <div class="modal fade" id="editPageModal" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPageTitle">編輯名稱</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input id="editPageInput" type="text" class="form-control" placeholder="需要編輯的複製內容">
+                    <p id="editPageHidden" hidden="hidden"></p>
+                    <div class="modal-btn-group">
+                        <button id="editPageBtn" type="button">確認</button>
+                        <button type="button" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  page del modal   -->
+    <div class="modal fade" id="delPageModal" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="addFeatModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="delPageTitle">刪除</h5>
+                </div>
+                <div class="modal-body">
+                    <h6 id="delPageTitleText"></h6>
+                    <p id="delPageItemHidden" hidden="hidden"></p>
+                    <div class="modal-btn-group">
+                        <button id="delPageItemBtn" type="button">確認</button>
+                        <button type="button" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <ul id="addFeatDropDown" class="dropdown-menu">
         <li><a id="DropAddItem" class="dropdown-item">新增項目</a></li>
     </ul>
@@ -325,6 +364,8 @@
         <div class="page-item-group">
         </div>
     </div>
+</div>
+<div id="pageContentMenu" class="dropdown-menu">
 </div>
 <script src="resource/js/bootstrap.bundle.min.js"></script>
 <script src="resource/js/Sortable.min.js"></script>

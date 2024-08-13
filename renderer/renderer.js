@@ -26,6 +26,11 @@ let editNameBtn; // 編輯名稱的內容
 let delItemHidden; // 刪除的對象指定內容
 let delItemBtn; // 刪除的按鈕
 let settingModalTitle; // 設定的modal內容
+let editPageInput; // 編輯分頁名稱用的內容
+let editPageBtn; // 編輯分頁名稱確認按鈕
+let editPageHidden; // 編輯分頁名稱內容
+let delPageItemBtn; // 刪除分頁確定按鈕
+
 // dropdown
 let addFeatDropdownMenu;
 
@@ -49,6 +54,8 @@ let editNameModal; // 編輯名稱時用的modal
 let editMemoModal; // 編輯memo用的modal
 let delItemModal; // 刪除時的modal
 let addPageModal; // 分頁用的modal
+let editPageModal; // 分頁編輯用的modal
+let delPageModal; // 分頁刪除用的modal
 
 let allUserData = [];
 let userChooseData = [];
@@ -243,6 +250,7 @@ function loadPageData(pageId) {
                     pageItem.classList.add('page-selected')
                 }
                 pageItem.addEventListener('click', pageSelectEnv);
+                pageItem.addEventListener('contextmenu', pageDropdownEnv)
                 pageItemGroup.append(pageItem)
             })
         }
@@ -269,6 +277,9 @@ function loadPageData(pageId) {
         editMemoModal = new bootstrap.Modal(document.getElementById('editMemoModal'));
         delItemModal = new bootstrap.Modal(document.getElementById('delItemModal'));
         addInItemModal = new bootstrap.Modal(document.getElementById('addInItemModal'));
+
+        editPageModal = new bootstrap.Modal(document.getElementById('editPageModal'))
+        delPageModal = new bootstrap.Modal(document.getElementById('delPageModal'))
 
         addFeatBtn = document.getElementById('addFeatBtn');
         tuduList = document.getElementById('tudulist');
@@ -472,6 +483,17 @@ function loadPageData(pageId) {
             delItem(document.getElementById('delItemHidden').getAttribute('target'));
             delItemModal.hide();
         })
+        // 分頁編輯
+        editPageHidden = document.getElementById('editPageHidden');
+        editPageBtn = document.getElementById('editPageBtn');
+        editPageBtn.addEventListener('click', ()=>{
+
+        })
+        delPageItemBtn = document.getElementById('delPageItemBtn');
+        delPageItemBtn.addEventListener('click', ()=>{
+            delPageItem(document.getElementById('delPageItemHidden').getAttribute('target'));
+        })
+        // 分頁刪除
         await createUserElem();
         // 拖曳元件
         // group不能放入group內
@@ -1151,24 +1173,8 @@ function addPageItem(pageName) {
     pageItem.textContent = pageName;
     pageItem.setAttribute('id', pageIndex);
     pageItem.addEventListener('click', pageSelectEnv);
-    // pageItem.addEventListener('contextmenu', pageDropdownEnv);
+    pageItem.addEventListener('contextmenu', pageDropdownEnv);
     // 選項內容
-    // const optionBlock = document.createElement('ul');
-    // optionBlock.className = 'dropdown-menu';
-    // optionBlock.setAttribute('aria-labelledby', 'defaultDropdown');
-    // const optionsAdd = document.createElement('li');
-    // optionsAdd.className = 'dropdown-item';
-    // optionsAdd.textContent = '新增';
-    // optionsAdd.addEventListener('click', () => {
-    //     // addInHidden.setAttribute('boxId', itemBox.id);
-    //     // addInItemModal.show();
-    // })
-    // const pageOptionDropdown = new bootstrap.Dropdown(optionBlock);
-    // pageItem.addEventListener('contextmenu', ()=> {
-    //     console.log('show')
-    //     pageOptionDropdown.show();
-    // })
-    //
     const newPage = {};
     newPage.pageId = pageIndex;
     newPage.pageName = pageName;
@@ -1200,16 +1206,57 @@ function pageSelectEnv(elem) {
     }
 }
 
+function pageOptionMenu (){
+
+}
+
 /**
  * 分頁功能右鍵的事件處理
  * @param elem
  */
 function pageDropdownEnv(elem) {
-    elem.preventDefault(); // 取消原有事件
+    elem.preventDefault();
+    const contextMenu = document.getElementById('pageContentMenu')
+    const dropEditItem = document.createElement('div');
+    dropEditItem.className = 'dropdown-item'
+    dropEditItem.textContent = '編輯名稱';
+    dropEditItem.addEventListener('click', ()=>{editPageModal.show();})
+    const dropDelItem = document.createElement('div');
+    dropDelItem.addEventListener('click', ()=>{delPageModal.show()});
+    document.getElementById('delPageTitleText').textContent = `確定要刪除\n「${elem.target.textContent}」？`;
+    dropDelItem.className = 'dropdown-item'
+    dropDelItem.textContent = '刪除';
+    contextMenu.innerHTML = ''; // 禁止重複加入先清空
+    contextMenu.append(dropEditItem);
+    contextMenu.append(dropDelItem);
+    // 計算選單應該出現的位置
+    contextMenu.style.display = 'block';
+    const clickX = elem.clientX;
+    const clickY = elem.clientY;
+    const menuHeight = contextMenu.offsetHeight;
+    const menuWidth = contextMenu.offsetWidth;
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+    if (clickY + menuHeight > windowHeight) {
+        contextMenu.style.top = `${clickY - menuHeight}px`;
+    } else {
+        contextMenu.style.top = `${clickY}px`;
+    }
+    // 判斷是否需要向左彈出
+    if (clickX + menuWidth > windowWidth) {
+        contextMenu.style.left = `${clickX - menuWidth}px`;
+    } else {
+        contextMenu.style.left = `${clickX}px`;
+    }
+    document.addEventListener('click', () => {
+        // 點擊其他地方隱藏選單
+        contextMenu.style.display = 'none';
+    });
 }
 
 /** 刪除分頁事件 **/
 function delPageItem(pageId) {
+    // 刪除時必須注意是否該內容被選擇 若是 則選擇刪除後的第一個內容為被選擇對象 重新讀取內容
     const pageIndex = allUserData.findIndex((p)=> p.pageId === pageId);
     allUserData.splice(pageIndex, 1);
     loadPageData();
