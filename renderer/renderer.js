@@ -30,6 +30,7 @@ let editPageInput; // 編輯分頁名稱用的內容
 let editPageBtn; // 編輯分頁名稱確認按鈕
 let editPageHidden; // 編輯分頁名稱內容
 let delPageItemBtn; // 刪除分頁確定按鈕
+let delPageItemHidden; // 刪除分頁隱藏內容
 
 // dropdown
 let addFeatDropdownMenu;
@@ -214,10 +215,11 @@ async function createUserElem() {
         })
 }
 
+
 /**
  * 取得分頁資料的內容
  */
-function loadPageData(pageId) {
+function loadPageData() {
     (async () => {
         bodyBlock = document.querySelector('.body-block');
         // 讀取userData
@@ -225,7 +227,7 @@ function loadPageData(pageId) {
         if (firstOpen) allUserData = loadUserData; // 取得所有資料
         allUserData.sort((a, b) => a.sort - b.sort)
         cleanUserData(); // 清除使用者資料
-        const selectedIndex = allUserData.findIndex((p)=> p.selected === true)
+        const selectedIndex = allUserData.findIndex((p) => p.selected === true)
         choosePageId = allUserData[selectedIndex].pageId;
         if (allUserData.length > 0) {
             const getPageIdIndex = allUserData.findIndex((p) => p.pageId === choosePageId)
@@ -236,7 +238,7 @@ function loadPageData(pageId) {
         // page-select-group
         pageItemGroup = document.querySelector('.page-item-group');
         if (allUserData.length !== pageItemGroup.children.length) {
-            if(allUserData.length < pageItemGroup.children.length ){
+            if (allUserData.length < pageItemGroup.children.length) {
                 // 刪除了分頁的狀況
                 pageItemGroup.innerHTML = '';
             }
@@ -474,8 +476,6 @@ function loadPageData(pageId) {
             editItemName(editMemoHidden.getAttribute('target'), editMemoHidden.getAttribute('parentItem'), editMemoTitleInput.value, editMemoInput.value);
             editMemoModal.hide();
         })
-        // editMemoTitleInput;
-        // editMemoInput;
         // 刪除 del
         delItemHidden = document.getElementById('delItemHidden')
         delItemBtn = document.getElementById('delItemBtn');
@@ -485,15 +485,17 @@ function loadPageData(pageId) {
         })
         // 分頁編輯
         editPageHidden = document.getElementById('editPageHidden');
+        editPageInput = document.getElementById('editPageInput');
         editPageBtn = document.getElementById('editPageBtn');
-        editPageBtn.addEventListener('click', ()=>{
-
-        })
-        delPageItemBtn = document.getElementById('delPageItemBtn');
-        delPageItemBtn.addEventListener('click', ()=>{
-            delPageItem(document.getElementById('delPageItemHidden').getAttribute('target'));
+        editPageBtn.addEventListener('click', () => {
+            editPageName(document.getElementById('editPageHidden').value);
         })
         // 分頁刪除
+        delPageItemBtn = document.getElementById('delPageItemBtn');
+        delPageItemHidden = document.getElementById('delPageItemHidden');
+        delPageItemBtn.addEventListener('click', () => {
+            delPageItem(document.getElementById('delPageItemHidden').getAttribute('target'));
+        })
         await createUserElem();
         // 拖曳元件
         // group不能放入group內
@@ -504,6 +506,9 @@ function loadPageData(pageId) {
     })()
 }
 
+/**
+ * 進入後讀取一次主頁面的內容
+ */
 document.addEventListener('DOMContentLoaded', function () {
     loadPageData();
 })
@@ -602,13 +607,18 @@ function creatSortable(obj, groupName, typeName) {
     })
 }
 
+/**
+ * 建立分頁滑動
+ * @param obj
+ */
 function creatPageSortable(obj) {
     const sortable = new Sortable(obj, {
         group: "pageGroup",
         animation: 150,
         swapThreshold: 0.65,
         onEnd: function (evt) {
-            const allPage = document.querySelector('.page-item-group').children;
+            // const allPage = document.querySelector('.page-item-group').children;
+            const allPage = Array.from(pageItemGroup.children);
             for (let i = 0; i < allPage.length; i++) {
                 const pageId = allPage[i].getAttribute('id');
                 const findPageIdIndex = allUserData.findIndex((e) => e.pageId.toString() === pageId.toString());
@@ -1191,7 +1201,8 @@ function addPageItem(pageName) {
  * @param elem
  */
 function pageSelectEnv(elem) {
-    const allPage = document.querySelector('.page-item-group').children;
+    // const allPage = document.querySelector('.page-item-group').children;
+    const allPage = Array.from(pageItemGroup.children);
     // 如果已經帶有被選擇的屬性 則不做任何事情
     if (!elem.target.classList.contains('page-selected')) {
         for (let i = 0; i < allPage.length; i++) {
@@ -1206,8 +1217,29 @@ function pageSelectEnv(elem) {
     }
 }
 
-function pageOptionMenu (){
-
+/**
+ * 更換分頁名稱的動作
+ */
+function editPageName() {
+    // 取得名稱
+    const pageId = editPageHidden.getAttribute('target');
+    // 更換列表中的名字
+    const pageItems = Array.from(pageItemGroup.children);
+    for (let i = 0; i < pageItems.length; i++) {
+        if (pageItems[i].getAttribute('id') === pageId) {
+            pageItems[i].textContent = editPageInput.value;
+            editPageModal.hide()
+        }
+    }
+    // 更換資料的內容
+    allUserData.forEach((e) => {
+        if (e.pageId === parseInt(pageId)) {
+            e.pageName = editPageInput.value;
+        }
+    })
+    editPageInput.value = '';
+    // 儲存
+    updateUserData();
 }
 
 /**
@@ -1220,10 +1252,16 @@ function pageDropdownEnv(elem) {
     const dropEditItem = document.createElement('div');
     dropEditItem.className = 'dropdown-item'
     dropEditItem.textContent = '編輯名稱';
-    dropEditItem.addEventListener('click', ()=>{editPageModal.show();})
+    dropEditItem.addEventListener('click', () => {
+        editPageHidden.setAttribute('target', elem.target.getAttribute('id'));
+        editPageModal.show();
+    })
     const dropDelItem = document.createElement('div');
-    dropDelItem.addEventListener('click', ()=>{delPageModal.show()});
-    document.getElementById('delPageTitleText').textContent = `確定要刪除\n「${elem.target.textContent}」？`;
+    dropDelItem.addEventListener('click', () => {
+        delPageItemHidden.setAttribute('target', elem.target.getAttribute('id'));
+        delPageModal.show()
+    });
+    document.getElementById('delPageTitleText').textContent = `確定要刪除分頁\n「${elem.target.textContent}」？`;
     dropDelItem.className = 'dropdown-item'
     dropDelItem.textContent = '刪除';
     contextMenu.innerHTML = ''; // 禁止重複加入先清空
@@ -1254,12 +1292,23 @@ function pageDropdownEnv(elem) {
     });
 }
 
-/** 刪除分頁事件 **/
+/**
+ * 刪除分頁事件
+ * @param pageId
+ */
 function delPageItem(pageId) {
     // 刪除時必須注意是否該內容被選擇 若是 則選擇刪除後的第一個內容為被選擇對象 重新讀取內容
-    const pageIndex = allUserData.findIndex((p)=> p.pageId === pageId);
+    const pageIndex = allUserData.findIndex((p) => p.pageId === parseInt(pageId));
+    if (allUserData[pageIndex].selected === true) {
+        if (pageIndex === 0) {
+            allUserData[1].selected = true;
+        } else {
+            allUserData[0].selected = true;
+        }
+    }
     allUserData.splice(pageIndex, 1);
     loadPageData();
+    delPageModal.hide();
 }
 
 /**

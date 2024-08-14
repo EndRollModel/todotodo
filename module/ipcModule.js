@@ -4,6 +4,7 @@ const {appConfig, fontTable, themeColorList} = require('../config/winConfig');
 const versionInfo = require('../config/versionRecord');
 const fileSysModule = require('../module/fileSysModule');
 const dayjs = require("dayjs");
+
 // ipcRenderer.invoke <=>  ipcMain.handle()
 // ipcMain.send() => ipcMain.on()
 function setIpcModule() {
@@ -57,7 +58,6 @@ function tuduFeatListener() {
     // tuduController
     ipcMain.handle('updateTudu', (e, msg) => {
         // update userData
-        // console.log(msg)
         return msg
     })
     ipcMain.handle('loadTudu', () => {
@@ -92,7 +92,19 @@ function userSetting() {
 
 function aboutApplication() {
     ipcMain.handle('version', () => {
-        return {version: appConfig.version, info: versionInfo[appConfig.version], appName: appConfig.appName};
+        if (versionInfo[appConfig.version] !== undefined) {
+            return {version: appConfig.version, info: versionInfo[appConfig.version], appName: appConfig.appName}
+        } else {
+            // 避免版本錯誤回傳上一筆
+            return {
+                version: appConfig.version,
+                info: versionInfo[Object.keys(versionInfo)[0]],
+                appName: appConfig.appName
+            }
+        }
+    })
+    ipcMain.handle('resource', () => {
+        return versionInfo['resourceUse'];
     })
     ipcMain.handle('allVersion', () => {
         return versionInfo;

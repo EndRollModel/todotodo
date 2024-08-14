@@ -29,8 +29,8 @@ function loadMainWinSetting() {
         windowsSetting.x = settings.windowX;
         windowsSetting.y = settings.windowY;
         windowsSetting.alwaysOnTop = settings.alwaysOnTop;
-        // console.log(`讀取：視窗寬度:${windowsSetting.width}, 視窗高度:${windowsSetting.height}`);
-        // console.log(`位置：x:${windowsSetting.x}, y:${windowsSetting.y}`);
+        // showLog(`讀取：視窗寬度:${windowsSetting.width}, 視窗高度:${windowsSetting.height}`);
+        // showLog(`位置：x:${windowsSetting.x}, y:${windowsSetting.y}`);
     } catch (error) {
         // 如果沒有任何設定 這裡設定預設
     }
@@ -46,7 +46,7 @@ function getWinSetting(browser) {
     windowsSetting.windowX = x;
     windowsSetting.windowY = y;
     windowsSetting.alwaysOnTop = browser.isAlwaysOnTop();
-    // console.log(`儲存： width : ${windowsSetting.windowWidth}, height: ${windowsSetting.windowHeight}, x; ${windowsSetting.windowX}, y: ${windowsSetting.windowY}`);
+    // showLog(`儲存： width : ${windowsSetting.windowWidth}, height: ${windowsSetting.windowHeight}, x; ${windowsSetting.windowX}, y: ${windowsSetting.windowY}`);
     return windowsSetting;
 }
 
@@ -54,7 +54,7 @@ function loadUserData() {
     checkSettingConfigExist();
     let userData = [];
     const userDataPath = path.join(`${app.getPath(winConfig.saveDataOption.saveModel)}/${winConfig.saveDataOption.saveDir}`, winConfig.saveDataOption.tuduDataName);
-    console.log(userDataPath)
+    // showLog(userDataPath)
     try {
         userData = fs.readFileSync(userDataPath, 'utf-8')
         let deData = safeStorage.decryptString(Buffer.from(userData, 'base64'));
@@ -82,16 +82,16 @@ function loadUserData() {
                 userData = JSON.parse(fs.readFileSync(userDataPath, 'utf-8'));
                 break;
             case e.message.indexOf('Expected the first argument of decryptString()') > -1:
-                // console.log(e.message)
+                // showLog(e.message)
                 break
             case e.message.indexOf('Unexpected end of JSON input') > -1: // 文件錯誤
                 break;
             default:
-                // console.log(e.message)
+                // showLog(e.message)
                 break;
         }
     }
-    showLog(userData)
+    // showLog(userData)
     return userData;
 }
 

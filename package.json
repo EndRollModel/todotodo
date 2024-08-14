@@ -1,6 +1,6 @@
 {
   "name": "tudutudu",
-  "version": "0.1.5-alpha",
+  "version": "0.1.5-beta.1",
   "description": "tudutudu",
   "main": "main.js",
   "applicationId": "com.uwumei.tudutudu",
@@ -22,7 +22,6 @@
     "electron-builder": "^24.9.1"
   },
   "dependencies": {
-    "croner": "^7.0.4",
     "dayjs": "^1.11.10"
   },
   "build": {

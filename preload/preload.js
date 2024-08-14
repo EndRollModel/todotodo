@@ -56,6 +56,9 @@ contextBridge.exposeInMainWorld('appInfo', {
     version: () => {
         return ipcRenderer.invoke('version');
     },
+    resource : () => {
+        return ipcRenderer.invoke('resource');
+    }
 })
 
 // 置頂

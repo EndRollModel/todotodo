@@ -1,16 +1,8 @@
 const versionRecord = {
-    '0.1.5-alpha':{
+    '0.1.5-beta.1':{
         state : 'alpha',
         date : '2024/07/31',
-        info : '分頁功能初版完成<br/>0.1.3.7版以前的資料兼容版本移除(僅0.1.4以後的版本資料兼容)',
-        resource : 'Logo:<br/>' +
-            '<a target="_blank" rel="noopener noreferrer" href="https://www.plurk.com/m/zeyami">Tibbar♦</a></br>'+
-            '</br>字體:</br>' +
-            '<a href="https://github.com/ACh-K/Cubic-11" target="_blank" rel="noopener noreferrer">俐方體11號</a></br>' +
-            '<a href="https://github.com/max32002/naikaifont" target="_blank" rel="noopener noreferrer" >內海字體</a></br>' +
-            '<a href="https://fonts.google.com/noto/specimen/Noto+Sans+TC" target="_blank" rel="noopener noreferrer">思源黑體</a></br></br>' +
-            '還有 親愛的使用者❤️',
-        special: 'You',
+        info : '分頁功能(新增,編輯,刪除)完成<br/>0.1.3.7版以前的資料兼容版本移除(不再偵測)<br/>僅0.1.4以後的版本資料兼容',
     },
     '0.1.4':{
         state : 'release',
@@ -21,13 +13,6 @@ const versionRecord = {
             '拖曳方式更改</br>' +
             '主題的顏色選擇</br>' +
             '修正功能與流程的操作錯誤',
-        resource : 'Logo:<br/>' +
-            '<a target="_blank" rel="noopener noreferrer" href="https://www.plurk.com/m/zeyami">Tibbar♦</a></br>'+
-            '</br>字體:</br>' +
-            '<a href="https://github.com/ACh-K/Cubic-11" target="_blank" rel="noopener noreferrer">俐方體11號</a></br>' +
-            '<a href="https://github.com/max32002/naikaifont" target="_blank" rel="noopener noreferrer" >內海字體</a></br>' +
-            '<a href="https://fonts.google.com/noto/specimen/Noto+Sans+TC" target="_blank" rel="noopener noreferrer">思源黑體</a></br></br>' +
-            '還有 親愛的使用者❤️',
         special: 'You',
     },
     '0.1.4-beta.4':{
@@ -69,6 +54,15 @@ const versionRecord = {
         state: 'beta',
         date : "2023/12/1",
         info : "修正顯示後 若有刪除項目後重啟存檔會讀取錯亂造成改名或是刪除會錯誤的問題 修正了開啟讀取圖片會無法正常顯示 看起來很卡的錯誤"
+    },
+    resourceUse : {
+        resource : 'Logo:<br/>' +
+            '<a target="_blank" rel="noopener noreferrer" href="https://www.plurk.com/m/zeyami">Tibbar♦</a></br>'+
+            '</br>字體:</br>' +
+            '<a href="https://github.com/ACh-K/Cubic-11" target="_blank" rel="noopener noreferrer">俐方體11號</a></br>' +
+            '<a href="https://github.com/max32002/naikaifont" target="_blank" rel="noopener noreferrer" >內海字體</a></br>' +
+            '<a href="https://fonts.google.com/noto/specimen/Noto+Sans+TC" target="_blank" rel="noopener noreferrer">思源黑體</a></br></br>' +
+            '還有 親愛的使用者❤️',
     }
 }
 

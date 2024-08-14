@@ -16,6 +16,14 @@ LoggerModule.showLog = function (message) {
     }
 }
 
+LoggerModule.showDLog = function (message) {
+    const fromPath = getFromPath()
+    message = message.toString().indexOf('[object Object]') > -1 ? JSON.stringify(message) : message;
+    if (config.appConfig.showLog === true) {
+        console.log(`----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----\n${logColors.yellow}時間：${dayjs().format('YYYY/MM/DD-HH:mm:ss')}\n來源：${fromPath}\n內容：${message}${logColors.white}\n----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----`)
+    }
+}
+
 LoggerModule.showELog = function (message) {
     const fromPath = getFromPath()
     message = message.toString().indexOf('[object Object]') > -1 ? JSON.stringify(message) : message;

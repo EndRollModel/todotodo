@@ -144,11 +144,12 @@ function saveSettingListener() {
     // 資源資訊的內容
     document.getElementById('resourceInfoBtn').addEventListener("click", ()=>{
         (async ()=>{
-            const {info} = await window.appInfo.version();
+            // const {info} = await window.appInfo.version();
+            const resourceInfo = await window.appInfo.resource();
             const msgBox = document.getElementById('resourceModalMsg');
             msgBox.innerHTML = ''
             const resourceMsg = document.createElement('h6');
-            resourceMsg.innerHTML = info.resource
+            resourceMsg.innerHTML = resourceInfo.resource
             msgBox.append(resourceMsg)
             resourceModal.show();
         })()

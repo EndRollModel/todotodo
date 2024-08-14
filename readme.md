@@ -16,18 +16,18 @@
 
 ### 如何使用
 可下載releases打包的exe版本直接使用   
-exe的執行可能會有疑慮    
+若對exe的執行可能有疑慮    
 可自行建立環境並執行    
 請安裝[nodejs](https://nodejs.org/en)環境 (必須)       
 移動到該目錄資料夾中執行以下指令
 ```shell
 npm install
 ```
-另 log使用中文撰寫其中會遇到console亂碼問題 若需要瀏覽console的狀況下 請使用
+另 使用中文撰寫其中會遇到Log亂碼問題 若需要瀏覽Log的狀況下 請使用
 ```shell
 npm run winDebug
 ````
-若不需看console只需要則執行
+若不需看Log只需要則執行
 ```shell
 npm run start 
 ```
@@ -43,7 +43,7 @@ npm run start
 
 ### Logo聲明      
 本程式的Logo圖片版權歸 [Tibbar♦](https://www.plurk.com/m/zeyami) 所有。   
-該圖片不包含在本程式的分發中，請勿未經授權使用。
+該圖片不包含在本程式的分發許可中，請勿未經授權使用。
 
 ### 其他資源聲明      
 本程式中使用的其他資源（如字型）及引用的程式均根據各自的版權聲明進行分發。  
