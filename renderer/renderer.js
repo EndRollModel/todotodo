@@ -228,7 +228,12 @@ function loadPageData() {
         allUserData.sort((a, b) => a.sort - b.sort)
         cleanUserData(); // 清除使用者資料
         const selectedIndex = allUserData.findIndex((p) => p.selected === true)
-        choosePageId = allUserData[selectedIndex].pageId;
+        if(selectedIndex === -1){
+            allUserData[0].selected = true
+            choosePageId = 0;
+        }else {
+            choosePageId = allUserData[selectedIndex].pageId;
+        }
         if (allUserData.length > 0) {
             const getPageIdIndex = allUserData.findIndex((p) => p.pageId === choosePageId)
             userChooseData.push(...allUserData[getPageIdIndex].pageData)
